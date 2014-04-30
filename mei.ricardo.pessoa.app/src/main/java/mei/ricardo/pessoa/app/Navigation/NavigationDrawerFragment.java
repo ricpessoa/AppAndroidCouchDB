@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app;
+package mei.ricardo.pessoa.app.Navigation;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -21,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import mei.ricardo.pessoa.app.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -77,9 +79,12 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        arrayMenu = new String[]{getString(R.string.title_section1),
-                getString(R.string.title_section2),
-                getString(R.string.title_section3),"Teste"};
+        arrayMenu = new String[]{
+                getString(R.string.str_title_my_dashboard),
+                getString(R.string.str_title_my_devices),
+                getString(R.string.str_title_my_profile),
+                getString(R.string.str_title_logout)
+        };
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
     }

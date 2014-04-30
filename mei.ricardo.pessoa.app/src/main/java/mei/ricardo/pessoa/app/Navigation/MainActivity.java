@@ -1,24 +1,20 @@
-package mei.ricardo.pessoa.app;
+package mei.ricardo.pessoa.app.Navigation;
 
-import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.Switch;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import mei.ricardo.pessoa.app.Fragments.FragmentMyDashboard;
+import mei.ricardo.pessoa.app.Fragments.FragmentMyDevices;
+import mei.ricardo.pessoa.app.Fragments.FragmentMyProfile;
+import mei.ricardo.pessoa.app.R;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -48,23 +44,31 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
+    /*THIS METHOD WHERE ADD THE FRAGMENTS OR ACTIVITIES TO NAVIGATE WHEN SELECTED*/
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Fragment fragment= null;
+        Fragment fragment = null;
         switch (position) {
             case 0:
                 Log.d(TAG, "Show My Dashboard");
+                fragment = new FragmentMyDashboard();
                 break;
             case 1:
                 Log.d(TAG, "Show My Devices");
+                fragment = new FragmentMyDevices();
                 break;
-            case 2: //Log.d(TAG, "Show My Devices");
+            case 2:
+                Log.d(TAG, "Show My Profile");
+                fragment = new FragmentMyProfile();
+                break;
+            case 3:
+                Log.d(TAG, "Pressed Logout Option");
+                Toast.makeText(getApplicationContext(), "Yes you pressed Logout", Toast.LENGTH_SHORT).show();
                 break;
             default:
-                Log.d(TAG, "Undefined");
-                fragment = new TestActivity();
-
+                Log.d(TAG, "Undefined - show dashboard");
+                fragment = new FragmentMyDashboard();
                 break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -72,28 +76,27 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         if (fragment != null) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment).commit();
-        }else{
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, PlaceholderFragment.newInstance(position))
-                    .commit();
         }
     }
 
+    /*THIS METHOD IS TO SHOW THE TITLE OF VIEW OR FRAGMENT*/
     public void onSectionAttached(int number) {
         switch (number) {
             case 0:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.str_title_my_dashboard);
                 break;
             case 1:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.str_title_my_devices);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.str_title_my_profile);
                 break;
+            /*case 3:
+                mTitle = getString(R.string.str_title_logout);
+                break;*/
             default:
-                mTitle = "Teste";
+                mTitle = getString(R.string.str_title_my_dashboard);
                 break;
-
         }
     }
 
@@ -128,46 +131,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 
 }

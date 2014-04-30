@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app;
+package mei.ricardo.pessoa.app.Fragments;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -7,23 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import mei.ricardo.pessoa.app.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.R;
 
-public class TestActivity extends Fragment {
+public class FragmentMyProfile extends Fragment {
+    private static String TAG = FragmentMyProfile.class.getName();
 
-    public TestActivity() {
+    public FragmentMyProfile() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
-
+        View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
         return rootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(5);
+        ((MainActivity) activity).onSectionAttached(2);
     }
 }

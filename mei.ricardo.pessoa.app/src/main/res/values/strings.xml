@@ -13,4 +13,17 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="hello_world">Hello world!</string>
 
+    <!--
+     Nomenclature
+     tipo_a que se destina
+    -->
+
+    <string name="str_title_my_dashboard">My DashBoard</string>
+    <string name="str_title_my_devices">MyDevices</string>
+    <string name="str_title_my_profile">My Profile</string>
+    <string name="str_title_logout">Logout</string>
+    <string name="title_activity_fragment_my_dashboard">My Dashboard</string>
+    <string name="title_activity_fragment_my_devices">My Devices</string>
+    <string name="title_activity_fragment_my_profile">My Profile</string>
+
 </resources>
