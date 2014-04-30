@@ -72,6 +72,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
+    <orderEntry type="library" exported="" name="td_collator_so" level="project" />
+    <orderEntry type="library" exported="" name="CBLite-1.0.0-beta2" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-asl-1.9.2" level="project" />
+    <orderEntry type="library" exported="" name="jackson-mapper-asl-1.9.2" level="project" />
   </component>
 </module>
 
