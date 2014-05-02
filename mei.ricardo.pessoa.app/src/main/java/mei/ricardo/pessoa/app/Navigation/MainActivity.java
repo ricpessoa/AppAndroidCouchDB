@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 
+import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.Fragments.FragmentMyProfile;
+import mei.ricardo.pessoa.app.LoginActivity;
 import mei.ricardo.pessoa.app.R;
 
 import com.couchbase.lite.*;
@@ -40,6 +42,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String db = Application.loadInSharePreferenceDataOfApplication(this.getApplicationContext());
+        Log.d(TAG,"read db from "+db);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
