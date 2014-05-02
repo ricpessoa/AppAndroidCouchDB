@@ -44,10 +44,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.android.support:support-v4:19.+'
-// hack to add .so objects
+    // hack to add .so objects
     compile fileTree(dir: 'libs', include: 'td_collator_so.jar')
     compile 'com.couchbase.cblite:CBLite:1.0.0-beta2'
 
+    compile 'com.android.support:appcompat-v7:19.+'
+    compile 'com.android.support:support-v4:19.+'
+    compile 'com.google.android.gms:play-services:4.2.42'
 }
