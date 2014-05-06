@@ -3,12 +3,27 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
     <string name="action_sign_in">Login in</string>
     <string name="action_sign_up">Sign up</string>
 
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_username">This username is too short</string>
+    <string name="error_username_already_exist">This username already exist</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_dont_match_password">Passwords do not match</string>
+    <string name="title_activity_register">Register Activity</string>
+    <string name="str_register_name">Name</string>
+
+    <string name="error_name_invalid"></string>
+
+    <string name="dialog_fire_missiles">Tentar conectar novamente?</string>
+    <string name="fire_ok">Ok</string>
+    <string name="fire_yes">Yes</string>
+    <string name="fire_no">No</string>
+    <string name="fire_cancel">Cancel</string>
 </resources>

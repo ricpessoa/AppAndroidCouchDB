@@ -13,10 +13,11 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Navigation.MainActivity">
+        <activity android:name="mei.ricardo.pessoa.app.Navigation.MainActivity" >
         </activity>
         <activity
             android:name="mei.ricardo.pessoa.app.Fragments.FragmentMyDashboard"
@@ -30,7 +31,10 @@
             android:name="mei.ricardo.pessoa.app.Fragments.FragmentMyProfile"
             android:label="@string/title_activity_fragment_my_profile" >
         </activity>
-
+        <activity
+            android:name="mei.ricardo.pessoa.app.RegisterActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

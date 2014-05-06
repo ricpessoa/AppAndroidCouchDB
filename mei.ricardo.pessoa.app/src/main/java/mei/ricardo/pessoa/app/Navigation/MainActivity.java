@@ -1,5 +1,6 @@
 package mei.ricardo.pessoa.app.Navigation;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -38,11 +39,27 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      */
     private CharSequence mTitle;
 
+    public void logoutTheUser(boolean logout) {
+        if (logout == true){
+            Log.d(TAG, "Logout the user session");
+            Application.saveInSharePreferenceDataOfApplication(this, null);
+            Application.isLogged = false;
+        }else{
+            Log.d(TAG,"The user remember is null - need authentication");
+        }
+        Intent intentLogin = new Intent(this, LoginActivity.class);
+        startActivity(intentLogin);
+        finish();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String db = Application.loadInSharePreferenceDataOfApplication(this.getApplicationContext());
+        if (db==null){
+            logoutTheUser(false); // need authentication
+        }
+
         Log.d(TAG,"read db from "+db);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -56,9 +73,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         /**
          * SAMPLE CODE*/
 
-
-        final String TAG = "HelloWorld";
-        Log.d(TAG, "Begin Hello World App");
+/*         Log.d(TAG, "Begin Hello World App");
 
         // create a manager
         Manager manager = null;
@@ -142,7 +157,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         Log.d(TAG, "End Hello World App");
 
 
-
+*/
 
     }
 
@@ -165,8 +180,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 fragment = new FragmentMyProfile();
                 break;
             case 3:
-                Log.d(TAG, "Pressed Logout Option");
-                Toast.makeText(getApplicationContext(), "Yes you pressed Logout", Toast.LENGTH_SHORT).show();
+                logoutTheUser(true); // logout
                 break;
             default:
                 Log.d(TAG, "Undefined - show dashboard");

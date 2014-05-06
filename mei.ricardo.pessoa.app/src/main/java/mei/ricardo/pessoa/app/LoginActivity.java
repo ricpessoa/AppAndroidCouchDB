@@ -27,6 +27,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -46,6 +47,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import mei.ricardo.pessoa.app.Fragments.Utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.Navigation.MainActivity;
 
 
@@ -101,8 +103,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             @Override
             public void onClick(View v) {
                 //TODO: Need add Register Activity
-                //Intent intent = new Intent(this. RegisterActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -309,7 +311,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
         private final String mEmail;
         private final String mPassword;
@@ -320,10 +322,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://192.168.255.94/login.php");
+            HttpPost httppost = new HttpPost("http://192.168.255.94/PhpProjectCouchDB/applogin");
 
             try {
                 // Add your data
@@ -342,43 +344,62 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 try {
                     JSONObject finalResult = new JSONObject(tokener);
                     if (finalResult!=null){
-                        Log.d(TAG,"message?"+finalResult.getString("message"));
-                        Log.d(TAG, "error?" + finalResult.getString("error"));
-                        Boolean loginsuccessfull = !finalResult.getBoolean("error"); //WARNING NOT HAVE ERROR = FALSE
-                        return loginsuccessfull;
+                        Log.d(TAG,"message?"+finalResult.getString("message")+" error?" + finalResult.getString("error") +" code?"+finalResult.getInt("code"));
+                        return finalResult.getInt("code");
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "Error JSONException in Login");
-                    return false;
+                    return -4;
+                }catch (NullPointerException e){
+                    Log.e(TAG,"Null Point exception on Login");
+                    return -4;
                 }
 
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
                 Log.e(TAG, "Error ClientProtocolException in Login");
-                return false;
+                return -4;
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 Log.e(TAG, "Error IOException in Login");
-                return false;
+                return -3;
             }
-            return false;
+            return -4;
         }
 
+        /* code
+        *  1 "Login Successfull";
+           -1 'Incorrect login credentials.'
+           -3 ' Internet connection error '
+        *  -4 'some error occur' */
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Integer success) {
             mAuthTask = null;
             showProgress(false);
+            DialogFragmentYesNoOk newFragment = new DialogFragmentYesNoOk(getApplicationContext());
 
-            if (success) {
+            if (success == 1) { //successful
                 Application.saveInSharePreferenceDataOfApplication(getApplicationContext(),mEmail);
-
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
-            } else {
+            } else if(success == -1) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
+            }else if (success == -3) {
+                //Toast.makeText(getApplicationContext(),"Verify you connection to internet",Toast.LENGTH_SHORT).show();
+                newFragment.setMessage("Internet connection error");
+                newFragment.setType(1);
+                newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
+                newFragment.show(getFragmentManager(), "test");
+            } else if (success == -4) {
+                Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
+                newFragment.setMessage("Some error occur try again later");
+                newFragment.setType(1);
+                newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
+                newFragment.show(getFragmentManager(), "test");
             }
+
         }
 
         @Override
