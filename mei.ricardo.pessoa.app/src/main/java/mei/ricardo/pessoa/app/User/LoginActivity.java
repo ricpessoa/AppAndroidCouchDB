@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app;
+package mei.ricardo.pessoa.app.User;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -47,8 +47,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.Fragments.Utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.R;
 
 
 /**
@@ -325,7 +327,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected Integer doInBackground(Void... params) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://192.168.255.94/PhpProjectCouchDB/applogin");
+            HttpPost httppost = new HttpPost(Application.hostUrl+Application.serviceLoginUrl);
 
             try {
                 // Add your data
@@ -393,7 +395,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
                 newFragment.show(getFragmentManager(), "test");
             } else if (success == -4) {
-                Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
                 newFragment.setMessage("Some error occur try again later");
                 newFragment.setType(1);
                 newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");

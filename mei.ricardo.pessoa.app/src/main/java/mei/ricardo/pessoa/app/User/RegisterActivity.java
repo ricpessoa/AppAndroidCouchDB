@@ -1,13 +1,7 @@
-package mei.ricardo.pessoa.app;
+package mei.ricardo.pessoa.app.User;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,8 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.couchbase.lite.internal.InterfaceAudience;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -42,8 +34,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.Fragments.Utils.DialogFragmentYesNoOk;
-import mei.ricardo.pessoa.app.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.R;
 
 
 public class RegisterActivity extends Activity {
@@ -232,7 +225,7 @@ public class RegisterActivity extends Activity {
         protected Integer doInBackground(Void... params) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://192.168.255.94/PhpProjectCouchDB/appregister");
+            HttpPost httppost = new HttpPost(Application.hostUrl+Application.serviceRegisterUrl);
 
             try {
                 // Add your data

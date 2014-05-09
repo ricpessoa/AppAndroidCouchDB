@@ -1,5 +1,6 @@
 package mei.ricardo.pessoa.app.Navigation;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -12,22 +13,34 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 
+import com.couchbase.lite.CouchbaseLiteException;
+import com.couchbase.lite.Database;
+import com.couchbase.lite.Emitter;
+import com.couchbase.lite.LiveQuery;
+import com.couchbase.lite.Manager;
+import com.couchbase.lite.Mapper;
+import com.couchbase.lite.Query;
+import com.couchbase.lite.QueryEnumerator;
+import com.couchbase.lite.QueryRow;
+import com.couchbase.lite.replicator.Replication;
+import com.couchbase.lite.support.CouchbaseLiteApplication;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.Fragments.FragmentMyProfile;
-import mei.ricardo.pessoa.app.LoginActivity;
+import mei.ricardo.pessoa.app.User.LoginActivity;
 import mei.ricardo.pessoa.app.R;
 
-import com.couchbase.lite.*;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
-
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Replication.ChangeListener {
     private static String TAG = MainActivity.class.getName();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -38,6 +51,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private String dbname;
+
+    //couch internals
+    public static com.couchbase.lite.View viewItemsByDate;
+    private LiveQuery liveQuery;
 
     public void logoutTheUser(boolean logout) {
         if (logout == true){
@@ -51,16 +69,17 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         startActivity(intentLogin);
         finish();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String db = Application.loadInSharePreferenceDataOfApplication(this.getApplicationContext());
-        if (db==null){
+        dbname = Application.loadInSharePreferenceDataOfApplication(this.getApplicationContext());
+        if (dbname==null){
             logoutTheUser(false); // need authentication
         }
 
-        Log.d(TAG,"read db from "+db);
+        Log.d(TAG,"read db from "+dbname);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -70,94 +89,163 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        /**
-         * SAMPLE CODE*/
 
-/*         Log.d(TAG, "Begin Hello World App");
-
-        // create a manager
-        Manager manager = null;
         try {
-            manager = new Manager(getApplicationContext().getFilesDir(), Manager.DEFAULT_OPTIONS);
-        } catch (IOException e) {
-            com.couchbase.lite.util.Log.e(TAG, "Cannot create manager object");
-            return;
+            startCBLite();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error Initializing CBLIte, see logs for details", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Error initializing CBLite", e);
         }
 
+    }
 
+    protected void startCBLite() throws Exception {
 
-        // create a name for the database and make sure the name is legal
-        String dbname = "hello";
-        if (!Manager.isValidDatabaseName(dbname)) {
-            Log.e(TAG, "Bad database name");
-            return;
-        }
+        Application.mCouchManager = new Manager(getApplicationContext().getFilesDir(), Manager.DEFAULT_OPTIONS);
 
+        //install a view definition needed by the application
+        Application.database = Application.mCouchManager.getDatabase(dbname);
 
+        String designDocName = "appViewDevices";
+        String byDateViewName = "getAllDevices";
 
-        // create a new database
-        Database database = null;
+        viewItemsByDate = Application.database.getView(String.format("%s/%s", designDocName, byDateViewName));
+        viewItemsByDate.setMap(new Mapper() {
+            @Override
+            public void map(Map<String, Object> document, Emitter emitter) {
+                Object objDevice = document.get("type");
+                if (objDevice != null && objDevice.equals("device")) {
+                    emitter.emit(objDevice.toString(), null);
+                }
+            }
+        }, "1.0");
+
+        CouchbaseLiteApplication application = (CouchbaseLiteApplication) getApplication();
+        application.setManager(Application.mCouchManager);
+
+        //startLiveQuery(viewItemsByDate);
+
+        startLiveQuery(viewItemsByDate);
+
+        startSync();
+
+        //getAllDevices();
+        //getAllDocs();
+    }
+/*
+    private void getAllDevices(){
+        com.couchbase.lite.View view = database.getView("_design/application/_view/getDevices");
+        Query queryDevices = view.createQuery();
+
         try {
-            database = manager.getDatabase(dbname);
+            QueryEnumerator rowEnum = queryDevices.run();
+            for (Iterator<QueryRow> it = rowEnum; it.hasNext();) {
+                QueryRow row = it.next();
+                Log.d("Document ID:", row.getDocumentId());
+
+            }
         } catch (CouchbaseLiteException e) {
-            Log.e(TAG, "Cannot get database");
-            return;
+            e.printStackTrace();
         }
 
-
-
-        // get the current date and time
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar = GregorianCalendar.getInstance();
-        String currentTimeString = dateFormatter.format(calendar.getTime());
-
-
-
-        // create an object that contains data for a document
-        Map<String, Object> docContent = new HashMap<String, Object>();
-        docContent.put("message", "Hello Couchbase Lite");
-        docContent.put("creationDate", currentTimeString);
-
-
-
-        // display the data for the new document
-        Log.d(TAG, "docContent=" + String.valueOf(docContent));
-
-
-
-        // create an empty document
-        Document document = database.createDocument();
-
-
-
-        // write the document to the database
-        try {
-            document.putProperties(docContent);
-        } catch (CouchbaseLiteException e) {
-            Log.e(TAG, "Cannot write document to database", e);
-        }
-
-
-
-        // save the ID of the new document
-        String docID = document.getId();
-
-
-
-        // retrieve the document from the database
-        Document retrievedDocument = database.getDocument(docID);
-
-
-
-        // display the retrieved document
-        Log.d(TAG, "retrievedDocument=" + String.valueOf(retrievedDocument.getProperties()));
-
-
-
-        Log.d(TAG, "End Hello World App");
-
-
+    }
 */
+/*
+    private void getAllDocs(){
+        Query query = database.createAllDocumentsQuery();
+        query.setDescending(true);
+        int i = 0;
+        try {
+            QueryEnumerator rowEnum = query.run();
+            for (Iterator<QueryRow> it = rowEnum; it.hasNext();) {
+                QueryRow row = it.next();
+                Log.d("Document ID:", row.getDocumentId());
+                i++;
+            }
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG,"Num of docs in local db"+i);
+    }
+*/
+    private void startSync() {
+
+        URL syncUrl;
+        try {
+            syncUrl = new URL(Application.couchDBHostUrl+"/"+dbname);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Replication pullReplication = Application.database.createPullReplication(syncUrl);
+        pullReplication.setContinuous(true);
+
+        Replication pushReplication = Application.database.createPushReplication(syncUrl);
+        pushReplication.setContinuous(true);
+
+        pullReplication.start();
+        pushReplication.start();
+
+        pullReplication.addChangeListener(this);
+        pushReplication.addChangeListener(this);
+
+    }
+
+    private void startLiveQuery(com.couchbase.lite.View view) throws Exception {
+
+        //final ProgressDialog progressDialog = showLoadingSpinner();
+
+        if (liveQuery == null) {
+
+            liveQuery = view.createQuery().toLiveQuery();
+
+            liveQuery.addChangeListener(new LiveQuery.ChangeListener() {
+                @Override
+                public void changed(LiveQuery.ChangeEvent event) {
+                  displayRows(event.getRows());
+
+                    /*runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                        }
+                    });*/
+
+                }
+            });
+
+            liveQuery.start();
+
+        }
+
+    }
+
+    private void displayRows(QueryEnumerator queryEnumerator) {
+
+       Log.d(TAG, "Change show");
+        Intent intent = new Intent();
+
+        intent.setAction(FragmentMyDevices.notify);
+        //intent.putExtra(TemperatureActivity.VAR_NAME, finalX);
+        getApplicationContext().sendBroadcast(intent);
+
+    }
+
+    @Override
+    public void changed(Replication.ChangeEvent event) {
+
+        Replication replication = event.getSource();
+        Log.d(TAG, "Replication : " + replication + " changed.");
+        if (!replication.isRunning()) {
+            String msg = String.format("Replicator %s not running", replication);
+            Log.d(TAG, msg);
+        }
+        else {
+            int processed = replication.getCompletedChangesCount();
+            int total = replication.getChangesCount();
+            String msg = String.format("Replicator processed %d / %d", processed, total);
+            Log.d(TAG, msg);
+        }
 
     }
 
