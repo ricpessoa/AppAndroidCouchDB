@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app.Fragments;
+package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mei.ricardo.pessoa.app.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 import mei.ricardo.pessoa.app.R;
 
 public class FragmentMyProfile extends Fragment {

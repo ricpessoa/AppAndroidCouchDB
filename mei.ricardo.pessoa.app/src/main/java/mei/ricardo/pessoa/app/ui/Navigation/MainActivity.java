@@ -1,6 +1,5 @@
-package mei.ricardo.pessoa.app.Navigation;
+package mei.ricardo.pessoa.app.ui.Navigation;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -11,36 +10,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.Toast;
-
-import com.couchbase.lite.CouchbaseLiteException;
-import com.couchbase.lite.Database;
-import com.couchbase.lite.Emitter;
-import com.couchbase.lite.LiveQuery;
-import com.couchbase.lite.Manager;
-import com.couchbase.lite.Mapper;
-import com.couchbase.lite.Query;
-import com.couchbase.lite.QueryEnumerator;
-import com.couchbase.lite.QueryRow;
-import com.couchbase.lite.replicator.Replication;
-import com.couchbase.lite.support.CouchbaseLiteApplication;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.Fragments.FragmentMyDashboard;
-import mei.ricardo.pessoa.app.Fragments.FragmentMyDevices;
-import mei.ricardo.pessoa.app.Fragments.FragmentMyProfile;
-import mei.ricardo.pessoa.app.User.LoginActivity;
+import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
+import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
+import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile;
+import mei.ricardo.pessoa.app.ui.user.LoginActivity;
 import mei.ricardo.pessoa.app.R;
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Replication.ChangeListener {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private static String TAG = MainActivity.class.getName();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -51,16 +30,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private String dbname;
+    //private String dbname;
 
     //couch internals
-    public static com.couchbase.lite.View viewItemsByDate;
-    private LiveQuery liveQuery;
+    //public static com.couchbase.lite.View viewGetDevices;
+    //private LiveQuery liveQuery;
 
     public void logoutTheUser(boolean logout) {
         if (logout == true){
             Log.d(TAG, "Logout the user session");
-            Application.saveInSharePreferenceDataOfApplication(this, null);
+            Application.saveInSharePreferenceDataOfApplication(null);
             Application.isLogged = false;
         }else{
             Log.d(TAG,"The user remember is null - need authentication");
@@ -74,12 +53,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbname = Application.loadInSharePreferenceDataOfApplication(this.getApplicationContext());
-        if (dbname==null){
+        if (Application.getDbname()==null){
             logoutTheUser(false); // need authentication
         }
 
-        Log.d(TAG,"read db from "+dbname);
+        Log.d(TAG,"read db from "+Application.getDbname());
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -90,15 +68,17 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        try {
+
+        Application.mCouchDBinstance = CouchDB.getmCouchDBinstance();
+       /* try {
             startCBLite();
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Error Initializing CBLIte, see logs for details", Toast.LENGTH_LONG).show();
             Log.e(TAG, "Error initializing CBLite", e);
-        }
+        }*/
 
     }
-
+/*
     protected void startCBLite() throws Exception {
 
         Application.mCouchManager = new Manager(getApplicationContext().getFilesDir(), Manager.DEFAULT_OPTIONS);
@@ -109,8 +89,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         String designDocName = "appViewDevices";
         String byDateViewName = "getAllDevices";
 
-        viewItemsByDate = Application.database.getView(String.format("%s/%s", designDocName, byDateViewName));
-        viewItemsByDate.setMap(new Mapper() {
+        viewGetDevices = Application.database.getView(String.format("%s/%s", designDocName, byDateViewName));
+        viewGetDevices.setMap(new Mapper() {
             @Override
             public void map(Map<String, Object> document, Emitter emitter) {
                 Object objDevice = document.get("type");
@@ -123,51 +103,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         CouchbaseLiteApplication application = (CouchbaseLiteApplication) getApplication();
         application.setManager(Application.mCouchManager);
 
-        //startLiveQuery(viewItemsByDate);
-
-        startLiveQuery(viewItemsByDate);
+        startLiveQuery(viewGetDevices);
 
         startSync();
-
-        //getAllDevices();
-        //getAllDocs();
     }
+    */
 /*
-    private void getAllDevices(){
-        com.couchbase.lite.View view = database.getView("_design/application/_view/getDevices");
-        Query queryDevices = view.createQuery();
-
-        try {
-            QueryEnumerator rowEnum = queryDevices.run();
-            for (Iterator<QueryRow> it = rowEnum; it.hasNext();) {
-                QueryRow row = it.next();
-                Log.d("Document ID:", row.getDocumentId());
-
-            }
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-
-    }
-*/
-/*
-    private void getAllDocs(){
-        Query query = database.createAllDocumentsQuery();
-        query.setDescending(true);
-        int i = 0;
-        try {
-            QueryEnumerator rowEnum = query.run();
-            for (Iterator<QueryRow> it = rowEnum; it.hasNext();) {
-                QueryRow row = it.next();
-                Log.d("Document ID:", row.getDocumentId());
-                i++;
-            }
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG,"Num of docs in local db"+i);
-    }
-*/
     private void startSync() {
 
         URL syncUrl;
@@ -203,14 +144,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 @Override
                 public void changed(LiveQuery.ChangeEvent event) {
                   displayRows(event.getRows());
-
-                    /*runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressDialog.dismiss();
-                        }
-                    });*/
-
                 }
             });
 
@@ -222,13 +155,25 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     private void displayRows(QueryEnumerator queryEnumerator) {
 
-       Log.d(TAG, "Change show");
+        Log.d(TAG, "Change show");
         Intent intent = new Intent();
+        boolean notifyDevices = false;
+        boolean notifyDashboard = false;
 
-        intent.setAction(FragmentMyDevices.notify);
-        //intent.putExtra(TemperatureActivity.VAR_NAME, finalX);
-        getApplicationContext().sendBroadcast(intent);
+        for (Iterator<QueryRow> it = queryEnumerator; it.hasNext();) {
+            QueryRow row = it.next();
+            Log.d("Document ID:", row.getDocumentId());
+            if(row.getKey().toString().equals("device")){
+                notifyDevices = true;
+            }
+        }
 
+        if(notifyDevices) {
+            intent.setAction(FragmentMyDevices.notify);
+            //intent.putExtra(TemperatureActivity.VAR_NAME, finalX);
+            getApplicationContext().sendBroadcast(intent);
+            Log.d(TAG, "_Notify -> "+ FragmentMyDevices.class.getCanonicalName());
+        }
     }
 
     @Override
@@ -248,7 +193,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
 
     }
-
+*/
     /*THIS METHOD WHERE ADD THE FRAGMENTS OR ACTIVITIES TO NAVIGATE WHEN SELECTED*/
     @Override
     public void onNavigationDrawerItemSelected(int position) {

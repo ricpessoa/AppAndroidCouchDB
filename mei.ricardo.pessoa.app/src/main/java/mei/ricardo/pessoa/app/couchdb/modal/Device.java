@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app;
+package mei.ricardo.pessoa.app.couchdb.modal;
 
 import java.util.ArrayList;
 

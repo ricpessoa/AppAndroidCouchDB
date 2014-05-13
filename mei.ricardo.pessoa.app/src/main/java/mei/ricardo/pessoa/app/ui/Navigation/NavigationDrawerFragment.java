@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app.Navigation;
+package mei.ricardo.pessoa.app.ui.Navigation;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;

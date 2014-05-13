@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app.User;
+package mei.ricardo.pessoa.app.ui.user;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -27,7 +27,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -48,8 +47,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.Fragments.Utils.DialogFragmentYesNoOk;
-import mei.ricardo.pessoa.app.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.ui.Fragments.Utils.DialogFragmentYesNoOk;
+import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 import mei.ricardo.pessoa.app.R;
 
 
@@ -381,7 +380,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             DialogFragmentYesNoOk newFragment = new DialogFragmentYesNoOk(getApplicationContext());
 
             if (success == 1) { //successful
-                Application.saveInSharePreferenceDataOfApplication(getApplicationContext(),mEmail);
+                Application.saveInSharePreferenceDataOfApplication(mEmail);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();

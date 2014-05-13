@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app.Fragments;
+package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -21,8 +21,8 @@ import com.couchbase.lite.QueryRow;
 
 import java.util.Iterator;
 
-import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 import mei.ricardo.pessoa.app.R;
 
 public class FragmentMyDevices extends Fragment {
@@ -63,7 +63,7 @@ public class FragmentMyDevices extends Fragment {
     }
 
     private void getDevicesOnCouchDB() {
-        com.couchbase.lite.View view = MainActivity.viewItemsByDate;
+        com.couchbase.lite.View view = CouchDB.viewGetDevices;
         Query query = view.createQuery();
         mDevices.setText("");
         try {

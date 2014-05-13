@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app.User;
+package mei.ricardo.pessoa.app.ui.user;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.Fragments.Utils.DialogFragmentYesNoOk;
+import mei.ricardo.pessoa.app.ui.Fragments.Utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.R;
 
 
