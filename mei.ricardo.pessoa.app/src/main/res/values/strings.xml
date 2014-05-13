@@ -9,19 +9,31 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+    <string name="str_menu_item_add_device">Add Device</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="hello_world">Hello world!</string>
 
-    <!-- -->
-
+    <!--  strings My DashBoard -->
     <string name="str_title_my_dashboard">My DashBoard</string>
-    <string name="str_title_my_devices">MyDevices</string>
-    <string name="str_title_my_profile">My Profile</string>
-    <string name="str_title_logout">Logout</string>
     <string name="title_activity_fragment_my_dashboard">My Dashboard</string>
-    <string name="title_activity_fragment_my_devices">My Devices</string>
-    <string name="title_activity_fragment_my_profile">My Profile</string>
 
+    <!--  strings My Devices -->
+    <string name="str_title_my_devices">MyDevices</string>
+    <string name="title_activity_fragment_my_devices">My Devices</string>
+    <string name="title_activity_add_device">Add Device</string>
+    <string name="prompt_name_device">Name device</string>
+    <string name="prompt_mac_address_device">MAC Address of Device</string>
+    <string name="str_checkbox_temperature">Temperature</string>
+    <string name="str_checkbox_gps">GPS</string>
+    <string name="str_checkbox_panicbutton">Panic Button</string>
+    <string name="str_select_sensors">Select the following sensors in the device:</string>
+    <string name="str_button_save_device">Save Device</string>
+
+    <!--  strings My Profile -->
+    <string name="str_title_my_profile">My Profile</string>
+
+    <string name="str_title_logout">Logout</string>
+    <string name="title_activity_fragment_my_profile">My Profile</string>
 
 </resources>

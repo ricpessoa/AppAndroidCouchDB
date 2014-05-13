@@ -60,6 +60,10 @@ public class CouchDB implements Replication.ChangeListener {
         }
     }
 
+    public Database getDatabase(){
+            return database;
+    }
+
     protected void startCBLite() throws Exception {
 
         mCouchManager = new Manager(Application.getmContext().getFilesDir(), Manager.DEFAULT_OPTIONS);

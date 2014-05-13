@@ -29,7 +29,7 @@ public class Application extends CouchbaseLiteApplication {
     //public static Database database = null;
     //public static Manager mCouchManager = null;
 
-    public static CouchDB mCouchDBinstance;
+   // private static CouchDB mCouchDBinstance;
 
     @Override
     public void onCreate() {
@@ -69,6 +69,10 @@ public class Application extends CouchbaseLiteApplication {
             dbname = loadInSharePreferenceDataOfApplication();
         }
         return dbname;
+    }
+
+    public static CouchDB getmCouchDBinstance(){
+        return CouchDB.getmCouchDBinstance();
     }
 
 }

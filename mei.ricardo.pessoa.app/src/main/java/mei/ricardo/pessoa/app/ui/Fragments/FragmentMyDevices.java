@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,22 +26,23 @@ import com.couchbase.lite.QueryEnumerator;
 import com.couchbase.lite.QueryRow;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
-import mei.ricardo.pessoa.app.couchdb.modal.Device;
+import mei.ricardo.pessoa.app.ui.Device.AddDevice;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 import mei.ricardo.pessoa.app.R;
 
 public class FragmentMyDevices extends Fragment {
     public static final String notify = "mei.ricardo.pessoa.app.notify.devices";
     private static String TAG = FragmentMyDevices.class.getName();
-    private TextView mDevices;
 
-    private ListView listViewDevices;
-    DeviceListAdapter deviceListAdapter;
+    private static ListView listViewDevices;
+    private static DeviceListAdapter deviceListAdapter;
 
     private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
 
@@ -46,17 +50,8 @@ public class FragmentMyDevices extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (deviceBroadcastReceiver != null)
-            getActivity().unregisterReceiver(deviceBroadcastReceiver);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        deviceBroadcastReceiver = new DeviceBroadcastReceiver();
-        getActivity().registerReceiver(deviceBroadcastReceiver, new IntentFilter(notify));
     }
 
     @Override
@@ -64,11 +59,12 @@ public class FragmentMyDevices extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_my_devices, container, false);
 
+        setHasOptionsMenu(true);
+
         listViewDevices = (ListView) rootView.findViewById(R.id.listview_device);
 
         deviceListAdapter = new DeviceListAdapter();
 
-        //ListView codeLearnLessons = (ListView)findViewById(R.id.listView1);
         listViewDevices.setAdapter(deviceListAdapter);
 
         listViewDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,9 +84,41 @@ public class FragmentMyDevices extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        deviceBroadcastReceiver = new DeviceBroadcastReceiver();
+        getActivity().registerReceiver(deviceBroadcastReceiver, new IntentFilter(notify));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (deviceBroadcastReceiver != null)
+            getActivity().unregisterReceiver(deviceBroadcastReceiver);
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(1);
+    }
+
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_my_devices, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_add_device){
+            Toast.makeText(Application.getmContext(),"Add Device",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), AddDevice.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private class DeviceBroadcastReceiver extends BroadcastReceiver {
@@ -100,7 +128,9 @@ public class FragmentMyDevices extends Fragment {
             //float temp= intent.getFloatExtra(VAR_NAME,0);
             Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
             //mDevices.setText(mDevices.getText().toString() + " +1 ");
-            getDevicesOnCouchDB();
+            //getDevicesOnCouchDB();
+            //listViewDevices.invalidateViews();
+            deviceListAdapter.updateDeviceList(getDevicesOnCouchDB());
         }
     }
 
@@ -113,21 +143,24 @@ public class FragmentMyDevices extends Fragment {
 
         List<DeviceRow> deviceList = getDevicesOnCouchDB();
 
+        public void updateDeviceList(List<DeviceRow> results) {
+            deviceList = results;
+            //Triggers the list update
+            notifyDataSetChanged();
+        }
+
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return deviceList.size();
         }
 
         @Override
         public DeviceRow getItem(int arg0) {
-            // TODO Auto-generated method stub
             return deviceList.get(arg0);
         }
 
         @Override
         public long getItemId(int arg0) {
-            // TODO Auto-generated method stub
             return arg0;
         }
 
@@ -156,13 +189,6 @@ public class FragmentMyDevices extends Fragment {
 
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.list_view_with_simple_adapter, menu);
-        return true;
-    }*/
-
     private List<DeviceRow> getDevicesOnCouchDB() {
         List<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
 
@@ -176,12 +202,15 @@ public class FragmentMyDevices extends Fragment {
 
                 DeviceRow deviceRow = new DeviceRow();
                 Log.d("Document ID:", row.getDocumentId());
-                String nameDevice = row.getDocument().getProperty("name_device").toString();
-                if (nameDevice == null || nameDevice.equals("")) {
-                    nameDevice = row.getDocumentId();
+                String nameDevice;
+                try {
+                    nameDevice = row.getDocument().getProperty("name_device").toString();
+                } catch (NullPointerException ex) {
+                    nameDevice = "Device " + row.getDocumentId();
                 }
-                deviceRow.deviceName = "Device " + nameDevice;
-                deviceRow.deviceDescription = "description device TODO ";
+                HashMap<Object, Object> numbSensors = (HashMap<Object, Object>) row.getDocument().getProperty("sensors");
+                deviceRow.deviceName = nameDevice;
+                deviceRow.deviceDescription = "Number of Sensors " + numbSensors.size();
                 deviceRowsList.add(deviceRow);
 
             }
