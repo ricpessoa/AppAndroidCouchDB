@@ -12,8 +12,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
+import com.couchbase.lite.Status;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
@@ -41,17 +43,17 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.getId() == saveDevice.getId()) {
-            boolean validNameDevice = false, validMacAddress=false, atLeastOneSensor = false;
+            boolean validNameDevice = false, validMacAddress = false, atLeastOneSensor = false;
             String tmpNameDevice = nameDevice.getText().toString();
             String tmpMacDevice = macAddress.getText().toString();
             String str = "";
-            if(tmpNameDevice.trim().length()>0){
-                str+="validName ";
+            if (tmpNameDevice.trim().length() > 0) {
+                str += "validName ";
                 validNameDevice = true;
             }
 
-            if(tmpMacDevice.trim().length()>0){
-                str+="validMacAdress ";
+            if (tmpMacDevice.trim().length() > 0) {
+                str += "validMacAdress ";
                 //TODO: MAC Address Expression Regular validation
                 validMacAddress = true;
             }
@@ -60,34 +62,40 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             CheckBox checkBoxGPS = (CheckBox) findViewById(R.id.checkBoxGPS);
             CheckBox checkBoxPanicButton = (CheckBox) findViewById(R.id.checkBoxPanicButton);
 
-            str+= "checked? ";
-            ArrayList<Sensor> arraySensors = new ArrayList<Sensor>();
+            str += "checked? ";
+            HashMap<Integer, Sensor> arraySensors = new HashMap<Integer, Sensor>();
 
             if (checkBoxTemperature.isChecked()) {
                 str += " Temperature";
                 atLeastOneSensor = true;
-                SensorTemperature s = new SensorTemperature("Sensor Temperature","Temperature");
-                arraySensors.add(s);
+                SensorTemperature s = new SensorTemperature("Sensor Temperature", "temperature");
+                arraySensors.put(arraySensors.size(),s);
             }
             if (checkBoxGPS.isChecked()) {
                 str += " GPS";
                 atLeastOneSensor = true;
-                Sensor s = new Sensor("Sensor GPS", "gps");
-                arraySensors.add(s);
+                Sensor s = new Sensor("Sensor GPS", "GPS");
+                arraySensors.put(arraySensors.size(),s);
             }
             if (checkBoxPanicButton.isChecked()) {
                 str += " Panic Button";
                 atLeastOneSensor = true;
                 Sensor s = new Sensor("Sensor Panic Button", "panic_button");
-                arraySensors.add(s);
+                arraySensors.put(arraySensors.size(),s);
             }
 
             if (atLeastOneSensor && validMacAddress && validNameDevice) {
-                Log.d(TAG,"Valid form =)"+str);
-                Device device = new Device(macAddress.getText().toString(),nameDevice.getText().toString());
+                Device device = new Device(macAddress.getText().toString(), nameDevice.getText().toString(), arraySensors);
                 try {
                     device.saveDevice();
                 } catch (CouchbaseLiteException e) {
+                    if (e.getCBLStatus().getCode() == Status.CONFLICT) {
+                        Log.e(TAG, "Error Conflict try save device");
+                    } else if (e.getCBLStatus().getCode() == Status.CREATED) {
+                        Log.e(TAG, "Error try create device");
+                    } else {
+                        Log.e(TAG, "Error :S");
+                    }
                     e.printStackTrace();
                 }
             }

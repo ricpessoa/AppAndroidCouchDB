@@ -9,7 +9,7 @@ public class Sensor {
 
     public Sensor(String name_sensor, String type){
         this.name_sensor = name_sensor;
-        this.name_sensor = type;
+        this.type = type;
     }
 
     public String getName_sensor() {

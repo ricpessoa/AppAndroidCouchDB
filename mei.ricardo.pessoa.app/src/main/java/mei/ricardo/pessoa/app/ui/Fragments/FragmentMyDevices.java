@@ -114,7 +114,6 @@ public class FragmentMyDevices extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_add_device){
-            Toast.makeText(Application.getmContext(),"Add Device",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity(), AddDevice.class);
             startActivity(intent);
         }
@@ -192,7 +191,6 @@ public class FragmentMyDevices extends Fragment {
     private List<DeviceRow> getDevicesOnCouchDB() {
         List<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
 
-
         com.couchbase.lite.View view = CouchDB.viewGetDevices;
         Query query = view.createQuery();
         try {
@@ -202,13 +200,17 @@ public class FragmentMyDevices extends Fragment {
 
                 DeviceRow deviceRow = new DeviceRow();
                 Log.d("Document ID:", row.getDocumentId());
-                String nameDevice;
+                String nameDevice = "";
+                HashMap<Object, Object> numbSensors = new HashMap<Object, Object>();
+
                 try {
                     nameDevice = row.getDocument().getProperty("name_device").toString();
+                    numbSensors = (HashMap<Object, Object>) row.getDocument().getProperty("sensors");
                 } catch (NullPointerException ex) {
                     nameDevice = "Device " + row.getDocumentId();
+                }catch (Exception ex){
+                    Log.e(TAG, "Error in Device _id:" + nameDevice);
                 }
-                HashMap<Object, Object> numbSensors = (HashMap<Object, Object>) row.getDocument().getProperty("sensors");
                 deviceRow.deviceName = nameDevice;
                 deviceRow.deviceDescription = "Number of Sensors " + numbSensors.size();
                 deviceRowsList.add(deviceRow);

@@ -1,6 +1,9 @@
 package mei.ricardo.pessoa.app.couchdb.modal;
 
+import android.util.Log;
+
 import com.couchbase.lite.CouchbaseLiteException;
+import com.couchbase.lite.Database;
 import com.couchbase.lite.Document;
 
 import java.security.Timestamp;
@@ -14,56 +17,33 @@ import mei.ricardo.pessoa.app.couchdb.CouchDB;
 /**
  * Created by rpessoa on 06/05/14.
  */
-public class Device extends CouchDocument{
+public class Device extends Document {
     private String name_device;
-    private ArrayList<Sensor> sensors = new ArrayList<Sensor>();
+    HashMap<Integer,Sensor> sensors = new HashMap<Integer, Sensor>();
     private String timestamp;
 
-    public Device(String mac_address,String name_device){
+    public Device(String mac_address, String name_device, HashMap<Integer,Sensor> arraySensors) {
         //mac address device is _id
-        super(mac_address);
+        //super(mac_address);
+        super(CouchDB.getmCouchDBinstance().getDatabase(), mac_address);
         this.name_device = name_device;
+        this.sensors = arraySensors;
     }
 
     public void saveDevice() throws CouchbaseLiteException {
-        // set up a time stamp to use later
-
         // create an object to hold document data
         Map<String, Object> properties = new HashMap<String, Object>();
 
-        if(CouchDB.getmCouchDBinstance().getDatabase()!=null){
-            properties.put("_id",this.get_id());
-            properties.put("name_device", this.name_device);
+        if (CouchDB.getmCouchDBinstance().getDatabase() != null) {
             properties.put("timestamp", System.currentTimeMillis());
+            properties.put("name_device", name_device);
+            properties.put("sensors",sensors);
+            properties.put("type", "device");
 
-            ArrayList<Map<String, Object>> arrayPropertiesSensots = new ArrayList<Map<String, Object>>();
-            for (Sensor sensor : sensors){
-                Map<String, Object> sensorMap = new HashMap<String, Object>();
-                if(sensor instanceof SensorTemperature){
-                    SensorTemperature st = (SensorTemperature) sensor;
-                    sensorMap.put("min_temperature",st.getMin_temperature());
-                    sensorMap.put("max_temperature",st.getMax_temperature());
-                    sensorMap.put("type",st.getType());
-                }else{
-                    sensorMap.put("name_sensor",sensor.getName_sensor());
-                    sensorMap.put("type",sensor.getType());
-                }
-                arrayPropertiesSensots.add(sensorMap);
-            }
-
-            properties.put("sensors",arrayPropertiesSensots);
-            properties.put("type","device");
-
-// create a new document
-            Document document = CouchDB.getmCouchDBinstance().getDatabase().createDocument();
-
+// getDocument if exist return document by id else create document with the parameter
+            Document document = CouchDB.getmCouchDBinstance().getDatabase().getDocument(this.getId());
 // store the data in the document
             document.putProperties(properties);
-
         }
-
-
     }
-
-
 }
