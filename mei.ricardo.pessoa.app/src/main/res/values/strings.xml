@@ -37,4 +37,12 @@
     <string name="title_activity_config_sensor">Configuration Sensor</string>
     <string name="title_activity_sensors">Sensors</string>
 
+    <!-- strings fragment_temperature -->
+    <string name="str_title_temperature">Temperature Settings</string>
+    <string name="prompt_min_temperature">Minimum temperature</string>
+    <string name="prompt_max_temperature">Maximum temperature</string>
+
+    <!-- strings fragment_safezone-->
+    <string name="str_title_safezone">Safezone Settings</string>
+
 </resources>

@@ -22,61 +22,78 @@ import mei.ricardo.pessoa.app.ui.Fragments.FragmentTemperature;
 public class ActivitySensors extends ActionBarActivity {
     private static String TAG = ActivitySensors.class.getName();
     public static String var_pass_id_sensor = "var_pass_id_sensor";
+    private static FragmentButtonPanic fp = null;
+    private static FragmentSafezone fs = null;
+    private static FragmentTemperature ft = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensors);
 
-        Bundle bundle =  getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         String ID = bundle.getString(var_pass_id_sensor);
-        Toast.makeText(this,"received id document "+ID,Toast.LENGTH_SHORT).show();
-        HashMap<String,Object> sensorHashMap = Device.getSensorsByDeviceID(ID);
-        boolean showPanicButton,showSafezone,showTemperature;
+        Toast.makeText(this, "received id document " + ID, Toast.LENGTH_SHORT).show();
+        HashMap<String, Object> sensorHashMap = Device.getSensorsByDeviceID(ID);
+        boolean showPanicButton, showSafezone, showTemperature;
         showPanicButton = showSafezone = showTemperature = false;
 
-        for(Map.Entry<String, Object> entry : sensorHashMap.entrySet()) {
+        for (Map.Entry<String, Object> entry : sensorHashMap.entrySet()) {
             String key = entry.getKey();
             HashMap<Integer, String> value = new HashMap<Integer, String>();
             try {
                 value = (HashMap<Integer, String>) entry.getValue();
-            }catch (ClassCastException ex){
-                Log.d(TAG,"value -> error");
+            } catch (ClassCastException ex) {
+                Log.d(TAG, "value -> error");
             }
-            //Log.d(TAG,"key ->"+key);
-            //Log.d(TAG,"value ->"+value.size());
 
             Log.d(TAG, value.get("type"));
             String type = value.get("type");
 
-            if(type.equals(Device.deviceTypes.panic_button.toString()))
+            if (type.equals(Device.deviceTypes.panic_button.toString()))
                 showPanicButton = true;
-            else if(type.equals(Device.deviceTypes.GPS.toString()))
+            else if (type.equals(Device.deviceTypes.GPS.toString()))
                 showSafezone = true;
             else if (type.equals(Device.deviceTypes.temperature.toString()))
                 showTemperature = true;
         }
 
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FragmentManager fragmentManager = getFragmentManager ();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction ();
-// work here to change Activity fragments (add, remove, etc.).  Example here of adding.
-
-        if(showPanicButton) {
-            FragmentButtonPanic fp = new FragmentButtonPanic();
-            fragmentTransaction.add(R.id.myFragmentPanicButton, fp);
+        if (showPanicButton) {
+            if (fp == null) {
+                fp = new FragmentButtonPanic();
+                fragmentTransaction.add(R.id.myFragmentPanicButton, fp);
+            }
         }
-        if(showSafezone) {
-            FragmentSafezone fs = new FragmentSafezone();
-            fragmentTransaction.add(R.id.myFragmentSafezone, fs);
+        if (showSafezone) {
+            if (fs == null) {
+                fs = new FragmentSafezone();
+                fragmentTransaction.add(R.id.myFragmentSafezone, fs);
+            }
         }
-        if (showTemperature){
-            FragmentTemperature ft = new FragmentTemperature();
-            fragmentTransaction.add(R.id.myFragmentTemperature, ft);
+        if (showTemperature) {
+            if (ft == null) {
+                ft = new FragmentTemperature();
+                fragmentTransaction.add(R.id.myFragmentTemperature, ft);
+            }
         }
         fragmentTransaction.commit();
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        fp =null;
+        fs =null;
+        ft = null;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

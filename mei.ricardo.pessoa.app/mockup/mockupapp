@@ -1,0 +1,381 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="2086" measuredH="1439" mockupW="2009" mockupH="1428">
+  <controls>
+    <control controlID="201" controlTypeID="com.balsamiq.mockups::iPad" x="77" y="80" w="306" h="580" measuredW="616" measuredH="916" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="202" controlTypeID="com.balsamiq.mockups::Button" x="188" y="392" w="68" h="27" measuredW="68" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Login%20in</text>
+      </controlProperties>
+    </control>
+    <control controlID="203" controlTypeID="com.balsamiq.mockups::Button" x="188" y="434" w="68" h="27" measuredW="68" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Sign%20up</text>
+      </controlProperties>
+    </control>
+    <control controlID="204" controlTypeID="com.balsamiq.mockups::TextInput" x="109" y="266" w="247" h="-1" measuredW="73" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>username</text>
+      </controlProperties>
+    </control>
+    <control controlID="205" controlTypeID="com.balsamiq.mockups::TextInput" x="109" y="308" w="247" h="-1" measuredW="71" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>password</text>
+      </controlProperties>
+    </control>
+    <control controlID="206" controlTypeID="com.balsamiq.mockups::iPad" x="77" y="629" w="308" h="543" measuredW="616" measuredH="916" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="208" controlTypeID="com.balsamiq.mockups::Button" x="183" y="974" w="68" h="27" measuredW="68" measuredH="27" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Sign%20up</text>
+      </controlProperties>
+    </control>
+    <control controlID="209" controlTypeID="com.balsamiq.mockups::TextInput" x="110" y="813" w="247" h="-1" measuredW="73" measuredH="27" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>username</text>
+      </controlProperties>
+    </control>
+    <control controlID="210" controlTypeID="com.balsamiq.mockups::TextInput" x="110" y="850" w="247" h="-1" measuredW="45" measuredH="27" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>email</text>
+      </controlProperties>
+    </control>
+    <control controlID="211" controlTypeID="com.balsamiq.mockups::TextInput" x="110" y="774" w="247" h="-1" measuredW="68" measuredH="27" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>full%20name</text>
+      </controlProperties>
+    </control>
+    <control controlID="212" controlTypeID="com.balsamiq.mockups::TextInput" x="110" y="887" w="247" h="-1" measuredW="71" measuredH="27" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>password</text>
+      </controlProperties>
+    </control>
+    <control controlID="213" controlTypeID="com.balsamiq.mockups::TextInput" x="110" y="924" w="247" h="-1" measuredW="118" measuredH="27" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>confirm%20password</text>
+      </controlProperties>
+    </control>
+    <control controlID="216" controlTypeID="com.balsamiq.mockups::Arrow" x="249" y="453" w="97" h="246" measuredW="150" measuredH="100" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="232" controlTypeID="com.balsamiq.mockups::iPad" x="1082" y="215" w="250" h="465" measuredW="616" measuredH="916" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="233" controlTypeID="com.balsamiq.mockups::TextInput" x="1100" y="349" w="214" h="-1" measuredW="90" measuredH="27" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>name%20device</text>
+      </controlProperties>
+    </control>
+    <control controlID="234" controlTypeID="com.balsamiq.mockups::MenuBar" x="1091" y="300" w="238" h="34" measuredW="121" measuredH="29" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20Device%2C</text>
+      </controlProperties>
+    </control>
+    <control controlID="235" controlTypeID="com.balsamiq.mockups::TextInput" x="1100" y="385" w="214" h="-1" measuredW="91" measuredH="27" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>mac%20address</text>
+      </controlProperties>
+    </control>
+    <control controlID="236" controlTypeID="com.balsamiq.mockups::CheckBox" x="1106" y="450" w="94" h="22" measuredW="94" measuredH="22" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Temperature</text>
+      </controlProperties>
+    </control>
+    <control controlID="237" controlTypeID="com.balsamiq.mockups::CheckBox" x="1106" y="472" w="47" h="22" measuredW="47" measuredH="22" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>GPS</text>
+      </controlProperties>
+    </control>
+    <control controlID="238" controlTypeID="com.balsamiq.mockups::CheckBox" x="1106" y="492" w="94" h="22" measuredW="94" measuredH="22" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Panic%20Button</text>
+      </controlProperties>
+    </control>
+    <control controlID="239" controlTypeID="com.balsamiq.mockups::Label" x="1106" y="417" w="162" h="-1" measuredW="127" measuredH="26" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Select%20sensors%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="240" controlTypeID="com.balsamiq.mockups::Button" x="1157" y="528" w="96" h="27" measuredW="96" measuredH="27" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Save%20Device</text>
+      </controlProperties>
+    </control>
+    <control controlID="250" controlTypeID="com.balsamiq.mockups::iPad" x="1082" y="608" w="250" h="465" measuredW="616" measuredH="916" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="259" controlTypeID="com.balsamiq.mockups::MenuBar" x="1097" y="694" w="219" h="34" measuredW="160" measuredH="29" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Sensors%20Device%20A%2C</text>
+      </controlProperties>
+    </control>
+    <control controlID="262" controlTypeID="com.balsamiq.mockups::List" x="1096" y="732" w="221" h="259" measuredW="100" measuredH="126" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <hasHeader>false</hasHeader>
+        <rowHeight>39</rowHeight>
+        <size>20</size>
+        <text>Sensor%20Panic%20Button%0ASensor%20GPS%0ASensor%20Temperature</text>
+        <value>0</value>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="267" controlTypeID="com.balsamiq.mockups::iPad" x="1478" y="974" w="250" h="465" measuredW="616" measuredH="916" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="269" controlTypeID="com.balsamiq.mockups::TextInput" x="1495" y="1105" w="214" h="-1" measuredW="170" measuredH="30" zOrder="26" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>minimum%20temperature</text>
+      </controlProperties>
+    </control>
+    <control controlID="270" controlTypeID="com.balsamiq.mockups::TextInput" x="1495" y="1147" w="214" h="-1" measuredW="175" measuredH="30" zOrder="27" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>maximum%20temperature</text>
+      </controlProperties>
+    </control>
+    <control controlID="271" controlTypeID="com.balsamiq.mockups::MenuBar" x="1493" y="1063" w="220" h="34" measuredW="183" measuredH="29" zOrder="28" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Temperature%20Settings%2C</text>
+      </controlProperties>
+    </control>
+    <control controlID="272" controlTypeID="com.balsamiq.mockups::Button" x="1570" y="1199" w="-1" h="-1" measuredW="52" measuredH="27" zOrder="29" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Save</text>
+      </controlProperties>
+    </control>
+    <control controlID="274" controlTypeID="com.balsamiq.mockups::iPad" x="1478" y="601" w="250" h="465" measuredW="616" measuredH="916" zOrder="31" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="277" controlTypeID="com.balsamiq.mockups::MenuBar" x="1493" y="684" w="220" h="34" measuredW="135" measuredH="29" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>GPS%20Settings%2C</text>
+      </controlProperties>
+    </control>
+    <control controlID="279" controlTypeID="com.balsamiq.mockups::Icon" x="1502" y="733" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="33" locked="false" isInGroup="-1"/>
+    <control controlID="280" controlTypeID="com.balsamiq.mockups::Label" x="1565" y="744" w="118" h="-1" measuredW="95" measuredH="26" zOrder="34" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Safezone%20A</text>
+      </controlProperties>
+    </control>
+    <control controlID="281" controlTypeID="com.balsamiq.mockups::Icon" x="1504" y="794" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="35" locked="false" isInGroup="-1"/>
+    <control controlID="282" controlTypeID="com.balsamiq.mockups::Label" x="1567" y="805" w="118" h="-1" measuredW="94" measuredH="26" zOrder="36" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Safezone%20B</text>
+      </controlProperties>
+    </control>
+    <control controlID="283" controlTypeID="com.balsamiq.mockups::Icon" x="1505" y="856" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="37" locked="false" isInGroup="-1"/>
+    <control controlID="284" controlTypeID="com.balsamiq.mockups::Label" x="1568" y="867" w="118" h="-1" measuredW="96" measuredH="26" zOrder="38" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Safezone%20C</text>
+      </controlProperties>
+    </control>
+    <control controlID="285" controlTypeID="com.balsamiq.mockups::PointyButton" x="1614" y="688" w="-1" h="-1" measuredW="103" measuredH="27" zOrder="39" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <direction>center</direction>
+        <newLayout>true</newLayout>
+        <text>Add%20Safezone</text>
+      </controlProperties>
+    </control>
+    <control controlID="286" controlTypeID="com.balsamiq.mockups::Arrow" x="1253" y="796" w="215" h="45" measuredW="150" measuredH="100" zOrder="30" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="287" controlTypeID="com.balsamiq.mockups::Arrow" x="1287" y="844" w="191" h="219" measuredW="150" measuredH="100" zOrder="40" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="297" controlTypeID="com.balsamiq.mockups::iPad" x="451" y="409" w="250" h="465" measuredW="616" measuredH="916" zOrder="41" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="299" controlTypeID="com.balsamiq.mockups::ScratchOut" x="473" y="490" w="205" h="299" measuredW="205" measuredH="107" zOrder="42" locked="false" isInGroup="-1"/>
+    <control controlID="300" controlTypeID="com.balsamiq.mockups::List" x="458" y="492" w="115" h="299" measuredW="100" measuredH="211" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <alternateRowColor>16777215</alternateRowColor>
+        <bold>true</bold>
+        <borderStyle>square</borderStyle>
+        <color>16777215</color>
+        <rowHeight>41</rowHeight>
+        <selectedIndex>0</selectedIndex>
+        <size>14</size>
+        <text>My%20Dashboard%0AMy%20Device%0AMy%20Profile%0ASettings%0ALogout</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="301" controlTypeID="com.balsamiq.mockups::Arrow" x="249" y="409" w="209" h="134" measuredW="150" measuredH="100" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <text>login%20successful</text>
+      </controlProperties>
+    </control>
+    <control controlID="303" controlTypeID="com.balsamiq.mockups::iPad" x="770" y="471" w="250" h="465" measuredW="616" measuredH="916" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="304" controlTypeID="com.balsamiq.mockups::Icon" x="790" y="608" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="46" locked="false" isInGroup="-1"/>
+    <control controlID="305" controlTypeID="com.balsamiq.mockups::Label" x="845" y="608" w="118" h="-1" measuredW="99" measuredH="32" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Device%20A</text>
+      </controlProperties>
+    </control>
+    <control controlID="306" controlTypeID="com.balsamiq.mockups::MenuBar" x="780" y="552" w="240" h="34" measuredW="123" measuredH="29" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>My%20Devices%2C%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="307" controlTypeID="com.balsamiq.mockups::Label" x="845" y="631" w="162" h="-1" measuredW="148" measuredH="26" zOrder="49" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>number%20sensors%203</text>
+      </controlProperties>
+    </control>
+    <control controlID="308" controlTypeID="com.balsamiq.mockups::Icon" x="792" y="669" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="50" locked="false" isInGroup="-1"/>
+    <control controlID="309" controlTypeID="com.balsamiq.mockups::Label" x="847" y="669" w="118" h="-1" measuredW="97" measuredH="32" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Device%20B</text>
+      </controlProperties>
+    </control>
+    <control controlID="310" controlTypeID="com.balsamiq.mockups::Label" x="847" y="692" w="162" h="-1" measuredW="145" measuredH="26" zOrder="52" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>number%20sensors%201</text>
+      </controlProperties>
+    </control>
+    <control controlID="311" controlTypeID="com.balsamiq.mockups::Icon" x="793" y="731" w="-1" h="-1" measuredW="48" measuredH="48" zOrder="53" locked="false" isInGroup="-1"/>
+    <control controlID="312" controlTypeID="com.balsamiq.mockups::Label" x="848" y="731" w="118" h="-1" measuredW="100" measuredH="32" zOrder="54" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Device%20C</text>
+      </controlProperties>
+    </control>
+    <control controlID="313" controlTypeID="com.balsamiq.mockups::Label" x="848" y="754" w="162" h="-1" measuredW="149" measuredH="26" zOrder="55" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>number%20sensors%202</text>
+      </controlProperties>
+    </control>
+    <control controlID="314" controlTypeID="com.balsamiq.mockups::PointyButton" x="926" y="556" w="-1" h="-1" measuredW="87" measuredH="27" zOrder="56" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <direction>center</direction>
+        <newLayout>true</newLayout>
+        <text>Add%20Device</text>
+      </controlProperties>
+    </control>
+    <control controlID="316" controlTypeID="com.balsamiq.mockups::iPad" x="732" y="11" w="314" h="465" measuredW="616" measuredH="916" zOrder="57" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="317" controlTypeID="com.balsamiq.mockups::MenuBar" x="758" y="64" w="260" h="34" measuredW="135" measuredH="29" zOrder="58" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>MyDashboard%2C%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="318" controlTypeID="com.balsamiq.mockups::Arrow" x="548" y="549" w="214" h="10" measuredW="150" measuredH="100" zOrder="59" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="320" controlTypeID="com.balsamiq.mockups::Arrow" x="998" y="467" w="90" h="104" measuredW="150" measuredH="100" zOrder="60" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="321" controlTypeID="com.balsamiq.mockups::Arrow" x="969" y="629" w="137" h="115" measuredW="150" measuredH="100" zOrder="61" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>top</direction>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="322" controlTypeID="com.balsamiq.mockups::iPad" x="1836" y="594" w="250" h="465" measuredW="616" measuredH="916" zOrder="62" locked="false" isInGroup="-1">
+      <controlProperties>
+        <topBar>false</topBar>
+      </controlProperties>
+    </control>
+    <control controlID="326" controlTypeID="com.balsamiq.mockups::MenuBar" x="1851" y="679" w="220" h="34" measuredW="123" measuredH="29" zOrder="63" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Safezone%20A%2C</text>
+      </controlProperties>
+    </control>
+    <control controlID="327" controlTypeID="com.balsamiq.mockups::Image" x="1904" y="719" w="107" h="95" measuredW="77" measuredH="79" zOrder="64" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="328" controlTypeID="com.balsamiq.mockups::Label" x="1898" y="820" w="-1" h="-1" measuredW="127" measuredH="32" zOrder="65" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Safezone%20A</text>
+      </controlProperties>
+    </control>
+    <control controlID="329" controlTypeID="com.balsamiq.mockups::Button" x="1882" y="894" w="-1" h="-1" measuredW="164" measuredH="32" zOrder="66" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Edit%20Location</text>
+      </controlProperties>
+    </control>
+    <control controlID="330" controlTypeID="com.balsamiq.mockups::Button" x="1882" y="856" w="166" h="32" measuredW="136" measuredH="32" zOrder="67" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Edit%20Name</text>
+      </controlProperties>
+    </control>
+    <control controlID="331" controlTypeID="com.balsamiq.mockups::Button" x="1882" y="937" w="165" h="32" measuredW="147" measuredH="32" zOrder="68" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Edit%20Radius</text>
+      </controlProperties>
+    </control>
+    <control controlID="332" controlTypeID="com.balsamiq.mockups::Arrow" x="1664" y="752" w="172" h="29" measuredW="150" measuredH="100" zOrder="69" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="334" controlTypeID="com.balsamiq.mockups::LineChart" x="795" y="237" w="-1" h="-1" measuredW="187" measuredH="175" zOrder="70" locked="false" isInGroup="-1"/>
+    <control controlID="335" controlTypeID="com.balsamiq.mockups::Arrow" x="563" y="340" w="184" h="181" measuredW="150" measuredH="100" zOrder="71" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
