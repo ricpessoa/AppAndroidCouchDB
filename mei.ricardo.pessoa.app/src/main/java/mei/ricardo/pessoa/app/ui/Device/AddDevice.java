@@ -46,14 +46,11 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             boolean validNameDevice = false, validMacAddress = false, atLeastOneSensor = false;
             String tmpNameDevice = nameDevice.getText().toString();
             String tmpMacDevice = macAddress.getText().toString();
-            String str = "";
             if (tmpNameDevice.trim().length() > 0) {
-                str += "validName ";
                 validNameDevice = true;
             }
 
             if (tmpMacDevice.trim().length() > 0) {
-                str += "validMacAdress ";
                 //TODO: MAC Address Expression Regular validation
                 validMacAddress = true;
             }
@@ -62,25 +59,23 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             CheckBox checkBoxGPS = (CheckBox) findViewById(R.id.checkBoxGPS);
             CheckBox checkBoxPanicButton = (CheckBox) findViewById(R.id.checkBoxPanicButton);
 
-            str += "checked? ";
             HashMap<Integer, Sensor> arraySensors = new HashMap<Integer, Sensor>();
 
-            if (checkBoxTemperature.isChecked()) {
-                str += " Temperature";
+            if (checkBoxPanicButton.isChecked()) {
                 atLeastOneSensor = true;
-                SensorTemperature s = new SensorTemperature("Sensor Temperature", "temperature");
+                Sensor s = new Sensor("Sensor Panic Button", "panic_button");
                 arraySensors.put(arraySensors.size(),s);
             }
+
             if (checkBoxGPS.isChecked()) {
-                str += " GPS";
                 atLeastOneSensor = true;
                 Sensor s = new Sensor("Sensor GPS", "GPS");
                 arraySensors.put(arraySensors.size(),s);
             }
-            if (checkBoxPanicButton.isChecked()) {
-                str += " Panic Button";
+
+            if (checkBoxTemperature.isChecked()) {
                 atLeastOneSensor = true;
-                Sensor s = new Sensor("Sensor Panic Button", "panic_button");
+                SensorTemperature s = new SensorTemperature("Sensor Temperature", "temperature");
                 arraySensors.put(arraySensors.size(),s);
             }
 

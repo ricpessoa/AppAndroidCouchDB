@@ -14,11 +14,11 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="hello_world">Hello world!</string>
 
-    <!--  strings My DashBoard -->
+    <!-- strings My DashBoard -->
     <string name="str_title_my_dashboard">My DashBoard</string>
     <string name="title_activity_fragment_my_dashboard">My Dashboard</string>
 
-    <!--  strings My Devices -->
+    <!-- strings My Devices -->
     <string name="str_title_my_devices">MyDevices</string>
     <string name="title_activity_fragment_my_devices">My Devices</string>
     <string name="title_activity_add_device">Add Device</string>
@@ -30,10 +30,11 @@
     <string name="str_select_sensors">Select the following sensors in the device:</string>
     <string name="str_button_save_device">Save Device</string>
 
-    <!--  strings My Profile -->
+    <!-- strings My Profile -->
     <string name="str_title_my_profile">My Profile</string>
-
     <string name="str_title_logout">Logout</string>
     <string name="title_activity_fragment_my_profile">My Profile</string>
+    <string name="title_activity_config_sensor">Configuration Sensor</string>
+    <string name="title_activity_sensors">Sensors</string>
 
 </resources>

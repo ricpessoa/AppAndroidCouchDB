@@ -29,13 +29,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
 import mei.ricardo.pessoa.app.ui.Device.AddDevice;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 import mei.ricardo.pessoa.app.R;
+import mei.ricardo.pessoa.app.ui.Sensor.ActivitySensors;
 
 public class FragmentMyDevices extends Fragment {
     public static final String notify = "mei.ricardo.pessoa.app.notify.devices";
@@ -72,11 +72,11 @@ public class FragmentMyDevices extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-
                 DeviceRow deviceRow = deviceListAdapter.getCodeLearnChapter(arg2);
-
-                Toast.makeText(Application.getmContext(), deviceRow.deviceName, Toast.LENGTH_LONG).show();
-
+                Intent intent = new Intent(getActivity(), ActivitySensors.class);
+                intent.putExtra(ActivitySensors.var_pass_id_sensor,deviceRow.deviceID);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
             }
         });
 
@@ -104,16 +104,15 @@ public class FragmentMyDevices extends Fragment {
     }
 
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_my_devices, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_add_device){
+        if (item.getItemId() == R.id.action_add_device) {
             Intent intent = new Intent(getActivity(), AddDevice.class);
             startActivity(intent);
         }
@@ -124,16 +123,13 @@ public class FragmentMyDevices extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            //float temp= intent.getFloatExtra(VAR_NAME,0);
             Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
-            //mDevices.setText(mDevices.getText().toString() + " +1 ");
-            //getDevicesOnCouchDB();
-            //listViewDevices.invalidateViews();
             deviceListAdapter.updateDeviceList(getDevicesOnCouchDB());
         }
     }
 
     public class DeviceRow {
+        String deviceID;
         String deviceName;
         String deviceDescription;
     }
@@ -200,6 +196,7 @@ public class FragmentMyDevices extends Fragment {
 
                 DeviceRow deviceRow = new DeviceRow();
                 Log.d("Document ID:", row.getDocumentId());
+                deviceRow.deviceID = row.getDocumentId();
                 String nameDevice = "";
                 HashMap<Object, Object> numbSensors = new HashMap<Object, Object>();
 
@@ -208,7 +205,7 @@ public class FragmentMyDevices extends Fragment {
                     numbSensors = (HashMap<Object, Object>) row.getDocument().getProperty("sensors");
                 } catch (NullPointerException ex) {
                     nameDevice = "Device " + row.getDocumentId();
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     Log.e(TAG, "Error in Device _id:" + nameDevice);
                 }
                 deviceRow.deviceName = nameDevice;

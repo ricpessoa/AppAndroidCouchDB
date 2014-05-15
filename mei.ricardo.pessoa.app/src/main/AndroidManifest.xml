@@ -39,6 +39,14 @@
             android:name="mei.ricardo.pessoa.app.ui.Device.AddDevice"
             android:label="@string/title_activity_add_device" >
         </activity>
+        <activity
+            android:name=".ui.Sensor.ActivitySensorsConfig"
+            android:label="@string/title_activity_config_sensor" >
+        </activity>
+        <activity
+            android:name=".ui.Sensor.ActivitySensors"
+            android:label="@string/title_activity_sensors" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

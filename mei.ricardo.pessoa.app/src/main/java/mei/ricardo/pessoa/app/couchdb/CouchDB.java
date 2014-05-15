@@ -202,8 +202,8 @@ public class CouchDB implements Replication.ChangeListener {
             android.util.Log.d(TAG, "_Notify -> Safezones");
 
         }else if(notifyMonitorSensors){
-            //TODO: send broadcast to monitor sensors view
-            android.util.Log.d(TAG, "_Notify -> Monitoring sensors");
+            //TODO: send broadcast to monitor activity_sensors view
+            android.util.Log.d(TAG, "_Notify -> Monitoring activity_sensors");
         }
     }
 
