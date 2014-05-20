@@ -1,5 +1,6 @@
 package mei.ricardo.pessoa.app.ui.Navigation;
 
+import android.content.res.TypedArray;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -22,6 +23,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 
 /**
@@ -60,6 +64,13 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    // slide menu items
+    private String[] navMenuTitles;
+    private TypedArray navMenuIcons;
+
+    private ArrayList<NavDrawerItem> navDrawerItems;
+    private NavDrawerListAdapter adapter;
+
     public NavigationDrawerFragment() {
     }
 
@@ -79,12 +90,12 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        arrayMenu = new String[]{
-                getString(R.string.str_title_my_dashboard),
-                getString(R.string.str_title_my_devices),
-                getString(R.string.str_title_my_profile),
-                getString(R.string.str_title_logout)
-        };
+        // load slide menu items
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+
+        // nav drawer icons from resources
+        navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
+
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
     }
@@ -99,22 +110,39 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
+        View view = (View) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
+        mDrawerListView = (ListView) view.findViewById(R.id.menu_list);
+
+        navDrawerItems = new ArrayList<NavDrawerItem>();
+
+        for (int i = 0; i < navMenuTitles.length; i++) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+        }
+
+        // Recycle the typed array
+        navMenuIcons.recycle();
+
+        // setting the nav drawer list adapter
+        adapter = new NavDrawerListAdapter(Application.getmContext(),
+                navDrawerItems);
+        mDrawerListView.setAdapter(adapter);
+
+
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+        /*mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
                 arrayMenu
-        ));
+        ));*/
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        return view;
     }
 
     public boolean isDrawerOpen() {
