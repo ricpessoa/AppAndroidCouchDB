@@ -81,12 +81,25 @@ public class FragmentMyDashboard extends Fragment {
 
             try {
                 // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
                 nameValuePairs.add(new BasicNameValuePair("mac", macAddress));
+                //rua silva aroso (out put not necessaru save)
                 //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.23206"));
                 //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.698981"));
-                nameValuePairs.add(new BasicNameValuePair("latfrom", "41.108071"));
-                nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.636909"));
+                // ponte da madalena (fora do raio de minha casa)
+                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.108071"));
+                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.636909"));
+                //perto da estacao de gaia (fora do raio de casa e dentro do rs catarina)
+                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.126969"));
+                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.624164"));
+                //entro dois raios mas fora
+                nameValuePairs.add(new BasicNameValuePair("latfrom", "41.11845"));
+                nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.622257"));
+
+                //send value temperature
+                nameValuePairs.add(new BasicNameValuePair("temp", "10"));
+                //send value panic button
+                nameValuePairs.add(new BasicNameValuePair("press", "true"));
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
