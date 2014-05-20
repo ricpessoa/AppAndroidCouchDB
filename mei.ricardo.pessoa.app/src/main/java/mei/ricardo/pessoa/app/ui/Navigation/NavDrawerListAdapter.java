@@ -1,3 +1,4 @@
+package mei.ricardo.pessoa.app.ui.Navigation;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.ui.Navigation.NavDrawerItem;
 
 public class NavDrawerListAdapter extends BaseAdapter {
 
