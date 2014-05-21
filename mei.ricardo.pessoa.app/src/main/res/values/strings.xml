@@ -18,28 +18,28 @@
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >My DashBoard</item>
-        <item >MyDevices</item>
-        <item >My Profile</item>
-        <item >Logout</item>
+        <item>My DashBoard</item>
+        <item>My Devices</item>
+        <item>My Profile</item>
+        <item>Settings</item>
+        <item>Logout</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_people</item>
-        <item>@drawable/ic_photos</item>
-        <item>@drawable/ic_communities</item>
-        <item>@drawable/ic_pages</item>
-        <item>@drawable/ic_whats_hot</item>
+        <item>@drawable/ic_my_dashboard</item>
+        <item>@drawable/ic_my_devices</item>
+        <item>@drawable/ic_my_profile</item>
+        <item>@drawable/ic_settings</item>
+        <item>@drawable/ic_logout</item>
     </array>
 
     <string-array name="notifications_drawer_items">
-        <item >CHECK-IN</item>
-        <item >CHECK-OUT</item>
-        <item >TEMPERATURE NORMAL</item>
-        <item >TEMPERATURE HIGH</item>
+        <item>CHECK-IN</item>
+        <item>CHECK-OUT</item>
+        <item>TEMPERATURE NORMAL</item>
+        <item>TEMPERATURE HIGH</item>
     </string-array>
 
     <array name="notifications_drawer_icons">
