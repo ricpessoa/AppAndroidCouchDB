@@ -16,6 +16,7 @@ import mei.ricardo.pessoa.app.couchdb.CouchDB;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile;
+import mei.ricardo.pessoa.app.ui.Settings.SettingsActivity;
 import mei.ricardo.pessoa.app.ui.user.LoginActivity;
 import mei.ricardo.pessoa.app.R;
 
@@ -37,12 +38,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     //private LiveQuery liveQuery;
 
     public void logoutTheUser(boolean logout) {
-        if (logout == true){
+        if (logout == true) {
             Log.d(TAG, "Logout the user session");
             Application.saveInSharePreferenceDataOfApplication(null);
             Application.isLogged = false;
-        }else{
-            Log.d(TAG,"The user remember is null - need authentication");
+        } else {
+            Log.d(TAG, "The user remember is null - need authentication");
         }
         Intent intentLogin = new Intent(this, LoginActivity.class);
         startActivity(intentLogin);
@@ -53,11 +54,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (Application.getDbname()==null){
+        if (Application.getDbname() == null) {
             logoutTheUser(false); // need authentication
         }
 
-        Log.d(TAG,"read db from "+Application.getDbname());
+        Log.d(TAG, "read db from " + Application.getDbname());
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -91,6 +92,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 fragment = new FragmentMyProfile();
                 break;
             case 3:
+                Log.d(TAG, "Show Settings");
+                //fragment = new FragmentSettings();
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case 4:
                 logoutTheUser(true); // logout
                 break;
             default:

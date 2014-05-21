@@ -80,4 +80,6 @@
     <!-- strings fragment_safezone-->
     <string name="str_title_safezone">Safezone Settings</string>
 
+    <!-- strings fragment_settings -->
+    <string name="title_activity_fragment_settings">Settings</string>
 </resources>
