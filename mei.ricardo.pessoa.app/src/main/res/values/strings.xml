@@ -35,6 +35,20 @@
         <item>@drawable/ic_whats_hot</item>
     </array>
 
+    <string-array name="notifications_drawer_items">
+        <item >CHECK-IN</item>
+        <item >CHECK-OUT</item>
+        <item >TEMPERATURE NORMAL</item>
+        <item >TEMPERATURE HIGH</item>
+    </string-array>
+
+    <array name="notifications_drawer_icons">
+        <item>@drawable/check_in</item>
+        <item>@drawable/check_out</item>
+        <item>@drawable/temp_green</item>
+        <item>@drawable/temp_red</item>
+    </array>
+
     <!-- strings My DashBoard -->
     <string name="str_title_my_dashboard">My DashBoard</string>
     <string name="title_activity_fragment_my_dashboard">My Dashboard</string>
