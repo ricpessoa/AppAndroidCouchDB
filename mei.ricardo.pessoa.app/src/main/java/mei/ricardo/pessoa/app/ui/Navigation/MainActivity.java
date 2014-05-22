@@ -121,7 +121,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 mTitle = getString(R.string.str_title_my_dashboard);
                 break;
             case 1:
-                mTitle = getString(R.string.str_title_my_devices);
+                mTitle = getString(R.string.title_activity_fragment_my_devices);
                 break;
             case 2:
                 mTitle = getString(R.string.str_title_my_profile);

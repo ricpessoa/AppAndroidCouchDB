@@ -209,6 +209,8 @@ public class FragmentMyDevices extends Fragment {
                     Log.e(TAG, "Error in Device _id:" + nameDevice);
                 }
                 deviceRow.deviceName = nameDevice;
+                if(numbSensors == null)
+                    break;
                 deviceRow.deviceDescription = "Number of Sensors " + numbSensors.size();
                 deviceRowsList.add(deviceRow);
 
