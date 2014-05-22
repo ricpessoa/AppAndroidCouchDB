@@ -17,9 +17,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="View MS GPS"
+        android:id="@+id/buttonMonitoringGPS"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="send information of sensor GPS"
         android:id="@+id/button"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/buttonMonitoringGPS"
         android:layout_centerHorizontal="true" />
 
 

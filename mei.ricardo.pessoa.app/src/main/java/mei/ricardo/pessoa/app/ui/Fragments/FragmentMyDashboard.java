@@ -2,6 +2,7 @@ package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.MonitorSensorSafezonesActivity;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 import mei.ricardo.pessoa.app.R;
 
@@ -43,7 +45,7 @@ public class FragmentMyDashboard extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_my_dashboard, container, false);
         Button testButton = (Button) rootView.findViewById(R.id.button);
@@ -52,6 +54,14 @@ public class FragmentMyDashboard extends Fragment {
             public void onClick(View v) {
                 mRegisterTask = new TesteDeviceRegisterTask("az");
                 mRegisterTask.execute((Void) null);
+            }
+        });
+        Button testMSGPS = (Button) rootView.findViewById(R.id.buttonMonitoringGPS);
+        testMSGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Application.getmContext(), MonitorSensorSafezonesActivity.class);
+                startActivity(intent);
             }
         });
         return rootView;

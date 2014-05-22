@@ -82,8 +82,8 @@
             android:label="@string/title_activity_sensors" >
         </activity>
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.Settings.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:name="mei.ricardo.pessoa.app.ui.MonitoringSensor.MonitorSensorSafezonesActivity"
+            android:label="@string/title_activity_monitor_sensor_safezones" >
         </activity>
     </application>
 

@@ -46,6 +46,8 @@ android {
 dependencies {
     // hack to add .so objects
     compile fileTree(dir: 'libs', include: 'td_collator_so.jar')
+    compile fileTree(dir: 'libs', include: 'nineoldandroids-2.4.0.jar')
+
     compile 'com.couchbase.cblite:CBLite:1.0.0-beta2'
 
     compile 'com.android.support:appcompat-v7:19.+'

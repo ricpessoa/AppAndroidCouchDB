@@ -98,14 +98,6 @@ public class Device{
         return hashMapSensors;
     }
 
-    public boolean isMonitoring() {
-        return monitoring;
-    }
-
-    public void setMonitoring(boolean monitoring) {
-        this.monitoring = monitoring;
-    }
-
     public void saveDevice() throws CouchbaseLiteException {
         // create an object to hold document data
         Map<String, Object> properties = new HashMap<String, Object>();
@@ -123,4 +115,27 @@ public class Device{
             document.putProperties(properties);
         }
     }
+
+    public String[] getSensors() {
+        ArrayList<String> arrayListSensors = new ArrayList<String>();
+        if(showPanicButton)
+            arrayListSensors.add("Panic Button");
+        if (showSafezone)
+            arrayListSensors.add("GPS");
+        if (showTemperature)
+            arrayListSensors.add("Temperature");
+        String[] sensors = new String[arrayListSensors.size()];
+        sensors = arrayListSensors.toArray(sensors);
+        return sensors;
+    }
+
+    public boolean isMonitoring() {
+        return monitoring;
+    }
+
+    public void setMonitoring(boolean monitoring) {
+        this.monitoring = monitoring;
+    }
+
+
 }
