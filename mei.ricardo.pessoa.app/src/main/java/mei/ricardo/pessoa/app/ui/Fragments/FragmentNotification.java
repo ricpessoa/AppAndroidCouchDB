@@ -2,7 +2,6 @@ package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Fragment;
 import android.content.res.TypedArray;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;

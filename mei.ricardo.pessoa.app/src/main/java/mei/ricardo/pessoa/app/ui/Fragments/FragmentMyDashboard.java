@@ -1,10 +1,9 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.BoringLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.ui.Fragments.Utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 import mei.ricardo.pessoa.app.R;
 
