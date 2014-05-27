@@ -13,6 +13,7 @@
         <item>My Devices</item>
         <item>My Profile</item>
         <item>Settings</item>
+        <item>Test Samples</item>
         <item>Logout</item>
     </string-array>
 
@@ -23,6 +24,7 @@
         <item>@drawable/ic_my_devices</item>
         <item>@drawable/ic_my_profile</item>
         <item>@drawable/ic_settings</item>
+        <item>@android:drawable/ic_menu_share</item>
         <item>@drawable/ic_logout</item>
     </array>
 

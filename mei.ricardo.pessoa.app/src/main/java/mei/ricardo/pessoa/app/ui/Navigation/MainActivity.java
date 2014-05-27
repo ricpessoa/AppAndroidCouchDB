@@ -1,23 +1,23 @@
 package mei.ricardo.pessoa.app.ui.Navigation;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.app.FragmentManager;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile;
-import mei.ricardo.pessoa.app.ui.Fragments.FragmentSettings;
+import mei.ricardo.pessoa.app.ui.SettingsActivity;
 import mei.ricardo.pessoa.app.ui.user.LoginActivity;
 import mei.ricardo.pessoa.app.R;
 
@@ -94,11 +94,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 break;
             case 3:
                 Log.d(TAG, "Show Settings");
-                fragment = new FragmentSettings();
-                //Intent intent = new Intent(this, SettingsActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 break;
             case 4:
+                break;
+            case 5:
                 logoutTheUser(true); // logout
                 break;
             default:
@@ -106,7 +107,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 fragment = new FragmentMyDashboard();
                 break;
         }
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (fragment != null) {
             fragmentManager.beginTransaction()

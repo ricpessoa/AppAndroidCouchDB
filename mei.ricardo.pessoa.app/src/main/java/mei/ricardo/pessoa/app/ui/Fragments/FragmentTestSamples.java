@@ -31,23 +31,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.MonitorSensorSafezonesActivity;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
-import mei.ricardo.pessoa.app.R;
 
 
-public class FragmentMyDashboard extends Fragment {
+public class FragmentTestSamples extends Fragment {
 
-    private static String TAG = FragmentMyDashboard.class.getName();
+    private static String TAG = FragmentTestSamples.class.getName();
     private TesteDeviceRegisterTask mRegisterTask = null;
 
-    public FragmentMyDashboard() {
+    public FragmentTestSamples() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_my_dashboard, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_test_samples, container, false);
         Button testButton = (Button) rootView.findViewById(R.id.button);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
