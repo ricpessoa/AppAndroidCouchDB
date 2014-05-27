@@ -17,6 +17,7 @@ import mei.ricardo.pessoa.app.couchdb.CouchDB;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile;
+import mei.ricardo.pessoa.app.ui.Fragments.FragmentTestSamples;
 import mei.ricardo.pessoa.app.ui.SettingsActivity;
 import mei.ricardo.pessoa.app.ui.user.LoginActivity;
 import mei.ricardo.pessoa.app.R;
@@ -98,6 +99,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 startActivity(intent);
                 break;
             case 4:
+                Log.d(TAG, "Fragment Test Sample");
+                fragment = new FragmentTestSamples();
                 break;
             case 5:
                 logoutTheUser(true); // logout

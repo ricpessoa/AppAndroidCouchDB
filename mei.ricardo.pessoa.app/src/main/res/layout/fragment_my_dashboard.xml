@@ -8,29 +8,15 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard">
 
-    <TextView
-        android:text="My Dashboard Fragment"
-        android:layout_width="wrap_content"
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View MS GPS"
-        android:id="@+id/buttonMonitoringGPS"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="send information of sensor GPS"
-        android:id="@+id/button"
-        android:layout_below="@+id/buttonMonitoringGPS"
-        android:layout_centerHorizontal="true" />
-
-
+        android:layout_below="@+id/tabs"
+        tools:context=".MainActivity" />
 </RelativeLayout>

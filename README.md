@@ -8,6 +8,7 @@ Java<br>
 CouchDB (Save the information in NoSQL database)<br>
 couchbase-lite-android api <br>
 Google maps v2 native android<br>
+PagerSlidingTabStrip <br>
 ... working on it ... <br>
 
 <h1>Mockup of android application</h1>
