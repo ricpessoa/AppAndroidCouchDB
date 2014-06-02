@@ -129,9 +129,9 @@ public class FragmentMyDevices extends Fragment {
     }
 
     public class DeviceRow {
-        String deviceID;
-        String deviceName;
-        String deviceDescription;
+        public String deviceID;
+        public String deviceName;
+        public String deviceDescription;
     }
 
     public class DeviceListAdapter extends BaseAdapter {

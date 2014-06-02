@@ -10,6 +10,7 @@ import com.couchbase.lite.Manager;
 import com.couchbase.lite.Mapper;
 import com.couchbase.lite.QueryEnumerator;
 import com.couchbase.lite.QueryRow;
+import com.couchbase.lite.View;
 import com.couchbase.lite.replicator.Replication;
 import com.couchbase.lite.support.CouchbaseLiteApplication;
 import com.couchbase.lite.util.Log;
@@ -33,9 +34,10 @@ public class CouchDB implements Replication.ChangeListener {
     private static Manager mCouchManager = null;
 
     //couch internals
-    public static com.couchbase.lite.View viewGetDevices;
-    public static com.couchbase.lite.View viewGetSafezones;
-    public static com.couchbase.lite.View viewGetMonitoringSensors;
+    public static View viewGetDevices;
+    public static View viewGetSafezones;
+    public static View viewGetMonitoringSensors;
+    public static View viewGetDevicesMonitoring;
 
     private LiveQuery liveQueryDevice;
     private LiveQuery liveQueryGetSafezones;
@@ -125,6 +127,19 @@ public class CouchDB implements Replication.ChangeListener {
         }, "1.0");
 
         startLiveQuery(liveQueryMonitoringSensors,viewGetMonitoringSensors);
+
+        String DevicesToMonitoringViewName = "getDevicesToMonitoring";
+        viewGetDevicesMonitoring = database.getView(String.format("%s/%s", designDocName, DevicesToMonitoringViewName));
+        viewGetDevicesMonitoring.setMap(new Mapper() {
+            @Override
+            public void map(Map<String, Object> document, Emitter emitter) {
+                Object objDevice = document.get("type");
+                Object monitoring = document.get("monitoring");
+                if (objDevice != null && objDevice.equals("device") && monitoring.equals(true)) {
+                    emitter.emit(objDevice.toString(), document);
+                }
+            }
+        }, "1.0");
 
     }
 

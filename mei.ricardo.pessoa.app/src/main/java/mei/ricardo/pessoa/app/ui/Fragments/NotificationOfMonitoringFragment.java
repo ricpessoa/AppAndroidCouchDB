@@ -18,7 +18,6 @@ package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,14 +27,14 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
-public class SuperAwesomeCardFragment extends Fragment {
+public class NotificationOfMonitoringFragment extends Fragment {
 
 	private static final String ARG_POSITION = "position";
 
 	private int position;
 
-	public static SuperAwesomeCardFragment newInstance(int position) {
-		SuperAwesomeCardFragment f = new SuperAwesomeCardFragment();
+	public static NotificationOfMonitoringFragment newInstance(int position) {
+		NotificationOfMonitoringFragment f = new NotificationOfMonitoringFragment();
 		Bundle b = new Bundle();
 		b.putInt(ARG_POSITION, position);
 		f.setArguments(b);
