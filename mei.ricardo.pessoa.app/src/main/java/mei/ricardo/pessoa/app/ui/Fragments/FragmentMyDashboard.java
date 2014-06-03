@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.couchdb.modal.Device;
 
 
 public class FragmentMyDashboard extends Fragment {
@@ -124,7 +125,8 @@ public class FragmentMyDashboard extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return NotificationOfMonitoringFragment.newInstance(position);
+            DeviceRow device = arrayTabs.get(position);
+            return NotificationOfMonitoringFragment.newInstance(device.deviceID);
         }
 
     }

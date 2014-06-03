@@ -45,7 +45,9 @@
     <!-- strings My DashBoard -->
     <string name="str_title_my_dashboard">My DashBoard</string>
     <string name="title_activity_fragment_my_dashboard">My Dashboard</string>
-
+    <string name="str_title_panic_button_Notifications">Panic Button Notifications</string>
+    <string name="str_title_GPS_Notifications">GPS Notifications</string>
+    <string name="str_title_temperature_Notifications">Temperature Notifications</string>
     <!-- strings My Devices -->
     <string name="title_activity_fragment_my_devices">My Devices</string>
     <string name="title_activity_add_device">Add Device</string>
@@ -68,7 +70,7 @@
     <string name="prompt_min_temperature">Minimum temperature</string>
     <string name="prompt_max_temperature">Maximum temperature</string>
 
-    <!-- strings fragment_safezone -->
+    <!-- strings fragment_safezone_notifications -->
     <string name="str_title_safezone">Safezone Settings</string>
 
     <!-- strings My Profile -->

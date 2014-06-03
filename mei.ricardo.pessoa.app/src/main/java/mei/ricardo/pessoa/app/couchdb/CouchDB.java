@@ -15,10 +15,14 @@ import com.couchbase.lite.replicator.Replication;
 import com.couchbase.lite.support.CouchbaseLiteApplication;
 import com.couchbase.lite.util.Log;
 
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
@@ -38,12 +42,12 @@ public class CouchDB implements Replication.ChangeListener {
     public static View viewGetSafezones;
     public static View viewGetMonitoringSensors;
     public static View viewGetDevicesMonitoring;
-
+    public static View viewGetMonitorSensor;
     private LiveQuery liveQueryDevice;
     private LiveQuery liveQueryGetSafezones;
     private LiveQuery liveQueryMonitoringSensors;
 
-    private CouchDB(){
+    private CouchDB() {
         try {
             startCBLite();
         } catch (Exception e) {
@@ -54,16 +58,16 @@ public class CouchDB implements Replication.ChangeListener {
     }
 
     public static CouchDB getmCouchDBinstance() {
-        if (mCouchDBinstance!=null) {
+        if (mCouchDBinstance != null) {
             return mCouchDBinstance;
-        }else{
+        } else {
             mCouchDBinstance = new CouchDB();
             return mCouchDBinstance;
         }
     }
 
-    public Database getDatabase(){
-            return database;
+    public Database getDatabase() {
+        return database;
     }
 
     protected void startCBLite() throws Exception {
@@ -97,7 +101,7 @@ public class CouchDB implements Replication.ChangeListener {
             }
         }, "1.0");
 
-        startLiveQuery(liveQueryDevice,viewGetDevices);
+        startLiveQuery(liveQueryDevice, viewGetDevices);
 
         String allSafezonesViewName = "getAllSafezones";
         viewGetSafezones = database.getView(String.format("%s/%s", designDocName, allSafezonesViewName));
@@ -111,7 +115,7 @@ public class CouchDB implements Replication.ChangeListener {
             }
         }, "1.0");
 
-        startLiveQuery(liveQueryGetSafezones,viewGetSafezones);
+        startLiveQuery(liveQueryGetSafezones, viewGetSafezones);
 
 
         String allMonitorSensorsViewName = "getAllMonitorSensors";
@@ -126,7 +130,7 @@ public class CouchDB implements Replication.ChangeListener {
             }
         }, "1.0");
 
-        startLiveQuery(liveQueryMonitoringSensors,viewGetMonitoringSensors);
+        startLiveQuery(liveQueryMonitoringSensors, viewGetMonitoringSensors);
 
         String DevicesToMonitoringViewName = "getDevicesToMonitoring";
         viewGetDevicesMonitoring = database.getView(String.format("%s/%s", designDocName, DevicesToMonitoringViewName));
@@ -141,13 +145,29 @@ public class CouchDB implements Replication.ChangeListener {
             }
         }, "1.0");
 
+        String MonitoringSensor = "getMonitorSensorByKeys";
+        viewGetMonitorSensor = database.getView(String.format("%s/%s", designDocName, MonitoringSensor));
+        viewGetMonitorSensor.setMap(new Mapper() {
+            @Override
+            public void map(Map<String, Object> document, Emitter emitter) {
+                List<Object> compoundKey = new ArrayList<Object>(); //object to
+                Object mac_address = document.get("mac_address");
+                Object subtype = document.get("subtype");
+                if (mac_address != null && subtype != null) {
+                    compoundKey.add(mac_address);
+                    compoundKey.add(subtype);
+                    //emitter.emit("["+mac_address+","+subtype+","+document.get("timestamp")+"]", document); //TODO need to fix to array but for some reason dont allow with key []
+                    emitter.emit(compoundKey,document);
+                }
+            }
+        }, "1.1");
     }
 
     private void startSync() {
 
         URL syncUrl;
         try {
-            syncUrl = new URL(Application.couchDBHostUrl+"/"+Application.getDbname());
+            syncUrl = new URL(Application.couchDBHostUrl + "/" + Application.getDbname());
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -166,7 +186,7 @@ public class CouchDB implements Replication.ChangeListener {
 
     }
 
-    private void startLiveQuery(LiveQuery liveQuery , com.couchbase.lite.View view) throws Exception {
+    private void startLiveQuery(LiveQuery liveQuery, com.couchbase.lite.View view) throws Exception {
 
         if (liveQuery == null) {
 
@@ -192,31 +212,31 @@ public class CouchDB implements Replication.ChangeListener {
         boolean notifySafezones = false;
         boolean notifyMonitorSensors = false;
 
-        for (Iterator<QueryRow> it = queryEnumerator; it.hasNext();) {
+        for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
             QueryRow row = it.next();
             android.util.Log.d("Document ID:", row.getDocumentId());
-            if(row.getKey().toString().equals("device")){
+            if (row.getKey().toString().equals("device")) {
                 notifyDevices = true;
                 break;
-            }else if(row.getKey().toString().equals("safezone")){
+            } else if (row.getKey().toString().equals("safezone")) {
                 notifySafezones = true;
                 break;
-            }else if (row.getKey().toString().equals("monitoring_sensor")){
+            } else if (row.getKey().toString().equals("monitoring_sensor")) {
                 notifyMonitorSensors = true;
                 break;
             }
         }
 
-        if(notifyDevices) {
+        if (notifyDevices) {
             intent.setAction(FragmentMyDevices.notify);
             //intent.putExtra(TemperatureActivity.VAR_NAME, finalX);
             Application.getmContext().sendBroadcast(intent);
             android.util.Log.d(TAG, "_Notify -> " + FragmentMyDevices.class.getCanonicalName());
-        }else if(notifySafezones){
-           //TODO: send broadcast to safezone view
+        } else if (notifySafezones) {
+            //TODO: send broadcast to safezone view
             android.util.Log.d(TAG, "_Notify -> Safezones");
 
-        }else if(notifyMonitorSensors){
+        } else if (notifyMonitorSensors) {
             //TODO: send broadcast to monitor activity_sensors view
             android.util.Log.d(TAG, "_Notify -> Monitoring activity_sensors");
         }
@@ -229,8 +249,7 @@ public class CouchDB implements Replication.ChangeListener {
         if (!replication.isRunning()) {
             String msg = String.format("Replicator %s not running", replication);
             android.util.Log.d(TAG, msg);
-        }
-        else {
+        } else {
             int processed = replication.getCompletedChangesCount();
             int total = replication.getChangesCount();
             String msg = String.format("Replicator processed %d / %d", processed, total);

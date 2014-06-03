@@ -30,15 +30,7 @@ public class ActivitySensors extends ActionBarActivity implements CompoundButton
 
         mSwitchMonitoringDevice = (Switch) findViewById(R.id.switchMonitoringDevice);
         mSwitchMonitoringDevice.setOnCheckedChangeListener(this);
-        String[] values = new String[] { "Android List View",
-                "Adapter implementation",
-                "Simple List View In Android",
-                "Create List View Android",
-                "Android Example",
-                "List View Source Code",
-                "List View Array Adapter",
-                "Android Example List View"
-        };
+
         mListViewSensors = (ListView) findViewById(R.id.listViewSensors);
 
 

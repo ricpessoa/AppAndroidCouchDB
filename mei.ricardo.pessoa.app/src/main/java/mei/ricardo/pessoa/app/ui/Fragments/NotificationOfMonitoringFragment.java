@@ -18,25 +18,30 @@ package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import mei.ricardo.pessoa.app.R;
+import mei.ricardo.pessoa.app.couchdb.modal.MonitorSensor;
+
 public class NotificationOfMonitoringFragment extends Fragment {
-
 	private static final String ARG_POSITION = "position";
+	private String deviceID;
 
-	private int position;
-
-	public static NotificationOfMonitoringFragment newInstance(int position) {
+	public static NotificationOfMonitoringFragment newInstance(String device_ID) {
 		NotificationOfMonitoringFragment f = new NotificationOfMonitoringFragment();
 		Bundle b = new Bundle();
-		b.putInt(ARG_POSITION, position);
+		b.putString(ARG_POSITION, device_ID);
 		f.setArguments(b);
 		return f;
 	}
@@ -45,29 +50,48 @@ public class NotificationOfMonitoringFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		position = getArguments().getInt(ARG_POSITION);
+        deviceID = getArguments().getString(ARG_POSITION);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate (R.layout.fragment_notifications_on_dashboard, container,false);
+        TextView textView= (TextView) view.findViewById (R.id.textViewDevice);
+        textView.setText (deviceID);
+        //LinearLayout linearLayoutSafezone = (LinearLayout) view.findViewById(R.id.myFragmentTemperature);
 
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        List<String> arrayOfMonitoring = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS");
+        ListView listView = (ListView) view.findViewById(R.id.listView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                arrayOfMonitoring );
 
-		FrameLayout fl = new FrameLayout(getActivity());
-		fl.setLayoutParams(params);
+        listView.setAdapter(arrayAdapter);
+       /* FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-		final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
-				.getDisplayMetrics());
+        if (showPanicButton) {
+            if (fp == null) {
+                fp = new FragmentButtonPanic();
+                fragmentTransaction.add(R.id.myFragmentPanicButton, fp);
+            }
+        }
+        if (showSafezone) {
+            if (fs == null) {
+                fs = new FragmentSafezone();
+                fragmentTransaction.add(R.id.myFragmentSafezone, fs);
+            }
+        }
+        if (showTemperature) {
+            if (ft == null) {
+                ft = new FragmentTemperature();
+                fragmentTransaction.add(R.id.myFragmentTemperature, ft);
+            }
+        }
+        fragmentTransaction.commit();*/
 
-		TextView v = new TextView(getActivity());
-		params.setMargins(margin, margin, margin, margin);
-		v.setLayoutParams(params);
-		v.setLayoutParams(params);
-		v.setGravity(Gravity.CENTER);
-		//v.setBackgroundResource(R.drawable.background_card);
-		v.setText("CARD " + (position + 1));
-		fl.addView(v);
-		return fl;
+        return view;
 	}
 
 

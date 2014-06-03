@@ -26,7 +26,7 @@ public class FragmentNotification extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notification, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigator_drawer_notification, container, false);
         notificationTitles = getResources().getStringArray(R.array.notifications_drawer_items);
         notificationDrawerIcons = getResources().obtainTypedArray(R.array.notifications_drawer_icons);
 

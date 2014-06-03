@@ -21,8 +21,8 @@ public class Application extends CouchbaseLiteApplication {
     private static String dbname;
     public static boolean isLogged = false;
 
-    public static String hostUrl = "http://192.168.255.94";
-    public static String couchDBHostUrl = "http://192.168.255.94:5984";
+    public static String hostUrl = "http://192.168.0.101";
+    public static String couchDBHostUrl = "http://192.168.0.101:5984";
     public static String serviceLoginUrl = "/PhpProjectCouchDB/applogin";
     public static String serviceRegisterUrl = "/PhpProjectCouchDB/appregister";
     public static String serviceAddDeviceUrl= "/PhpProjectCouchDB/devicepost";
