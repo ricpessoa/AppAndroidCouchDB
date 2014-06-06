@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
+import mei.ricardo.pessoa.app.utils.Utilities;
 
 public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> {
 	private Context context;
@@ -41,17 +42,16 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
 				
 				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
 				sectionView.setText(si.getTitle());
-				
 			}else{
-                MonitorSensor ei = (MonitorSensor)i;
+                MonitorSensor monitorSensor = (MonitorSensor)i;
 				v = vi.inflate(R.layout.list_item_entry, null);
 				final TextView title = (TextView)v.findViewById(R.id.deviceName);
 				final TextView subtitle = (TextView)v.findViewById(R.id.deviceDescription);
 				
 				if (title != null)
-					title.setText(ei.getTitle());
+					title.setText(monitorSensor.getTitle());
 				if(subtitle != null)
-					subtitle.setText("Teste");
+					subtitle.setText(Utilities.ConvertTimestampToDateFormat(monitorSensor.getTimestamp()));
 			}
 		}
 		return v;

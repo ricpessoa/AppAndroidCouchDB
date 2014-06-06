@@ -105,11 +105,11 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
         protected ArrayList<InterfaceItem> doInBackground(String... args) {
             // Building Parameters
             //arrayOfMonitoring = new ArrayList<Item>();
-            arrayOfMonitoring.add(new SectionItem("Panic Buttons"));
-            arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 5));
-            arrayOfMonitoring.add(new SectionItem("GPS"));
+            arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0]));
+            arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 1));
+            arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1]));
             arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5));
-            arrayOfMonitoring.add(new SectionItem("Temperature"));
+            arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2]));
             arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature",5));
 
             return arrayOfMonitoring;
@@ -118,10 +118,14 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
         /**
          * After completing background task Dismiss the progress dialog
          * **/
-        protected void onPostExecute(ArrayList<InterfaceItem> itemArrayList) {
+        protected void onPostExecute(final ArrayList<InterfaceItem> itemArrayList) {
             // updating UI from Background Thread
             if(!p.isCancelled()){
-                adapter.updateDeviceList(itemArrayList);
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        adapter.updateDeviceList(itemArrayList);
+                    }});
+
             }
         }
 

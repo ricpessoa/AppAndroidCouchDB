@@ -21,18 +21,21 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 public class MonitorSensor implements InterfaceItem {
     private static String TAG = MonitorSensor.class.getName();
 
-    public enum SUBTYPE {panic_button, GPS, temperature}
-
+    public enum SUBTYPE {panic_button, GPS, temperature;}
+    public static String[] subtypeSections = {"Sensor Panic Button","Sensor GPS","Sensor Temperature"};
     public String subtype;
     public String timestamp;
     public String mac_address;
+
+    public MonitorSensor(String subtype) {
+        this.subtype =subtype;
+    }
 
     //faster constructor only to show in list
     public MonitorSensor(String subtype, String timestamp) {
         this.subtype = subtype;
         this.timestamp = timestamp;
     }
-
 
     public static ArrayList<InterfaceItem> getMonitoringSensorByMacAddressAndSubtype(String macAddress, String subType, int limit) {
         com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
@@ -42,7 +45,7 @@ public class MonitorSensor implements InterfaceItem {
         Log.d(TAG, "Find for keys:[" + macAddress + "," + subType + "]");
 
         List<Object> keyArray = new ArrayList<Object>();
-        int count = 1;
+        int count = 0;
         keyArray.add(macAddress);
         keyArray.add(subType);
         //query.setLimit(5);
@@ -89,25 +92,38 @@ public class MonitorSensor implements InterfaceItem {
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
+        if(arrayList.size()==0){
+            arrayList.add(new MS_NotHave(subType));
+        }
         return arrayList;
     }
 
     public String getTitle(){
-        if(this.subtype.equals(SUBTYPE.GPS.toString())){
+        //this.getClass() instanceof  ? (() this.getClass()) : null;
+        if(this.getClass() == MS_GPS.class){
            MS_GPS ms_gps = (MS_GPS)this;
             return ms_gps.getAddress();
-        }else if (this.subtype.equals(SUBTYPE.temperature.toString())){
+        }else if (this.getClass() == MS_Temperature.class){
             MS_Temperature ms_temperature = (MS_Temperature)this;
             return ms_temperature.getValue()+" Temperature";
-        }else if (this.subtype.equals(SUBTYPE.panic_button.toString())) {
+        }else if (this.getClass() == MS_PanicButton.class) {
             MS_PanicButton ms_panicButton = (MS_PanicButton)this;
             return ms_panicButton.isPressed()+" pressed";
         }
-        return "unknow";
+        MS_NotHave ms_notHave = (MS_NotHave)this;
+        return "Not yet received any information from "+ms_notHave.getSubtype()+" sensor!";
     }
 
     @Override
     public boolean isSection() {
         return false;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public String getSubtype() {
+        return subtype;
     }
 }
