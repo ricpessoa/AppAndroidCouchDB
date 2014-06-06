@@ -16,27 +16,32 @@
 
 package mei.ricardo.pessoa.app.ui.Fragments;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.couchdb.modal.MonitorSensor;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.AdapterSectionAndMonitorSensor;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.SectionItem;
 
-public class NotificationOfMonitoringFragment extends Fragment {
+public class NotificationOfMonitoringFragment extends Fragment implements AdapterView.OnItemClickListener {
 	private static final String ARG_POSITION = "position";
 	private String deviceID;
+    ArrayList<InterfaceItem> arrayOfMonitoring;
+    PopulateTheView p;
+    // Progress Dialog
+    private ProgressDialog pDialog;
 
 	public static NotificationOfMonitoringFragment newInstance(String device_ID) {
 		NotificationOfMonitoringFragment f = new NotificationOfMonitoringFragment();
@@ -51,48 +56,75 @@ public class NotificationOfMonitoringFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
         deviceID = getArguments().getString(ARG_POSITION);
+
 	}
 
-	@Override
+    @Override
+    public void onPause() {
+        super.onPause();
+        p.cancel(true);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate (R.layout.fragment_notifications_on_dashboard, container,false);
-        TextView textView= (TextView) view.findViewById (R.id.textViewDevice);
-        textView.setText (deviceID);
-        //LinearLayout linearLayoutSafezone = (LinearLayout) view.findViewById(R.id.myFragmentTemperature);
 
-        List<String> arrayOfMonitoring = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS");
-        ListView listView = (ListView) view.findViewById(R.id.listView);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                arrayOfMonitoring );
+        ListView listView = (ListView) view.findViewById(R.id.listViewMonitoring);
 
-        listView.setAdapter(arrayAdapter);
-       /* FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        arrayOfMonitoring = new ArrayList<InterfaceItem>();
 
-        if (showPanicButton) {
-            if (fp == null) {
-                fp = new FragmentButtonPanic();
-                fragmentTransaction.add(R.id.myFragmentPanicButton, fp);
-            }
-        }
-        if (showSafezone) {
-            if (fs == null) {
-                fs = new FragmentSafezone();
-                fragmentTransaction.add(R.id.myFragmentSafezone, fs);
-            }
-        }
-        if (showTemperature) {
-            if (ft == null) {
-                ft = new FragmentTemperature();
-                fragmentTransaction.add(R.id.myFragmentTemperature, ft);
-            }
-        }
-        fragmentTransaction.commit();*/
-
+        AdapterSectionAndMonitorSensor adapter = new AdapterSectionAndMonitorSensor(getActivity(), arrayOfMonitoring);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
+        p = new PopulateTheView(adapter);
+        p.execute();
         return view;
 	}
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        MonitorSensor monitorSensor = (MonitorSensor)arrayOfMonitoring.get(position);
+        Toast.makeText(getActivity(), "You clicked " + monitorSensor.getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Background Async Task to Load all INBOX messages by making HTTP Request
+     * */
+    class PopulateTheView extends AsyncTask<String, String, ArrayList<InterfaceItem>> {
+        AdapterSectionAndMonitorSensor adapter;
+
+        public PopulateTheView(AdapterSectionAndMonitorSensor adapter){
+            this.adapter = adapter;
+        }
+
+        protected ArrayList<InterfaceItem> doInBackground(String... args) {
+            // Building Parameters
+            //arrayOfMonitoring = new ArrayList<Item>();
+            arrayOfMonitoring.add(new SectionItem("Panic Buttons"));
+            arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 5));
+            arrayOfMonitoring.add(new SectionItem("GPS"));
+            arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5));
+            arrayOfMonitoring.add(new SectionItem("Temperature"));
+            arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature",5));
+
+            return arrayOfMonitoring;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(ArrayList<InterfaceItem> itemArrayList) {
+            // updating UI from Background Thread
+            if(!p.isCancelled()){
+                adapter.updateDeviceList(itemArrayList);
+            }
+        }
+
+    }
 
 }

@@ -52,7 +52,7 @@ public class FragmentTestSamples extends Fragment {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRegisterTask = new TesteDeviceRegisterTask("az");
+                mRegisterTask = new TesteDeviceRegisterTask("teste");
                 mRegisterTask.execute((Void) null);
             }
         });

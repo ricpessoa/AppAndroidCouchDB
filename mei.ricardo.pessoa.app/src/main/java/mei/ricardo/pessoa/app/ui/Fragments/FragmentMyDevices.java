@@ -164,7 +164,7 @@ public class FragmentMyDevices extends Fragment {
 
             if (arg1 == null) {
                 LayoutInflater inflater = (LayoutInflater) Application.getmContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                arg1 = inflater.inflate(R.layout.fragment_my_device_item_list, arg2, false);
+                arg1 = inflater.inflate(R.layout.list_item_entry, arg2, false);
             }
 
             TextView chapterName = (TextView) arg1.findViewById(R.id.deviceName);

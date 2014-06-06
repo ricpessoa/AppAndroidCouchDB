@@ -16,20 +16,19 @@
     <TextView
         android:id="@+id/deviceDescription"
         android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/icon"
+        android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="Description"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:layout_below="@+id/deviceName"
+        android:layout_alignLeft="@+id/deviceName"
+        android:layout_alignStart="@+id/deviceName" />
 
     <TextView
         android:id="@+id/deviceName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/deviceDescription"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
