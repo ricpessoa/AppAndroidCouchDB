@@ -94,7 +94,7 @@ public class MonitorSensor implements InterfaceItem {
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
-        if(arrayList.size()==0){
+        if(arrayList.size()==0){ //TODO: need fix if dindt receive any notification or the device dont have this sensor
             arrayList.add(new MS_NotHave(subType));
         }
         return arrayList;

@@ -20,6 +20,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 
 import mei.ricardo.pessoa.app.R;
@@ -103,13 +105,22 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
         protected ArrayList<InterfaceItem> doInBackground(String... args) {
             // Building Parameters
             //arrayOfMonitoring = new ArrayList<Item>();
-            arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0]));
-            arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 1));
-            arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1]));
-            arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5));
-            arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2]));
-            arrayOfMonitoring.addAll(MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature",5));
+            ArrayList<InterfaceItem> arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 1);
+            if(arrayList.size()>0) {
+                arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0]));
+                arrayOfMonitoring.addAll(arrayList);
+            }
+            arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5);
+            if(arrayList.size()>0) {
+                arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1]));
+                arrayOfMonitoring.addAll(arrayList);
+            }
+            arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature",5);
 
+            if(arrayList.size()>0) {
+                arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2]));
+                arrayOfMonitoring.addAll(arrayList);
+            }
             return arrayOfMonitoring;
         }
 
@@ -118,12 +129,14 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
          * **/
         protected void onPostExecute(final ArrayList<InterfaceItem> itemArrayList) {
             // updating UI from Background Thread
-            //if(!p.isCancelled()){
+            try {
                 getActivity().runOnUiThread(new Runnable() { //force the UIThread refresh the list view
-                    public void run() {
-                        adapter.updateDeviceList(itemArrayList);
-                    }});
-            //}
+                public void run() {
+                    adapter.updateDeviceList(itemArrayList);
+                }});
+            }catch (IllegalStateException ex){
+                Log.e("ERRRORRRR","wtf happeend???");
+            }
         }
 
     }

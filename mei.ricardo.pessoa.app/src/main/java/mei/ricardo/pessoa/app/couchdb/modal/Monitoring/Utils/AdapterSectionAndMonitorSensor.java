@@ -40,7 +40,6 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
 				v.setOnClickListener(null);
 				v.setOnLongClickListener(null);
 				v.setLongClickable(false);
-				
 				final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
 				sectionView.setText(si.getTitle());
 			}else{
