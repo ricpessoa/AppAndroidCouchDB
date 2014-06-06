@@ -40,8 +40,6 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
 	private String deviceID;
     ArrayList<InterfaceItem> arrayOfMonitoring;
     PopulateTheView p;
-    // Progress Dialog
-    private ProgressDialog pDialog;
 
 	public static NotificationOfMonitoringFragment newInstance(String device_ID) {
 		NotificationOfMonitoringFragment f = new NotificationOfMonitoringFragment();
@@ -62,7 +60,7 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
     @Override
     public void onPause() {
         super.onPause();
-        p.cancel(true);
+        //p.cancel(true);
     }
 
     @Override
@@ -120,13 +118,12 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
          * **/
         protected void onPostExecute(final ArrayList<InterfaceItem> itemArrayList) {
             // updating UI from Background Thread
-            if(!p.isCancelled()){
-                getActivity().runOnUiThread(new Runnable() {
+            //if(!p.isCancelled()){
+                getActivity().runOnUiThread(new Runnable() { //force the UIThread refresh the list view
                     public void run() {
                         adapter.updateDeviceList(itemArrayList);
                     }});
-
-            }
+            //}
         }
 
     }

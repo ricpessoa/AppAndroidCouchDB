@@ -1,11 +1,16 @@
 package mei.ricardo.pessoa.app.couchdb.modal.Monitoring;
 
+import android.graphics.drawable.Drawable;
+
+import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.R;
+
 /**
  * Created by rpessoa on 05/06/14.
  */
 public class MS_GPS extends MonitorSensor{
 
-    public enum NOTIFICATIONTYPE {CHECKIN, CHECKOUT};
+    public String[] NOTIFICATIONTYPE = {"CHECK-IN", "CHECK-OUT"};
     public float latitude;
     public float longitude;
     public String address;
@@ -32,5 +37,13 @@ public class MS_GPS extends MonitorSensor{
 
     public String getAddress() {
         return address;
+    }
+
+    public Drawable getImage() {
+        if(notification.equals(NOTIFICATIONTYPE[0])){
+            return Application.getmContext().getResources().getDrawable(R.drawable.check_in_small);
+        }else{
+            return Application.getmContext().getResources().getDrawable(R.drawable.check_out_small);
+        }
     }
 }

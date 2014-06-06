@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import mei.ricardo.pessoa.app.R;
@@ -45,9 +46,11 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
 			}else{
                 MonitorSensor monitorSensor = (MonitorSensor)i;
 				v = vi.inflate(R.layout.list_item_entry, null);
+                final ImageView imageView = (ImageView)v.findViewById(R.id.icon);
 				final TextView title = (TextView)v.findViewById(R.id.deviceName);
 				final TextView subtitle = (TextView)v.findViewById(R.id.deviceDescription);
-				
+				if(imageView!=null)
+                    imageView.setImageDrawable(monitorSensor.getImage());
 				if (title != null)
 					title.setText(monitorSensor.getTitle());
 				if(subtitle != null)

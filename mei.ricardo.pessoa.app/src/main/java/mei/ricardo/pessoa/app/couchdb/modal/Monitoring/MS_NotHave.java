@@ -1,5 +1,9 @@
 package mei.ricardo.pessoa.app.couchdb.modal.Monitoring;
 
+import android.graphics.drawable.Drawable;
+
+import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 
 /**

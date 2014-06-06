@@ -1,5 +1,10 @@
 package mei.ricardo.pessoa.app.couchdb.modal.Monitoring;
 
+import android.graphics.drawable.Drawable;
+
+import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.R;
+
 /**
  * Created by rpessoa on 05/06/14.
  */
@@ -14,5 +19,8 @@ public class MS_Temperature extends MonitorSensor{
 
     public float getValue() {
         return value;
+    }
+    public Drawable getImage() {
+        return Application.getmContext().getResources().getDrawable(R.drawable.temp_green_small);
     }
 }

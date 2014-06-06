@@ -1,5 +1,6 @@
 package mei.ricardo.pessoa.app.couchdb.modal.Monitoring;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.couchbase.lite.CouchbaseLiteException;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 
 /**
@@ -125,5 +127,9 @@ public class MonitorSensor implements InterfaceItem {
 
     public String getSubtype() {
         return subtype;
+    }
+
+    public Drawable getImage() {
+        return null;
     }
 }
