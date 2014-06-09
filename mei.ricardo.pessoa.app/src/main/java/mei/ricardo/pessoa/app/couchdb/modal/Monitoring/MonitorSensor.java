@@ -69,10 +69,11 @@ public class MonitorSensor implements InterfaceItem {
                         }
                     } else if (subType.equals(SUBTYPE.temperature.toString())) {
                         try {
-                            MS_Temperature ms_temperature = new MS_Temperature(document.getProperty("value").toString(), subType, document.getProperty("timestamp").toString());
+                            MS_Temperature ms_temperature = new MS_Temperature(document.getProperty("value").toString(),document.getProperty("notification").toString(), subType, document.getProperty("timestamp").toString());
                             arrayList.add(ms_temperature);
                         } catch (Exception ex) {
                             Log.e(TAG, "Error Temperature parse error value or other some reason");
+                            count--;
                         }
                     }else if (subType.equals(SUBTYPE.panic_button.toString())){
                         try {

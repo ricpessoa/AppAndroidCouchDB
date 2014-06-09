@@ -3,6 +3,7 @@ package mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import mei.ricardo.pessoa.app.utils.Utilities;
 
 public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> {
 	private Context context;
-	private ArrayList<InterfaceItem> items;
+	public ArrayList<InterfaceItem> items;
 	private LayoutInflater vi;
 
 	public AdapterSectionAndMonitorSensor(Context context, ArrayList<InterfaceItem> items) {
@@ -60,10 +61,14 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
 	}
 
     public void updateDeviceList(ArrayList<InterfaceItem> results) {
+        try {
+            items = results;
+            //Triggers the list update
+            notifyDataSetChanged();
+        }catch (Exception ex){
+            Log.e("ERRRORRRR", "wtf happeend???");
+        }
 
-        items = results;
-        //Triggers the list update
-        notifyDataSetChanged();
     }
 
 }

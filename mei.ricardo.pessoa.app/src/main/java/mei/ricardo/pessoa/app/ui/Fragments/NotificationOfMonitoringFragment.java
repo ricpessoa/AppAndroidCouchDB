@@ -32,6 +32,7 @@ import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 
 import mei.ricardo.pessoa.app.R;
+import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.AdapterSectionAndMonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
@@ -105,21 +106,31 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
         protected ArrayList<InterfaceItem> doInBackground(String... args) {
             // Building Parameters
             //arrayOfMonitoring = new ArrayList<Item>();
-            ArrayList<InterfaceItem> arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 1);
-            if(arrayList.size()>0) {
-                arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0]));
-                arrayOfMonitoring.addAll(arrayList);
-            }
-            arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5);
-            if(arrayList.size()>0) {
-                arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1]));
-                arrayOfMonitoring.addAll(arrayList);
-            }
-            arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature",5);
 
-            if(arrayList.size()>0) {
-                arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2]));
-                arrayOfMonitoring.addAll(arrayList);
+            Device tempDevice = Device.getSensorsToSearch(deviceID);
+            if(tempDevice==null)
+                return null;
+            ArrayList<InterfaceItem> arrayList;
+            if(tempDevice.isShowPanicButton()){
+                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 1);
+                if(arrayList.size()>0) {
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0]));
+                    arrayOfMonitoring.addAll(arrayList);
+                }
+            }
+            if(tempDevice.isShowSafezone()) {
+                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5);
+                if (arrayList.size() > 0) {
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1]));
+                    arrayOfMonitoring.addAll(arrayList);
+                }
+            }
+            if(tempDevice.isShowTemperature()) {
+                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature", 5);
+                if (arrayList.size() > 0) {
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2]));
+                    arrayOfMonitoring.addAll(arrayList);
+                }
             }
             return arrayOfMonitoring;
         }
@@ -131,10 +142,13 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
             // updating UI from Background Thread
             try {
                 getActivity().runOnUiThread(new Runnable() { //force the UIThread refresh the list view
-                public void run() {
-                    adapter.updateDeviceList(itemArrayList);
-                }});
-            }catch (IllegalStateException ex){
+                    public void run() {
+                        adapter.items = itemArrayList;
+                        adapter.notifyDataSetChanged();
+                        // adapter.updateDeviceList(itemArrayList);
+                    }
+                });
+            }catch (Exception ex){
                 Log.e("ERRRORRRR","wtf happeend???");
             }
         }

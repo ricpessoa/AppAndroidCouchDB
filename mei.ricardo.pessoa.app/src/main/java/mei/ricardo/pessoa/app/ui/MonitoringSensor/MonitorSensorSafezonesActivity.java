@@ -2,16 +2,9 @@ package mei.ricardo.pessoa.app.ui.MonitoringSensor;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
@@ -108,7 +100,7 @@ public class MonitorSensorSafezonesActivity extends Activity implements SlidingU
             for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
                 QueryRow row = it.next();
                 String subtype = row.getDocument().getProperty("subtype").toString();
-                if(subtype.equals(Device.deviceTypes.GPS.toString())) {
+                if(subtype.equals(Device.DEVICESTYPE.GPS.toString())) {
                     Log.d("Document ID:", row.getDocumentId());
 
                     MonitoringGPS mgps = new MonitoringGPS();

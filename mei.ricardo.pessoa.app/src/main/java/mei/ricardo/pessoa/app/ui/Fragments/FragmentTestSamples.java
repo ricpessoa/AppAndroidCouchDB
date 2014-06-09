@@ -98,14 +98,14 @@ public class FragmentTestSamples extends Fragment {
                 //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.108071"));
                 //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.636909"));
                 //perto da estacao de gaia (fora do raio de casa e dentro do rs catarina)
-                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.126969"));
-                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.624164"));
+                nameValuePairs.add(new BasicNameValuePair("latfrom", "41.126969"));
+                nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.624164"));
                 //entro dois raios mas fora
-                nameValuePairs.add(new BasicNameValuePair("latfrom", "41.11845"));
-                nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.622257"));
+                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.11845"));
+                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.622257"));
 
                 //send value temperature
-                nameValuePairs.add(new BasicNameValuePair("temp", "10"));
+                nameValuePairs.add(new BasicNameValuePair("temp", "5"));
                 //send value panic button
                 nameValuePairs.add(new BasicNameValuePair("press", "true"));
 
