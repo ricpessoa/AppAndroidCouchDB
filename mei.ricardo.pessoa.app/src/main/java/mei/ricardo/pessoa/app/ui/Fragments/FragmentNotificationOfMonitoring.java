@@ -17,15 +17,12 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.ClipData;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,21 +30,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.AdapterSectionAndMonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.SectionItem;
-import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorPanicButton;
 
-public class NotificationOfMonitoringFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class FragmentNotificationOfMonitoring extends Fragment implements AdapterView.OnItemClickListener {
 	private static final String ARG_POSITION = "position";
 	private String deviceID;
-    private static NotificationOfMonitoringFragment f;
+    private static FragmentNotificationOfMonitoring f;
     ListView listView;
     ArrayList<InterfaceItem> arrayOfMonitoring;
     private PopulateTheView p;
@@ -55,8 +52,8 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
     private Handler handler;
     private AdapterSectionAndMonitorSensor adapter;
 
-	public static NotificationOfMonitoringFragment newInstance(String device_ID) {
-		f = new NotificationOfMonitoringFragment();
+	public static FragmentNotificationOfMonitoring newInstance(String device_ID) {
+		f = new FragmentNotificationOfMonitoring();
 		Bundle b = new Bundle();
 		b.putString(ARG_POSITION, device_ID);
 		f.setArguments(b);
@@ -107,7 +104,13 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MonitorSensor monitorSensor = (MonitorSensor)arrayOfMonitoring.get(position);
-        Toast.makeText(getActivity(), "You clicked " + monitorSensor.getTitle(), Toast.LENGTH_SHORT).show();
+        if(monitorSensor.getClass() == MS_PanicButton.class){
+            MS_PanicButton ms_panicButton = (MS_PanicButton) monitorSensor;
+            Toast.makeText(getActivity(), "You clicked " + monitorSensor.getTitle(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), ActivityMonitorSensorPanicButton.class);
+            intent.putExtra(ActivityMonitorSensorPanicButton.passVariable,ms_panicButton.getMac_address());
+            this.startActivity(intent);
+        }
     }
 
     /**

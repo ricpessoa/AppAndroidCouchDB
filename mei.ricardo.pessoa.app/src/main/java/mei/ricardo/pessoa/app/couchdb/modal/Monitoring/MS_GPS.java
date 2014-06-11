@@ -17,14 +17,14 @@ public class MS_GPS extends MonitorSensor{
     public String notification;
 
     //create ms_gps only to show in list (faster)
-    public MS_GPS(String address, String notification,String subtype, String timestamp) {
-        super(subtype,timestamp);
+    public MS_GPS(String address, String notification,String mac_address,String subtype, String timestamp) {
+        super(mac_address,subtype,timestamp);
         this.address = address;
         this.notification = notification;
     }
     //show ms_gps on the map
-    public MS_GPS(String address, String notification,String latit,String longi,String subtype, String timestamp) {
-        super(subtype,timestamp);
+    public MS_GPS(String address, String notification,String latit,String longi,String mac_address,String subtype, String timestamp) {
+        super(mac_address,subtype,timestamp);
         this.address = address;
         this.notification = notification;
         this.latitude = Float.parseFloat(latit);

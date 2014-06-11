@@ -28,7 +28,7 @@
         android:required="true" />
 
     <application
-        android:name="mei.ricardo.pessoa.app.Application"
+        android:name=".Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -43,7 +43,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.user.LoginActivity"
+            android:name=".ui.user.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,39 +51,55 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="mei.ricardo.pessoa.app.ui.Navigation.MainActivity" >
+        <activity android:name=".ui.Navigation.MainActivity" >
         </activity>
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard"
+            android:name=".ui.Fragments.FragmentMyDashboard"
             android:label="@string/title_activity_fragment_my_dashboard" >
         </activity>
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices"
+            android:name=".ui.Fragments.FragmentMyDevices"
             android:label="@string/title_activity_fragment_my_devices" >
         </activity>
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile"
+            android:name=".ui.Fragments.FragmentMyProfile"
             android:label="@string/title_activity_fragment_my_profile" >
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_fragment_settings" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Navigation.MainActivity" />
         </activity>
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.user.RegisterActivity"
+            android:name=".ui.user.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.Device.AddDevice"
+            android:name=".ui.Device.AddDevice"
             android:label="@string/title_activity_add_device" >
         </activity>
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.Sensor.ActivitySensors"
+            android:name=".ui.Sensor.ActivitySensors"
             android:label="@string/title_activity_sensors" >
         </activity>
         <activity
-            android:name="mei.ricardo.pessoa.app.ui.MonitoringSensor.MonitorSensorSafezonesActivity"
+            android:name=".ui.MonitoringSensor.ActivityMonitorSensorSafezones"
             android:label="@string/title_activity_monitor_sensor_safezones" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Fragments.FragmentMyDashboard" />
+        </activity>
+        <activity
+            android:name=".ui.MonitoringSensor.ActivityMonitorSensorPanicButton"
+            android:label="@string/title_activity_monitor_sensor_panic_button" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Fragments.FragmentMyDashboard" />
         </activity>
     </application>
 

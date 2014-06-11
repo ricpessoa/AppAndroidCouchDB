@@ -20,7 +20,8 @@ import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.MonitorSensorSafezonesActivity;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorPanicButton;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorSafezones;
 import mei.ricardo.pessoa.app.utils.Utilities;
 
 public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> {
@@ -60,8 +61,8 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
                         Toast.makeText(context, "click on more:"+si.getTitle(), Toast.LENGTH_SHORT).show();
                         if(si.getType().equals(Device.DEVICESTYPE.GPS.toString())){
                             //show entire safezones
-                            Intent intent = new Intent(Application.getmContext(), MonitorSensorSafezonesActivity.class);
-                            intent.putExtra("deviceMacAddress",si.getDeviceMacAddress());
+                            Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorSafezones.class);
+                            intent.putExtra(ActivityMonitorSensorSafezones.passVariable,si.getDeviceMacAddress());
                             getContext().startActivity(intent);
                         }
                     }

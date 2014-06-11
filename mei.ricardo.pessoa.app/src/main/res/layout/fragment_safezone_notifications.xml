@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/str_title_GPS_Notifications"
-        android:id="@+id/textView"
+        android:id="@+id/textViewTitle"
         android:layout_gravity="left|top" />
 
     <Button

@@ -15,8 +15,8 @@ public class MS_Temperature extends MonitorSensor{
     private float value;
     private String notifification;
 
-    public MS_Temperature(String value, String notification, String subType, String timestamp) {
-        super(subType,timestamp);
+    public MS_Temperature(String value, String notification,String mac_address, String subType, String timestamp) {
+        super(mac_address,subType,timestamp);
         this.value = Float.parseFloat(value);
         this.notifification = notification;
     }

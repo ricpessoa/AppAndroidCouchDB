@@ -32,7 +32,7 @@ import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.MonitorSensorSafezonesActivity;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorSafezones;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 
 
@@ -60,7 +60,7 @@ public class FragmentTestSamples extends Fragment {
         testMSGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Application.getmContext(), MonitorSensorSafezonesActivity.class);
+                Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorSafezones.class);
                 startActivity(intent);
             }
         });

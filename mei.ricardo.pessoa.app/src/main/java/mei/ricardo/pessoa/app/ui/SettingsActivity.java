@@ -3,6 +3,8 @@ package mei.ricardo.pessoa.app.ui;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import mei.ricardo.pessoa.app.R;
 
@@ -15,5 +17,17 @@ public class SettingsActivity extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        onBackPressed();
+        return true;
+    }
+
+
 }

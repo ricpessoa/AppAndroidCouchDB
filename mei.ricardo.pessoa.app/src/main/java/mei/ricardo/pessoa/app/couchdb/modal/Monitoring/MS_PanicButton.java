@@ -11,8 +11,8 @@ import mei.ricardo.pessoa.app.R;
 public class MS_PanicButton extends MonitorSensor{
     public boolean pressed;
 
-    public MS_PanicButton(String pressed, String subType, String timestamp) throws Exception{
-        super(subType,timestamp);
+    public MS_PanicButton(String pressed,String mac_address, String subType, String timestamp) throws Exception{
+        super(mac_address,subType,timestamp);
         this.pressed = Boolean.parseBoolean(pressed);
     }
 

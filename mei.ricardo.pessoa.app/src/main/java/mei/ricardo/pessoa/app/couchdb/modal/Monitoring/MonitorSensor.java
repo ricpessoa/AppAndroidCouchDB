@@ -34,7 +34,8 @@ public class MonitorSensor implements InterfaceItem {
     }
 
     //faster constructor only to show in list
-    public MonitorSensor(String subtype, String timestamp) {
+    public MonitorSensor(String mac_address,String subtype, String timestamp) {
+        this.mac_address =mac_address;
         this.subtype = subtype;
         this.timestamp = timestamp;
     }
@@ -62,21 +63,21 @@ public class MonitorSensor implements InterfaceItem {
                     Document document = row.getDocument();
                     if (subType.equals(SUBTYPE.GPS.toString())) {
                         try {
-                            MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), subType, document.getProperty("timestamp").toString());
+                            MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), macAddress,subType, document.getProperty("timestamp").toString());
                             arrayList.add(ms_gps);
                         } catch (Exception ex) {
                             Log.e(TAG, "Error GPS not valid for some reason");
                         }
                     } else if (subType.equals(SUBTYPE.temperature.toString())) {
                         try {
-                            MS_Temperature ms_temperature = new MS_Temperature(document.getProperty("value").toString(),document.getProperty("notification").toString(), subType, document.getProperty("timestamp").toString());
+                            MS_Temperature ms_temperature = new MS_Temperature(document.getProperty("value").toString(),document.getProperty("notification").toString(),macAddress, subType, document.getProperty("timestamp").toString());
                             arrayList.add(ms_temperature);
                         } catch (Exception ex) {
                             Log.e(TAG, "Error Temperature parse error value or other some reason");
                         }
                     }else if (subType.equals(SUBTYPE.panic_button.toString())){
                         try {
-                            MS_PanicButton ms_panicButton = new MS_PanicButton(document.getProperty("pressed").toString(),subType,document.getProperty("timestamp").toString());
+                            MS_PanicButton ms_panicButton = new MS_PanicButton(document.getProperty("pressed").toString(),macAddress,subType,document.getProperty("timestamp").toString());
                             arrayList.add(ms_panicButton);
                         }catch (Exception ex){
                             Log.e(TAG, "Error Panic Button parse error value or other some reason");
@@ -123,7 +124,7 @@ public class MonitorSensor implements InterfaceItem {
                     Document document = row.getDocument();
                     if (subType.equals(SUBTYPE.GPS.toString())) {
                         try {
-                            MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(),document.getProperty("notification").toString(), document.getProperty("latitude").toString(),document.getProperty("longitude").toString(), subType, document.getProperty("timestamp").toString());
+                            MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(),document.getProperty("notification").toString(), document.getProperty("latitude").toString(),document.getProperty("longitude").toString(), macAddress, subType, document.getProperty("timestamp").toString());
                             arrayList.add(ms_gps);
                         } catch (Exception ex) {
                             Log.e(TAG, "Error GPS not valid for some reason");
@@ -145,6 +146,10 @@ public class MonitorSensor implements InterfaceItem {
             arrayList.add(new MS_NotHave(subType));
         }
         return arrayList;
+    }
+
+    public String getMac_address() {
+        return mac_address;
     }
 
     public String getTitle(){
