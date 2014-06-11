@@ -3,9 +3,13 @@ package mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils;
 public class SectionItem implements InterfaceItem {
 
 	private final String title;
-	
-	public SectionItem(String title) {
-		this.title = title;
+    private final String type;
+    private final String deviceMacAddress;
+
+	public SectionItem(String title,String type,String macAddress) {
+        this.title = title;
+        this.type = type;
+        this.deviceMacAddress = macAddress;
 	}
 	
 	public String getTitle(){
@@ -17,4 +21,11 @@ public class SectionItem implements InterfaceItem {
 		return true;
 	}
 
+    public String getType() {
+        return type;
+    }
+
+    public String getDeviceMacAddress() {
+        return deviceMacAddress;
+    }
 }

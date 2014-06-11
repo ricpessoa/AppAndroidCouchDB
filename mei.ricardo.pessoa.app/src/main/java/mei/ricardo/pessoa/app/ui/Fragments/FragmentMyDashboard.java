@@ -69,7 +69,7 @@ public class FragmentMyDashboard extends Fragment {
 
     private ArrayList<DeviceRow> getDevicesOnCouchDB() {
         ArrayList<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
-        deviceRowsList.add(new DeviceRow("All Devices",""));
+        //deviceRowsList.add(new DeviceRow("All Devices",""));
         com.couchbase.lite.View view = CouchDB.viewGetDevicesMonitoring;
         Query query = view.createQuery();
         try {

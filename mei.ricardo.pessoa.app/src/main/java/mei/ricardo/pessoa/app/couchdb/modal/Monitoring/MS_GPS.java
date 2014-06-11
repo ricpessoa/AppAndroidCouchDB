@@ -10,7 +10,7 @@ import mei.ricardo.pessoa.app.R;
  */
 public class MS_GPS extends MonitorSensor{
 
-    public String[] NOTIFICATIONTYPE = {"CHECK-IN", "CHECK-OUT"};
+    public static String[] NOTIFICATIONTYPE = {"CHECK-IN", "CHECK-OUT"};
     public float latitude;
     public float longitude;
     public String address;
@@ -22,7 +22,14 @@ public class MS_GPS extends MonitorSensor{
         this.address = address;
         this.notification = notification;
     }
-
+    //show ms_gps on the map
+    public MS_GPS(String address, String notification,String latit,String longi,String subtype, String timestamp) {
+        super(subtype,timestamp);
+        this.address = address;
+        this.notification = notification;
+        this.latitude = Float.parseFloat(latit);
+        this.longitude = Float.parseFloat(longi);
+    }
     public String getNotification() {
         return notification;
     }
@@ -46,4 +53,5 @@ public class MS_GPS extends MonitorSensor{
             return Application.getmContext().getResources().getDrawable(R.drawable.check_out_small);
         }
     }
+
 }

@@ -16,9 +16,14 @@
 
 package mei.ricardo.pessoa.app.ui.Fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,15 +42,21 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.AdapterSectionAndMonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.SectionItem;
+import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 
 public class NotificationOfMonitoringFragment extends Fragment implements AdapterView.OnItemClickListener {
 	private static final String ARG_POSITION = "position";
 	private String deviceID;
+    private static NotificationOfMonitoringFragment f;
+    ListView listView;
     ArrayList<InterfaceItem> arrayOfMonitoring;
-    PopulateTheView p;
+    private PopulateTheView p;
+    int color = Color.TRANSPARENT;
+    private Handler handler;
+    private AdapterSectionAndMonitorSensor adapter;
 
 	public static NotificationOfMonitoringFragment newInstance(String device_ID) {
-		NotificationOfMonitoringFragment f = new NotificationOfMonitoringFragment();
+		f = new NotificationOfMonitoringFragment();
 		Bundle b = new Bundle();
 		b.putString(ARG_POSITION, device_ID);
 		f.setArguments(b);
@@ -67,6 +78,12 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
     }
@@ -78,8 +95,8 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
         ListView listView = (ListView) view.findViewById(R.id.listViewMonitoring);
 
         arrayOfMonitoring = new ArrayList<InterfaceItem>();
-
-        AdapterSectionAndMonitorSensor adapter = new AdapterSectionAndMonitorSensor(getActivity(), arrayOfMonitoring);
+        handler = new Handler();
+        adapter = new AdapterSectionAndMonitorSensor(view.getContext(), arrayOfMonitoring);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         p = new PopulateTheView(adapter);
@@ -97,9 +114,9 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
      * Background Async Task to Load all INBOX messages by making HTTP Request
      * */
     class PopulateTheView extends AsyncTask<String, String, ArrayList<InterfaceItem>> {
-        AdapterSectionAndMonitorSensor adapter;
+       private final AdapterSectionAndMonitorSensor adapter;
 
-        public PopulateTheView(AdapterSectionAndMonitorSensor adapter){
+        public PopulateTheView(final AdapterSectionAndMonitorSensor adapter){
             this.adapter = adapter;
         }
 
@@ -114,21 +131,21 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
             if(tempDevice.isShowPanicButton()){
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 1);
                 if(arrayList.size()>0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0]));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0],Device.DEVICESTYPE.panic_button.toString(),deviceID));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
             if(tempDevice.isShowSafezone()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5);
                 if (arrayList.size() > 0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1]));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1],Device.DEVICESTYPE.GPS.toString(),deviceID));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
             if(tempDevice.isShowTemperature()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature", 5);
                 if (arrayList.size() > 0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2]));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2],Device.DEVICESTYPE.temperature.toString(),deviceID));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
@@ -140,16 +157,38 @@ public class NotificationOfMonitoringFragment extends Fragment implements Adapte
          * **/
         protected void onPostExecute(final ArrayList<InterfaceItem> itemArrayList) {
             // updating UI from Background Thread
-            try {
-                getActivity().runOnUiThread(new Runnable() { //force the UIThread refresh the list view
-                    public void run() {
-                        adapter.items = itemArrayList;
-                        adapter.notifyDataSetChanged();
-                        // adapter.updateDeviceList(itemArrayList);
-                    }
-                });
-            }catch (Exception ex){
-                Log.e("ERRRORRRR","wtf happeend???");
+            if (itemArrayList==null)
+                return;
+
+            if (itemArrayList.size()>0) {
+                final Activity act = getActivity(); //only neccessary if you use fragments
+                if (act != null)
+                    act.runOnUiThread(new Runnable() {
+                        public void run() {
+                            adapter.updateDeviceList(itemArrayList);
+                        }
+                    });
+
+//                try {
+//                    getActivity().runOnUiThread(new Runnable() { //force the UIThread refresh the list view
+//
+//                        public void run() {
+//                            //adapter.items = itemArrayList;
+//                            //adapter.notifyDataSetChanged();
+//                            adapter.updateDeviceList(itemArrayList);
+//                        }
+//                    });
+//                } catch (Exception ex) {
+//                    Log.e("ERRRORRRR", "wtf happeend???" + ex.toString());
+//                }
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        adapter.updateDeviceList(itemArrayList);
+//                    }
+//                });
+
+
             }
         }
 

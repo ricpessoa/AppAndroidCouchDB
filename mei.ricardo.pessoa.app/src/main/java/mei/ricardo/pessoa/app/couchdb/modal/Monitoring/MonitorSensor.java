@@ -73,7 +73,6 @@ public class MonitorSensor implements InterfaceItem {
                             arrayList.add(ms_temperature);
                         } catch (Exception ex) {
                             Log.e(TAG, "Error Temperature parse error value or other some reason");
-                            count--;
                         }
                     }else if (subType.equals(SUBTYPE.panic_button.toString())){
                         try {
@@ -90,6 +89,53 @@ public class MonitorSensor implements InterfaceItem {
                 }
                 if (limit > 0 && limit == count)
                     return arrayList;
+            }
+
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+        if(arrayList.size()==0){ //TODO: need fix if dindt receive any notification or the device dont have this sensor
+            arrayList.add(new MS_NotHave(subType));
+        }
+        return arrayList;
+    }
+
+    public static ArrayList<InterfaceItem> getGPSSensorByMacAddressAndSubtype(String macAddress, String subType, int limit) {
+        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
+        Query query = view.createQuery();
+        ArrayList<InterfaceItem> arrayList = new ArrayList<InterfaceItem>();
+        //List<Object> keyArray = new ArrayList<Object>();
+        Log.d(TAG, "Find for keys:[" + macAddress + "," + subType + "]");
+
+        List<Object> keyArray = new ArrayList<Object>();
+        int count = 0;
+        keyArray.add(macAddress);
+        keyArray.add(subType);
+        //query.setLimit(5);
+        query.setDescending(true);
+        //query.setKeys(keyArray);
+
+        try {
+            QueryEnumerator rowEnum = query.run();
+            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+                QueryRow row = it.next();
+                if (row.getKey().equals(keyArray)) {
+                    Document document = row.getDocument();
+                    if (subType.equals(SUBTYPE.GPS.toString())) {
+                        try {
+                            MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(),document.getProperty("notification").toString(), document.getProperty("latitude").toString(),document.getProperty("longitude").toString(), subType, document.getProperty("timestamp").toString());
+                            arrayList.add(ms_gps);
+                        } catch (Exception ex) {
+                            Log.e(TAG, "Error GPS not valid for some reason");
+                        }
+                    if (limit > 0)
+                        count++;
+                    //Log.d(TAG, "Document ID:" + row.getDocumentId());
+                    //arrayList.add(row.getDocumentId()+" - "+row.getDocument().getProperty("subtype").toString());
+                }
+                if (limit > 0 && limit == count)
+                    return arrayList;
+            }
             }
 
         } catch (CouchbaseLiteException e) {
