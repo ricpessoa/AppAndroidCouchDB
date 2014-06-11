@@ -13,4 +13,4 @@ PagerSlidingTabStrip <br>
 
 <h1>Mockup of android application</h1>
 <br>
-![mockup](https://raw.githubusercontent.com/linuxrp/AppAndroidCouchDB/master/mei.ricardo.pessoa.app/mockup/mockupapp.png?token=3398166__eyJzY29wZSI6IlJhd0Jsb2I6bGludXhycC9BcHBBbmRyb2lkQ291Y2hEQi9tYXN0ZXIvbWVpLnJpY2FyZG8ucGVzc29hLmFwcC9tb2NrdXAvbW9ja3VwYXBwLnBuZyIsImV4cGlyZXMiOjE0MDA3NjkxOTV9--10461191124a8d12f196b8ee548f41235cfebe62)
+![mockup](https://raw.githubusercontent.com/linuxrp/AppAndroidCouchDB/master/mei.ricardo.pessoa.app/mockup/mockupapp.png?token=3398166__eyJzY29wZSI6IlJhd0Jsb2I6bGludXhycC9BcHBBbmRyb2lkQ291Y2hEQi9tYXN0ZXIvbWVpLnJpY2FyZG8ucGVzc29hLmFwcC9tb2NrdXAvbW9ja3VwYXBwLnBuZyIsImV4cGlyZXMiOjE0MDMwOTc3NjB9--c18af28bcb57140da714a8d666ab335ceb996e28)
