@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
@@ -18,6 +19,7 @@ import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentTestSamples;
+import mei.ricardo.pessoa.app.ui.Fragments.Utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.ui.SettingsActivity;
 import mei.ricardo.pessoa.app.ui.user.LoginActivity;
 import mei.ricardo.pessoa.app.R;
@@ -171,5 +173,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onBackPressed() {
+        // your code.
+        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(this,"Are you sure you want to exit the application?");
+        dialogFragmentYesNoOk.setType(2);
+        dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_yes), getString(R.string.fire_no));
+        dialogFragmentYesNoOk.setBackToPreviousActivity(true);
+        dialogFragmentYesNoOk.show(getFragmentManager(),"");
+    }
 }
