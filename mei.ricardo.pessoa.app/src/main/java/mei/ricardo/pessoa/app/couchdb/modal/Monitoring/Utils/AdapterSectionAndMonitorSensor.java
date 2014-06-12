@@ -20,8 +20,7 @@ import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorPanicButton;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorSafezones;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorGPS;
 import mei.ricardo.pessoa.app.utils.Utilities;
 
 public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> {
@@ -48,8 +47,10 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
+try {
 
-		final InterfaceItem i = items.get(position);
+
+        final InterfaceItem i = items.get(position);
 		if (i != null) {
 			if(i.isSection()){
 				final SectionItem si = (SectionItem)i;
@@ -61,9 +62,9 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
                         Toast.makeText(context, "click on more:"+si.getTitle(), Toast.LENGTH_SHORT).show();
                         if(si.getType().equals(Device.DEVICESTYPE.GPS.toString())){
                             //show entire safezones
-                            Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorSafezones.class);
-                            intent.putExtra(ActivityMonitorSensorSafezones.passVariable,si.getDeviceMacAddress());
-                            getContext().startActivity(intent);
+                            Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorGPS.class);
+                            intent.putExtra(ActivityMonitorSensorGPS.passVariableID,si.getDeviceMacAddress());
+                           getContext().startActivity(intent);
                         }
                     }
                 });
@@ -89,6 +90,9 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
 					subtitle.setText(Utilities.ConvertTimestampToDateFormat(monitorSensor.getTimestamp()));
 			}
 		}
+}catch (Exception ex){
+  Log.d("_________________________________________-","_____________________________________");
+}
 		return v;
 	}
 

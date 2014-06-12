@@ -86,7 +86,7 @@
             android:label="@string/title_activity_sensors" >
         </activity>
         <activity
-            android:name=".ui.MonitoringSensor.ActivityMonitorSensorSafezones"
+            android:name=".ui.MonitoringSensor.ActivityMonitorSensorGPS"
             android:label="@string/title_activity_monitor_sensor_safezones" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data

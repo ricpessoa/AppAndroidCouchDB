@@ -32,9 +32,9 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.Utils.SlidingUpPanelLayout;
 import mei.ricardo.pessoa.app.utils.Utilities;
 
-public class ActivityMonitorSensorSafezones extends Activity implements SlidingUpPanelLayout.PanelSlideListener {
-    private static String TAG = ActivityMonitorSensorSafezones.class.getName();
-    public static String passVariable = "gsm_id";
+public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanelLayout.PanelSlideListener {
+    private static String TAG = ActivityMonitorSensorGPS.class.getName();
+    public static String passVariableID = "gps_id";
     private String macAddress;
 
     private ListView mListView;
@@ -57,7 +57,7 @@ public class ActivityMonitorSensorSafezones extends Activity implements SlidingU
         setContentView(R.layout.activity_monitor_sensor_safezones);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        macAddress= getIntent().getExtras().getString(passVariable);
+        macAddress= getIntent().getExtras().getString(passVariableID);
         Log.d(TAG, "mac address received = "+macAddress);
         mListView = (ListView) findViewById(R.id.list);
         mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
@@ -78,7 +78,7 @@ public class ActivityMonitorSensorSafezones extends Activity implements SlidingU
         mTransparentHeaderView = LayoutInflater.from(this).inflate(R.layout.transparent_header_view, null, false);
         mSpaceView = mTransparentHeaderView.findViewById(R.id.space);
 
-        monitoringGPSes = MonitorSensor.getGPSSensorByMacAddressAndSubtype(macAddress, Device.DEVICESTYPE.GPS.toString(),30);
+        monitoringGPSes = MonitorSensor.getSensorGPSByMacAddressAndSubtype(macAddress, Device.DEVICESTYPE.GPS.toString(), 30);
         AdapterSectionAndMonitorSensor adapter = new AdapterSectionAndMonitorSensor(this, monitoringGPSes,Color.WHITE);
         mListView.addHeaderView(mTransparentHeaderView);
         mListView.setAdapter(adapter);

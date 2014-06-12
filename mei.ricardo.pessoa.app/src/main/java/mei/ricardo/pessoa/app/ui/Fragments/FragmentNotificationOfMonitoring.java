@@ -108,7 +108,8 @@ public class FragmentNotificationOfMonitoring extends Fragment implements Adapte
             MS_PanicButton ms_panicButton = (MS_PanicButton) monitorSensor;
             Toast.makeText(getActivity(), "You clicked " + monitorSensor.getTitle(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity(), ActivityMonitorSensorPanicButton.class);
-            intent.putExtra(ActivityMonitorSensorPanicButton.passVariable,ms_panicButton.getMac_address());
+            intent.putExtra(ActivityMonitorSensorPanicButton.passVariableMacAddress,ms_panicButton.getMac_address());
+            intent.putExtra(ActivityMonitorSensorPanicButton.passVariableTimestamp,ms_panicButton.getTimestamp());
             this.startActivity(intent);
         }
     }

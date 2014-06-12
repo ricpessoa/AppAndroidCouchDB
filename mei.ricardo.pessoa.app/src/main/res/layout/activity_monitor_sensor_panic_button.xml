@@ -1,3 +1,8 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +16,7 @@
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewMap"
         android:layout_below="@+id/textViewTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
@@ -32,7 +37,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/textViewLocationAddress"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/imageViewMap"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
@@ -50,4 +55,15 @@
         android:layout_below="@+id/textViewLocationAddress"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textViewTemperatureValue"
+        android:layout_below="@+id/textViewLocationCoordinators"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
+</ScrollView>

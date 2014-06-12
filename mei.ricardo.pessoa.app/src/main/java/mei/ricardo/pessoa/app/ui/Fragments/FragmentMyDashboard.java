@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.ui.Fragments.Utils.TabsFragment;
 
 
 public class FragmentMyDashboard extends Fragment {
@@ -45,7 +46,7 @@ public class FragmentMyDashboard extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_my_dashboard, container, false);
 
-        arrayTabs =  getDevicesOnCouchDB();
+
         //arrayTabs = arrayList.toArray(new String[arrayList.size()]);
 
         return rootView;
@@ -54,6 +55,7 @@ public class FragmentMyDashboard extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        arrayTabs =  getDevicesOnCouchDB();
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view
                 .findViewById(R.id.tabs);
 
@@ -61,14 +63,12 @@ public class FragmentMyDashboard extends Fragment {
         MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
         pager.setAdapter(adapter);
         tabs.setViewPager(pager);
-
-
     }
 
 
     private ArrayList<DeviceRow> getDevicesOnCouchDB() {
         ArrayList<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
-        //deviceRowsList.add(new DeviceRow("All Devices",""));
+        deviceRowsList.add(new DeviceRow("All Devices",""));
         com.couchbase.lite.View view = CouchDB.viewGetDevicesMonitoring;
         Query query = view.createQuery();
         try {
@@ -125,8 +125,16 @@ public class FragmentMyDashboard extends Fragment {
         @Override
         public Fragment getItem(int position) {
             DeviceRow device = arrayTabs.get(position);
+            //FragmentNotificationOfMonitoring fragmentNotificationOfMonitoring = new FragmentNotificationOfMonitoring();
+            //fragmentNotificationOfMonitoring.deviceID = device.deviceID;
+            //return fragmentNotificationOfMonitoring;
+
+
             return FragmentNotificationOfMonitoring.newInstance(device.deviceID);
+            //return new TabsFragment();
+            //return new FragmentNotificationOfMonitoring(device.deviceID);
         }
+
 
     }
 }
