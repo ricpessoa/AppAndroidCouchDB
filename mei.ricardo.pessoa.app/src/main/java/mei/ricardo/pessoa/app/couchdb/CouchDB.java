@@ -108,14 +108,16 @@ public class CouchDB implements Replication.ChangeListener {
         viewGetSafezones.setMap(new Mapper() {
             @Override
             public void map(Map<String, Object> document, Emitter emitter) {
-                Object objDevice = document.get("type");
-                if (objDevice != null && objDevice.equals("safezone")) {
+                Object objtype = document.get("type");
+                Object objDevice = document.get("device");
+
+                if (objDevice != null && objtype.equals("safezone")) {
                     emitter.emit(objDevice.toString(), document);
                 }
             }
-        }, "1.0");
+        }, "2");
 
-        startLiveQuery(liveQueryGetSafezones, viewGetSafezones);
+        //startLiveQuery(liveQueryGetSafezones, viewGetSafezones);
 
 
         String allMonitorSensorsViewName = "getAllMonitorSensors";
@@ -130,7 +132,7 @@ public class CouchDB implements Replication.ChangeListener {
             }
         }, "1.0");
 
-        startLiveQuery(liveQueryMonitoringSensors, viewGetMonitoringSensors);
+        //startLiveQuery(liveQueryMonitoringSensors, viewGetMonitoringSensors);
 
         String DevicesToMonitoringViewName = "getDevicesToMonitoring";
         viewGetDevicesMonitoring = database.getView(String.format("%s/%s", designDocName, DevicesToMonitoringViewName));

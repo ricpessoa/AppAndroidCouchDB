@@ -126,8 +126,8 @@
     <string name="title_activity_monitor_sensor_safezones">Monitor Sensor Safezones</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_monitor_sensor_panic_button">MonitorSensorPanicButtonActivity</string>
-
-
     <string name="tab_words">Words</string>
     <string name="tab_numbers">Numbers</string>
+    <string name="title_activity_list_safezones">ListSafezones</string>
+
 </resources>

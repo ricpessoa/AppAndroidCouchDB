@@ -68,6 +68,7 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_fragment_settings" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -88,6 +89,7 @@
         <activity
             android:name=".ui.MonitoringSensor.ActivityMonitorSensorGPS"
             android:label="@string/title_activity_monitor_sensor_safezones" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -96,10 +98,15 @@
         <activity
             android:name=".ui.MonitoringSensor.ActivityMonitorSensorPanicButton"
             android:label="@string/title_activity_monitor_sensor_panic_button" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.Fragments.FragmentMyDashboard" />
+        </activity>
+        <activity
+            android:name=".ui.Safezone.ListSafezones"
+            android:label="@string/title_activity_list_safezones" >
         </activity>
     </application>
 

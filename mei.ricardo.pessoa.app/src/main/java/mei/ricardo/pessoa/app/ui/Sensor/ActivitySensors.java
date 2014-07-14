@@ -1,8 +1,11 @@
 package mei.ricardo.pessoa.app.ui.Sensor;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -11,10 +14,11 @@ import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
 
-import java.util.Objects;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
+import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
+import mei.ricardo.pessoa.app.ui.Safezone.ListSafezones;
 
 public class ActivitySensors extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener {
     private static String TAG = ActivitySensors.class.getName();
@@ -32,7 +36,23 @@ public class ActivitySensors extends ActionBarActivity implements CompoundButton
         mSwitchMonitoringDevice.setOnCheckedChangeListener(this);
 
         mListViewSensors = (ListView) findViewById(R.id.listViewSensors);
+        mListViewSensors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] sensors = mDevice.getSensors();
+                if (mDevice.getArrayListSensors() != null) {
+                    Sensor sensor = mDevice.getArrayListSensors().get(i);
+                    if (sensor.getType() == Device.DEVICESTYPE.GPS.toString()) {
+                        Intent intent = new Intent(getApplicationContext(), ListSafezones.class);
+                        intent.putExtra(ListSafezones.varMacAddressOfDevice, mDevice.getMac_address());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "sensortype:" + mDevice.getArrayListSensors().get(i).getType(), Toast.LENGTH_SHORT).show();
+                    }
+                }
 
+            }
+        });
 
         Bundle bundle = getIntent().getExtras();
         String ID = bundle.getString(var_pass_id_sensor);
@@ -61,7 +81,7 @@ public class ActivitySensors extends ActionBarActivity implements CompoundButton
         mDevice.setMonitoring(isChecked);
         try {
             mDevice.saveDevice();
-            Toast.makeText(this,"change Monitoring Device successful",Toast.LENGTH_SHORT);
+            Toast.makeText(this, "change Monitoring Device successful", Toast.LENGTH_SHORT);
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
             Toast.makeText(this, "Some error trying change Monitoring Device", Toast.LENGTH_SHORT);

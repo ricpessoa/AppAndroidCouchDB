@@ -52,18 +52,18 @@ public class FragmentTestSamples extends Fragment {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRegisterTask = new TesteDeviceRegisterTask("teste");
+                mRegisterTask = new TesteDeviceRegisterTask("az"); /*mac address*/
                 mRegisterTask.execute((Void) null);
             }
         });
         Button testMSGPS = (Button) rootView.findViewById(R.id.buttonMonitoringGPS);
-        testMSGPS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorGPS.class);
-                startActivity(intent);
-            }
-        });
+//        testMSGPS.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorGPS.class);
+//                startActivity(intent);
+//            }
+//        });
         return rootView;
     }
 
@@ -89,7 +89,7 @@ public class FragmentTestSamples extends Fragment {
 
             try {
                 // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
                 nameValuePairs.add(new BasicNameValuePair("mac", macAddress));
                 //rua silva aroso (out put not necessaru save)
                 //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.23206"));
@@ -108,6 +108,9 @@ public class FragmentTestSamples extends Fragment {
                 nameValuePairs.add(new BasicNameValuePair("temp", "5"));
                 //send value panic button
                 nameValuePairs.add(new BasicNameValuePair("press", "true"));
+                //send value to battery
+                nameValuePairs.add(new BasicNameValuePair("batt", "89"));
+
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 

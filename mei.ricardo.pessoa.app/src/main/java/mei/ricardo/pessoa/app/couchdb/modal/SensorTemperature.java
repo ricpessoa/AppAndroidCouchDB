@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Created by rpessoa on 13/05/14.
  */
 public class SensorTemperature extends Sensor{
-    private static String TAG = SensorTemperature.class.getName();
+    private static String TAG = SensorBattery.class.getName();
     private float min_temperature;
     private float max_temperature;
 
@@ -42,7 +42,7 @@ public class SensorTemperature extends Sensor{
         this.min_temperature = min_temperature;
     }
 
-    public void getSensorTemperature(HashMap<Integer, Object> value) {
+    public void parseSensorTemperature(HashMap<Integer, Object> value) {
         float maxTemp = 0, minTemp = 0 ;
         try {
             maxTemp = Float.parseFloat(value.get("max_temperature").toString());

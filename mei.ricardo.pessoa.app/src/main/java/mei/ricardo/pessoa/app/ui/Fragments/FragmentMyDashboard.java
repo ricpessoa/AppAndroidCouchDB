@@ -22,7 +22,6 @@ import java.util.Iterator;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
-import mei.ricardo.pessoa.app.ui.Fragments.Utils.TabsFragment;
 
 
 public class FragmentMyDashboard extends Fragment {

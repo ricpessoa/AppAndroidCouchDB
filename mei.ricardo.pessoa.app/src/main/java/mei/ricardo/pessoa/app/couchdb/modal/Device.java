@@ -5,24 +5,27 @@ import android.util.Log;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.couchdb.SensorGPS;
 
 /**
  * Created by rpessoa on 06/05/14.
  */
-public class Device{
+public class Device {
     private static String TAG = Device.class.getName();
+
     public enum DEVICESTYPE {
         panic_button,
         GPS,
         temperature,
+        battery
     }
-    public static String[] devicesTypesString = {"Panic Button","GPS","Temperature"};
+
+    public static String[] devicesTypesString = {"Panic Button", "GPS", "Temperature", "Battery"};
 
     private String mac_address;
     private String name_device;
@@ -30,7 +33,7 @@ public class Device{
     private String timestamp;
 
     private boolean monitoring;
-    private boolean showPanicButton = false, showSafezone= false, showTemperature= false;
+    private boolean showPanicButton = false, showSafezone = false, showTemperature = false, showBattery = false;
     private ArrayList<Sensor> arrayListSensors = null;
 
     public Device() {
@@ -52,18 +55,18 @@ public class Device{
         Device tempDevice = new Device();
         tempDevice.mac_address = _id;
         tempDevice.name_device = document.getProperty("name_device").toString();
-        tempDevice.sensors = (HashMap<String, Object>)document.getProperty("sensors");
+        tempDevice.sensors = (HashMap<String, Object>) document.getProperty("sensors");
         tempDevice.timestamp = document.getProperty("timestamp").toString();
         try {
-            tempDevice.monitoring = (Boolean)document.getProperty("monitoring");
-        }catch (NullPointerException ex) {
+            tempDevice.monitoring = (Boolean) document.getProperty("monitoring");
+        } catch (NullPointerException ex) {
             tempDevice.monitoring = false;
         }
         tempDevice.getSensorsOfDevice();
         return tempDevice;
     }
 
-    private void getSensorsOfDevice(){
+    private void getSensorsOfDevice() {
         arrayListSensors = new ArrayList<Sensor>();
         for (Map.Entry<String, Object> entry : sensors.entrySet()) {
             String key = entry.getKey();
@@ -77,26 +80,33 @@ public class Device{
 
             if (type.equals(DEVICESTYPE.panic_button.toString())) {
                 showPanicButton = true;
-            }else if (type.equals(DEVICESTYPE.GPS.toString())) {
+                SensorPanicButton sensorPanicButton = new SensorPanicButton();
+                arrayListSensors.add(sensorPanicButton);
+            } else if (type.equals(DEVICESTYPE.GPS.toString())) {
                 showSafezone = true;
-            }else if (type.equals(DEVICESTYPE.temperature.toString())){
+                SensorGPS sensorGPS = new SensorGPS();
+                arrayListSensors.add(sensorGPS);
+            } else if (type.equals(DEVICESTYPE.temperature.toString())) {
                 showTemperature = true;
-                //String max =value.get("max_temperature").toString();
-                //String min = value.get("min_temperature").toString();
                 SensorTemperature sensorTemperature = new SensorTemperature();
-                sensorTemperature.getSensorTemperature(value);
+                sensorTemperature.parseSensorTemperature(value);
                 arrayListSensors.add(sensorTemperature);
+            } else if (type.equals(DEVICESTYPE.battery.toString())) {
+                showBattery = true;
+                SensorBattery sensorBattery = new SensorBattery();
+                sensorBattery.parseSensorBattery(value);
+                arrayListSensors.add(sensorBattery);
             }
         }
     }
 
-    public static Device getSensorsToSearch(String id){
+    public static Device getSensorsToSearch(String id) {
         Document document = CouchDB.getmCouchDBinstance().getDatabase().getExistingDocument(id);
         if (document == null)
             return null;
 
         Device tempDevice = new Device();
-        tempDevice.sensors = (HashMap<String, Object>)document.getProperty("sensors");
+        tempDevice.sensors = (HashMap<String, Object>) document.getProperty("sensors");
         tempDevice.getSensorsOfDevice();
         return tempDevice;
     }
@@ -130,7 +140,7 @@ public class Device{
             properties.put("monitoring", monitoring);
 // getDocument if exist return document by id else create document with the parameter
             Document document = CouchDB.getmCouchDBinstance().getDatabase().getDocument(mac_address);
-            properties.put("_rev",document.getCurrentRevisionId()); //get last rev document
+            properties.put("_rev", document.getCurrentRevisionId()); //get last rev document
 // store the data in the document
             document.putProperties(properties);
         }
@@ -138,12 +148,15 @@ public class Device{
 
     public String[] getSensors() {
         ArrayList<String> arrayListSensors = new ArrayList<String>();
-        if(showPanicButton)
+        if (showPanicButton)
             arrayListSensors.add(devicesTypesString[0]);
         if (showSafezone)
             arrayListSensors.add(devicesTypesString[1]);
         if (showTemperature)
             arrayListSensors.add(devicesTypesString[2]);
+        if (showBattery)
+            arrayListSensors.add(devicesTypesString[3]);
+
         String[] sensors = new String[arrayListSensors.size()];
         sensors = arrayListSensors.toArray(sensors);
         return sensors;
@@ -179,5 +192,13 @@ public class Device{
 
     public void setShowTemperature(boolean showTemperature) {
         this.showTemperature = showTemperature;
+    }
+
+    public ArrayList<Sensor> getArrayListSensors() {
+        return arrayListSensors;
+    }
+
+    public String getMac_address() {
+        return mac_address;
     }
 }
