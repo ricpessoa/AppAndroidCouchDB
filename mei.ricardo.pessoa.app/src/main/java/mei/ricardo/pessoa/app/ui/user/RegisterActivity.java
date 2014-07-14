@@ -225,7 +225,7 @@ public class RegisterActivity extends Activity {
         protected Integer doInBackground(Void... params) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(Application.hostUrl+Application.serviceRegisterUrl);
+            HttpPost httppost = new HttpPost(Application.hostUrl + Application.serviceRegisterUrl);
 
             try {
                 // Add your data
@@ -250,7 +250,7 @@ public class RegisterActivity extends Activity {
                         Boolean loginsuccessfull = !finalResult.getBoolean("error"); //WARNING NOT HAVE ERROR = FALSE
                         //if (loginsuccessfull == false) {
                         //    return finalResult.getInt("code");
-                       // }
+                        // }
                         //return 1;
                         return finalResult.getInt("code");
                     }

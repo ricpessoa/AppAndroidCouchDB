@@ -64,23 +64,23 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             if (checkBoxPanicButton.isChecked()) {
                 atLeastOneSensor = true;
                 Sensor s = new Sensor("Sensor Panic Button", "panic_button");
-                arraySensors.put(arraySensors.size()+"",s);
+                arraySensors.put(arraySensors.size() + "", s);
             }
 
             if (checkBoxGPS.isChecked()) {
                 atLeastOneSensor = true;
                 Sensor s = new Sensor("Sensor GPS", "GPS");
-                arraySensors.put(arraySensors.size()+"",s);
+                arraySensors.put(arraySensors.size() + "", s);
             }
 
             if (checkBoxTemperature.isChecked()) {
                 atLeastOneSensor = true;
                 SensorTemperature s = new SensorTemperature("Sensor Temperature", "temperature");
-                arraySensors.put(arraySensors.size()+"",s);
+                arraySensors.put(arraySensors.size() + "", s);
             }
 
             if (atLeastOneSensor && validMacAddress && validNameDevice) {
-                Device device = new Device(macAddress.getText().toString(), nameDevice.getText().toString(), arraySensors,false);
+                Device device = new Device(macAddress.getText().toString(), nameDevice.getText().toString(), arraySensors, false);
                 try {
                     device.saveDevice();
                 } catch (CouchbaseLiteException e) {

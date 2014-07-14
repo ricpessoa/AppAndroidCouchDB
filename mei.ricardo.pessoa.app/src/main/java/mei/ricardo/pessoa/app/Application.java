@@ -21,11 +21,11 @@ public class Application extends CouchbaseLiteApplication {
     private static String dbname;
     public static boolean isLogged = false;
 
-    public static String hostUrl = "http://192.168.255.139";
-    public static String couchDBHostUrl = "http://192.168.255.139:5984";
+    public static String hostUrl = "http://192.168.0.104";
+    public static String couchDBHostUrl = "http://192.168.0.104:5984";
     public static String serviceLoginUrl = "/PhpProjectCouchDB/applogin";
     public static String serviceRegisterUrl = "/PhpProjectCouchDB/appregister";
-    public static String serviceAddDeviceUrl= "/PhpProjectCouchDB/devicepost";
+    public static String serviceAddDeviceUrl = "/PhpProjectCouchDB/devicepost";
 
     @Override
     public void onCreate() {
@@ -56,18 +56,18 @@ public class Application extends CouchbaseLiteApplication {
         return db;
     }
 
-    public static Context getmContext(){
+    public static Context getmContext() {
         return mContext;
     }
 
-    public static String getDbname(){
-        if(dbname==null) {
+    public static String getDbname() {
+        if (dbname == null) {
             dbname = loadInSharePreferenceDataOfApplication();
         }
         return dbname;
     }
 
-    public static CouchDB getmCouchDBinstance(){
+    public static CouchDB getmCouchDBinstance() {
         return CouchDB.getmCouchDBinstance();
     }
 

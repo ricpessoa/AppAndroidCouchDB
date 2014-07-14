@@ -23,7 +23,7 @@ public class DialogFragmentYesNoOk extends DialogFragment {
         this.mContext = mContext;
     }
 
-    public DialogFragmentYesNoOk(Context mContext,String msg) {
+    public DialogFragmentYesNoOk(Context mContext, String msg) {
         this.mContext = mContext;
         this.msg = msg;
     }

@@ -28,7 +28,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
  */
 public class Safezone {
     private static String TAG = Safezone.class.getCanonicalName();
-
+    private String _id;
     private String address;
     private String name;
     private float latitude;
@@ -50,6 +50,22 @@ public class Safezone {
         this.notification = notification;
         this.timestamp = timestamp;
         this.device = device;
+    }
+
+    public Safezone(String _id, String address, String name, String latitude, String longitude, String radius, String notification, String timestamp, String device) {
+        this._id = _id;
+        this.address = address;
+        this.name = name;
+        this.latitude = Float.parseFloat(latitude);
+        this.longitude = Float.parseFloat(longitude);
+        this.radius = Integer.parseInt(radius);
+        this.notification = notification;
+        this.timestamp = timestamp;
+        this.device = device;
+    }
+
+    public String get_id() {
+        return _id;
     }
 
     public String getAddress() {
@@ -134,7 +150,7 @@ public class Safezone {
                 Document document = row.getDocument();
 
                 try {
-                    Safezone safezone = new Safezone(document.getProperty("address").toString(), document.getProperty("name").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), document.getProperty("radius").toString(), document.getProperty("notification").toString(), document.getProperty("timestamp").toString(), document.getProperty("device").toString());
+                    Safezone safezone = new Safezone(document.getId(), document.getProperty("address").toString(), document.getProperty("name").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), document.getProperty("radius").toString(), document.getProperty("notification").toString(), document.getProperty("timestamp").toString(), document.getProperty("device").toString());
                     arrayListSafezones.add(safezone);
                 } catch (Exception ex) {
                     Log.e(TAG, "Safezone error parse");
@@ -147,5 +163,13 @@ public class Safezone {
         }
 
         return arrayListSafezones;
+    }
+
+    public static Safezone getSafezoneByID(String idSafezone) {
+        Document document = CouchDB.getmCouchDBinstance().getDatabase().getExistingDocument(idSafezone);
+        if (document == null)
+            return null;
+        Safezone tempSafezone = new Safezone(document.getProperty("address").toString(), document.getProperty("name").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), document.getProperty("radius").toString(), document.getProperty("notification").toString(), document.getProperty("timestamp").toString(), document.getProperty("device").toString());
+        return tempSafezone;
     }
 }

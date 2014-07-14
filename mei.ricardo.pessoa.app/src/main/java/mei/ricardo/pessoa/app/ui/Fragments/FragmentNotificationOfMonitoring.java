@@ -42,8 +42,8 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.SectionItem;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorPanicButton;
 
 public class FragmentNotificationOfMonitoring extends Fragment implements AdapterView.OnItemClickListener {
-	private static final String ARG_POSITION = "position";
-	private String deviceID;
+    private static final String ARG_POSITION = "position";
+    private String deviceID;
     private static FragmentNotificationOfMonitoring f;
     ListView listView;
     ArrayList<InterfaceItem> arrayOfMonitoring;
@@ -52,21 +52,21 @@ public class FragmentNotificationOfMonitoring extends Fragment implements Adapte
     private Handler handler;
     private AdapterSectionAndMonitorSensor adapter;
 
-	public static FragmentNotificationOfMonitoring newInstance(String device_ID) {
-		f = new FragmentNotificationOfMonitoring();
-		Bundle b = new Bundle();
-		b.putString(ARG_POSITION, device_ID);
-		f.setArguments(b);
-		return f;
-	}
+    public static FragmentNotificationOfMonitoring newInstance(String device_ID) {
+        f = new FragmentNotificationOfMonitoring();
+        Bundle b = new Bundle();
+        b.putString(ARG_POSITION, device_ID);
+        f.setArguments(b);
+        return f;
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         deviceID = getArguments().getString(ARG_POSITION);
 
-	}
+    }
 
     @Override
     public void onPause() {
@@ -86,8 +86,8 @@ public class FragmentNotificationOfMonitoring extends Fragment implements Adapte
     }
 
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate (R.layout.fragment_notifications_on_dashboard, container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_notifications_on_dashboard, container, false);
 
         ListView listView = (ListView) view.findViewById(R.id.listViewMonitoring);
 
@@ -99,28 +99,28 @@ public class FragmentNotificationOfMonitoring extends Fragment implements Adapte
         p = new PopulateTheView(adapter);
         p.execute();
         return view;
-	}
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MonitorSensor monitorSensor = (MonitorSensor)arrayOfMonitoring.get(position);
-        if(monitorSensor.getClass() == MS_PanicButton.class){
+        MonitorSensor monitorSensor = (MonitorSensor) arrayOfMonitoring.get(position);
+        if (monitorSensor.getClass() == MS_PanicButton.class) {
             MS_PanicButton ms_panicButton = (MS_PanicButton) monitorSensor;
             Toast.makeText(getActivity(), "You clicked " + monitorSensor.getTitle(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity(), ActivityMonitorSensorPanicButton.class);
-            intent.putExtra(ActivityMonitorSensorPanicButton.passVariableMacAddress,ms_panicButton.getMac_address());
-            intent.putExtra(ActivityMonitorSensorPanicButton.passVariableTimestamp,ms_panicButton.getTimestamp());
+            intent.putExtra(ActivityMonitorSensorPanicButton.passVariableMacAddress, ms_panicButton.getMac_address());
+            intent.putExtra(ActivityMonitorSensorPanicButton.passVariableTimestamp, ms_panicButton.getTimestamp());
             this.startActivity(intent);
         }
     }
 
     /**
      * Background Async Task to Load all INBOX messages by making HTTP Request
-     * */
+     */
     class PopulateTheView extends AsyncTask<String, String, ArrayList<InterfaceItem>> {
-       private final AdapterSectionAndMonitorSensor adapter;
+        private final AdapterSectionAndMonitorSensor adapter;
 
-        public PopulateTheView(final AdapterSectionAndMonitorSensor adapter){
+        public PopulateTheView(final AdapterSectionAndMonitorSensor adapter) {
             this.adapter = adapter;
         }
 
@@ -129,27 +129,27 @@ public class FragmentNotificationOfMonitoring extends Fragment implements Adapte
             //arrayOfMonitoring = new ArrayList<Item>();
 
             Device tempDevice = Device.getSensorsToSearch(deviceID);
-            if(tempDevice==null)
+            if (tempDevice == null)
                 return null;
             ArrayList<InterfaceItem> arrayList;
-            if(tempDevice.isShowPanicButton()){
+            if (tempDevice.isShowPanicButton()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 1);
-                if(arrayList.size()>0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0],Device.DEVICESTYPE.panic_button.toString(),deviceID));
+                if (arrayList.size() > 0) {
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0], Device.DEVICESTYPE.panic_button.toString(), deviceID));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
-            if(tempDevice.isShowSafezone()) {
+            if (tempDevice.isShowSafezone()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5);
                 if (arrayList.size() > 0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1],Device.DEVICESTYPE.GPS.toString(),deviceID));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1], Device.DEVICESTYPE.GPS.toString(), deviceID));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
-            if(tempDevice.isShowTemperature()) {
+            if (tempDevice.isShowTemperature()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature", 5);
                 if (arrayList.size() > 0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2],Device.DEVICESTYPE.temperature.toString(),deviceID));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2], Device.DEVICESTYPE.temperature.toString(), deviceID));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
@@ -158,13 +158,14 @@ public class FragmentNotificationOfMonitoring extends Fragment implements Adapte
 
         /**
          * After completing background task Dismiss the progress dialog
-         * **/
+         * *
+         */
         protected void onPostExecute(final ArrayList<InterfaceItem> itemArrayList) {
             // updating UI from Background Thread
-            if (itemArrayList==null)
+            if (itemArrayList == null)
                 return;
 
-            if (itemArrayList.size()>0) {
+            if (itemArrayList.size() > 0) {
                 final Activity act = getActivity(); //only neccessary if you use fragments
                 if (act != null)
                     act.runOnUiThread(new Runnable() {

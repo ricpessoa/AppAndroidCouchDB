@@ -15,11 +15,11 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
 /**
  * Created by rpessoa on 05/06/14.
  */
-public class MS_PanicButton extends MonitorSensor{
+public class MS_PanicButton extends MonitorSensor {
     public boolean pressed;
 
-    public MS_PanicButton(String pressed,String mac_address, String subType, String timestamp) throws Exception{
-        super(mac_address,subType,timestamp);
+    public MS_PanicButton(String pressed, String mac_address, String subType, String timestamp) throws Exception {
+        super(mac_address, subType, timestamp);
         this.pressed = Boolean.parseBoolean(pressed);
     }
 
@@ -28,7 +28,7 @@ public class MS_PanicButton extends MonitorSensor{
     }
 
     public Drawable getImage() {
-        if (pressed){
+        if (pressed) {
             return Application.getmContext().getResources().getDrawable(R.drawable.panic_button_small);
         }
         return null;

@@ -25,9 +25,9 @@ import mei.ricardo.pessoa.app.couchdb.CouchDB;
 
 
 public class FragmentMyDashboard extends Fragment {
-   public static final String TAG = FragmentMyDashboard.class
+    public static final String TAG = FragmentMyDashboard.class
             .getSimpleName();
-    private static ArrayList<DeviceRow> arrayTabs ;
+    private static ArrayList<DeviceRow> arrayTabs;
 
     public static FragmentMyDashboard newInstance() {
         return new FragmentMyDashboard();
@@ -54,7 +54,7 @@ public class FragmentMyDashboard extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        arrayTabs =  getDevicesOnCouchDB();
+        arrayTabs = getDevicesOnCouchDB();
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view
                 .findViewById(R.id.tabs);
 
@@ -67,7 +67,7 @@ public class FragmentMyDashboard extends Fragment {
 
     private ArrayList<DeviceRow> getDevicesOnCouchDB() {
         ArrayList<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
-        deviceRowsList.add(new DeviceRow("All Devices",""));
+        deviceRowsList.add(new DeviceRow("All Devices", ""));
         com.couchbase.lite.View view = CouchDB.viewGetDevicesMonitoring;
         Query query = view.createQuery();
         try {
@@ -93,14 +93,16 @@ public class FragmentMyDashboard extends Fragment {
         public String deviceID;
         public String deviceName;
 
-        public DeviceRow(){}
+        public DeviceRow() {
+        }
 
-        public DeviceRow(String _id,String deviceName){
+        public DeviceRow(String _id, String deviceName) {
             this.deviceID = _id;
             this.deviceName = deviceName;
 
         }
     }
+
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
         public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
@@ -110,7 +112,7 @@ public class FragmentMyDashboard extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
 
-            if(!arrayTabs.get(position).deviceName.equals(""))
+            if (!arrayTabs.get(position).deviceName.equals(""))
                 return arrayTabs.get(position).deviceName;
             else
                 return arrayTabs.get(position).deviceID;

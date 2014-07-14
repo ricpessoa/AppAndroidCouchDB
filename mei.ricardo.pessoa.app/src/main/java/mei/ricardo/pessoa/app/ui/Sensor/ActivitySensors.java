@@ -14,11 +14,10 @@ import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
 
-
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
-import mei.ricardo.pessoa.app.ui.Safezone.ListSafezones;
+import mei.ricardo.pessoa.app.ui.Safezone.ActivityListSafezones;
 
 public class ActivitySensors extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener {
     private static String TAG = ActivitySensors.class.getName();
@@ -43,8 +42,8 @@ public class ActivitySensors extends ActionBarActivity implements CompoundButton
                 if (mDevice.getArrayListSensors() != null) {
                     Sensor sensor = mDevice.getArrayListSensors().get(i);
                     if (sensor.getType() == Device.DEVICESTYPE.GPS.toString()) {
-                        Intent intent = new Intent(getApplicationContext(), ListSafezones.class);
-                        intent.putExtra(ListSafezones.varMacAddressOfDevice, mDevice.getMac_address());
+                        Intent intent = new Intent(getApplicationContext(), ActivityListSafezones.class);
+                        intent.putExtra(ActivityListSafezones.varMacAddressOfDevice, mDevice.getMac_address());
                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "sensortype:" + mDevice.getArrayListSensors().get(i).getType(), Toast.LENGTH_SHORT).show();

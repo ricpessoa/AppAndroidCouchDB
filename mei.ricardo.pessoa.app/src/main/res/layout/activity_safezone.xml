@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="mei.ricardo.pessoa.app.ui.Safezone.ActivitySafezoneOptions">
+
+
+        <ImageView
+            android:id="@+id/imageViewSafezoneStreetView"
+            android:layout_width="200dip"
+            android:layout_height="200dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip" />
+
+        <TextView
+            android:id="@+id/textViewAddressSafezone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageViewSafezoneStreetView"
+            android:layout_centerHorizontal="true"
+            android:text="Safezone Address"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textViewNameSafezone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewAddressSafezone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dip"
+            android:text="Safezone Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/buttonEditSafezoneName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewNameSafezone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:text="@string/str_button_editNameSafezone" />
+
+        <Button
+            android:id="@+id/buttonEditSafezoneRadius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonEditSafezoneName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:text="@string/str_button_editRadius" />
+
+        <Button
+            android:id="@+id/buttonEditSafezone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonEditSafezoneRadius"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:text="@string/str_button_editSafezone" />
+
+        <Button
+            android:id="@+id/buttonDeleteSafezone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonEditSafezone"
+            android:layout_centerHorizontal="true"
+            android:text="@string/str_button_deleteSafezone" />
+
+
+    </RelativeLayout>
+</ScrollView>
+

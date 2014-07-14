@@ -48,8 +48,8 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
 
     private GoogleMap mMap;
 
-    public ArrayList<InterfaceItem> monitoringGPSes= new ArrayList<InterfaceItem>();
-    private static int previowsSelectMarker=0;
+    public ArrayList<InterfaceItem> monitoringGPSes = new ArrayList<InterfaceItem>();
+    private static int previowsSelectMarker = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,8 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
         setContentView(R.layout.activity_monitor_sensor_safezones);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        macAddress= getIntent().getExtras().getString(passVariableID);
-        Log.d(TAG, "mac address received = "+macAddress);
+        macAddress = getIntent().getExtras().getString(passVariableID);
+        Log.d(TAG, "mac address received = " + macAddress);
         mListView = (ListView) findViewById(R.id.list);
         mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 
@@ -79,11 +79,11 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
         mSpaceView = mTransparentHeaderView.findViewById(R.id.space);
 
         monitoringGPSes = MonitorSensor.getSensorGPSByMacAddressAndSubtype(macAddress, Device.DEVICESTYPE.GPS.toString(), 30);
-        AdapterSectionAndMonitorSensor adapter = new AdapterSectionAndMonitorSensor(this, monitoringGPSes,Color.WHITE);
+        AdapterSectionAndMonitorSensor adapter = new AdapterSectionAndMonitorSensor(this, monitoringGPSes, Color.WHITE);
         mListView.addHeaderView(mTransparentHeaderView);
         mListView.setAdapter(adapter);
 
-       // mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.simple_list_item, testData));
+        // mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.simple_list_item, testData));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,11 +123,11 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
                 if (update != null) {
                     mMap.moveCamera(update);
                 }
-                for (InterfaceItem interfaceItem : monitoringGPSes){
+                for (InterfaceItem interfaceItem : monitoringGPSes) {
                     MS_GPS ms_gps = (MS_GPS) interfaceItem;
                     BitmapDescriptor bitmapDescriptorMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-                    if(ms_gps.getNotification().equals(MS_GPS.NOTIFICATIONTYPE[0])){
-                        bitmapDescriptorMarker= BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    if (ms_gps.getNotification().equals(MS_GPS.NOTIFICATIONTYPE[0])) {
+                        bitmapDescriptorMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
                     }
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(ms_gps.latitude, ms_gps.longitude))
@@ -147,8 +147,8 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
     }
 
     private CameraUpdate getLastKnownLocation(InterfaceItem msgps) {
-            MS_GPS ms_gps = (MS_GPS)msgps;
-            return CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(new LatLng(ms_gps.latitude, ms_gps.longitude), 14.0f));
+        MS_GPS ms_gps = (MS_GPS) msgps;
+        return CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(new LatLng(ms_gps.latitude, ms_gps.longitude), 14.0f));
     }
 
     private void collapseMap() {
@@ -183,8 +183,7 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem)
-    {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
         onBackPressed();
         return true;
     }

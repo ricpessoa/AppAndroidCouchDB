@@ -43,7 +43,7 @@ public class FragmentNotification extends Fragment {
 
         public void run() {
 
-            if(indexImage>notificationDrawerIcons.length()-1) {
+            if (indexImage > notificationDrawerIcons.length() - 1) {
                 indexImage = 0;
             }
 

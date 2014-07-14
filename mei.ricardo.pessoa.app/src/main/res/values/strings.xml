@@ -128,6 +128,20 @@
     <string name="title_activity_monitor_sensor_panic_button">MonitorSensorPanicButtonActivity</string>
     <string name="tab_words">Words</string>
     <string name="tab_numbers">Numbers</string>
+    <!-- strings List Safezone Activity -->
     <string name="title_activity_list_safezones">ListSafezones</string>
+    <string name="str_addSafezone">Add Safezone</string>
+
+    <!-- strings Safezone Activity -->
+    <string name="title_activity_safezone">Safezone</string>
+    <string name="str_button_editRadius">Edit Radius</string>
+    <string name="str_button_editNameSafezone">Edit Name</string>
+    <string name="str_button_editSafezone">Edit Location</string>
+    <string name="str_button_deleteSafezone">Delete Safezone</string>
+
+    <!-- strings Safezone Activity -->
+    <string name="title_activity_activity_edit_name_safezone">ActivityEditNameSafezone</string>
+    <string name="str_editNameOfSafezone">Name Of Safezone:</string>
+    <string name="str_button_save">Update</string>
 
 </resources>

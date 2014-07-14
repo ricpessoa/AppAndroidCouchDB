@@ -9,5 +9,5 @@
         android:background="@android:color/transparent"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/map_height"
-        android:minHeight="@dimen/map_height"/>
+        android:minHeight="@dimen/map_height" />
 </FrameLayout>

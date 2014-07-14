@@ -70,8 +70,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Application app = (Application)getApplicationContext();
-        if(app.isLogged==true){
+        Application app = (Application) getApplicationContext();
+        if (app.isLogged == true) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
@@ -326,7 +326,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected Integer doInBackground(Void... params) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(Application.hostUrl+Application.serviceLoginUrl);
+            HttpPost httppost = new HttpPost(Application.hostUrl + Application.serviceLoginUrl);
 
             try {
                 // Add your data
@@ -344,15 +344,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 JSONTokener tokener = new JSONTokener(json);
                 try {
                     JSONObject finalResult = new JSONObject(tokener);
-                    if (finalResult!=null){
-                        Log.d(TAG,"message?"+finalResult.getString("message")+" error?" + finalResult.getString("error") +" code?"+finalResult.getInt("code"));
+                    if (finalResult != null) {
+                        Log.d(TAG, "message?" + finalResult.getString("message") + " error?" + finalResult.getString("error") + " code?" + finalResult.getInt("code"));
                         return finalResult.getInt("code");
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "Error JSONException in Login");
                     return -4;
-                }catch (NullPointerException e){
-                    Log.e(TAG,"Null Point exception on Login");
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "Null Point exception on Login");
                     return -4;
                 }
 
@@ -384,10 +384,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
-            } else if(success == -1) {
+            } else if (success == -1) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
-            }else if (success == -3) {
+            } else if (success == -3) {
                 //Toast.makeText(getApplicationContext(),"Verify you connection to internet",Toast.LENGTH_SHORT).show();
                 newFragment.setMessage("Internet connection error");
                 newFragment.setType(1);

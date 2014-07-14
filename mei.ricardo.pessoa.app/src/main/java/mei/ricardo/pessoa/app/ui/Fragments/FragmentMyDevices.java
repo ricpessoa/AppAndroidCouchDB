@@ -74,9 +74,9 @@ public class FragmentMyDevices extends Fragment {
                                     long arg3) {
                 DeviceRow deviceRow = deviceListAdapter.getCodeLearnChapter(arg2);
                 Intent intent = new Intent(getActivity(), ActivitySensors.class);
-                intent.putExtra(ActivitySensors.var_pass_id_sensor,deviceRow.deviceID);
+                intent.putExtra(ActivitySensors.var_pass_id_sensor, deviceRow.deviceID);
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+                getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
 
@@ -209,7 +209,7 @@ public class FragmentMyDevices extends Fragment {
                     Log.e(TAG, "Error in Device _id:" + nameDevice);
                 }
                 deviceRow.deviceName = nameDevice;
-                if(numbSensors == null)
+                if (numbSensors == null)
                     break;
                 deviceRow.deviceDescription = "Number of Sensors " + numbSensors.size();
                 deviceRowsList.add(deviceRow);

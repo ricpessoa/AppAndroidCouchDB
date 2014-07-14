@@ -51,20 +51,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.Navigation.MainActivity" >
-        </activity>
+        <activity android:name=".ui.Navigation.MainActivity" />
         <activity
             android:name=".ui.Fragments.FragmentMyDashboard"
-            android:label="@string/title_activity_fragment_my_dashboard" >
-        </activity>
+            android:label="@string/title_activity_fragment_my_dashboard" />
         <activity
             android:name=".ui.Fragments.FragmentMyDevices"
-            android:label="@string/title_activity_fragment_my_devices" >
-        </activity>
+            android:label="@string/title_activity_fragment_my_devices" />
         <activity
             android:name=".ui.Fragments.FragmentMyProfile"
-            android:label="@string/title_activity_fragment_my_profile" >
-        </activity>
+            android:label="@string/title_activity_fragment_my_profile" />
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_fragment_settings" >
@@ -76,16 +72,13 @@
         </activity>
         <activity
             android:name=".ui.user.RegisterActivity"
-            android:label="@string/title_activity_register" >
-        </activity>
+            android:label="@string/title_activity_register" />
         <activity
             android:name=".ui.Device.AddDevice"
-            android:label="@string/title_activity_add_device" >
-        </activity>
+            android:label="@string/title_activity_add_device" />
         <activity
             android:name=".ui.Sensor.ActivitySensors"
-            android:label="@string/title_activity_sensors" >
-        </activity>
+            android:label="@string/title_activity_sensors" />
         <activity
             android:name=".ui.MonitoringSensor.ActivityMonitorSensorGPS"
             android:label="@string/title_activity_monitor_sensor_safezones" >
@@ -105,8 +98,14 @@
                 android:value=".ui.Fragments.FragmentMyDashboard" />
         </activity>
         <activity
-            android:name=".ui.Safezone.ListSafezones"
-            android:label="@string/title_activity_list_safezones" >
+            android:name=".ui.Safezone.ActivityListSafezones"
+            android:label="@string/title_activity_list_safezones" />
+        <activity
+            android:name=".ui.Safezone.ActivitySafezoneOptions"
+            android:label="@string/title_activity_safezone" />
+        <activity
+            android:name=".ui.Safezone.ActivityEditNameSafezone"
+            android:label="@string/title_activity_activity_edit_name_safezone" >
         </activity>
     </application>
 

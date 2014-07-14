@@ -37,31 +37,31 @@ public class ActivityMonitorSensorPanicButton extends ActionBarActivity {
         timestamp = getIntent().getExtras().getString(passVariableTimestamp);
         Log.d(TAG, "received the macaddress:" + macAddress + " whith timestamp" + timestamp);
 
-        ArrayList<MS_GPS> ms_gpsArrayList =  MS_GPS.getSensorGPSByMacAddressTimestamp(macAddress, timestamp, 1);
+        ArrayList<MS_GPS> ms_gpsArrayList = MS_GPS.getSensorGPSByMacAddressTimestamp(macAddress, timestamp, 1);
         ArrayList<MS_Temperature> ms_temperatureArrayList = MS_Temperature.getSensorTemperatureByMacAddressTimestamp(macAddress, timestamp, 1);
 
         Log.d(TAG, ms_gpsArrayList.toString() + " - " + ms_temperatureArrayList.toString());
 
         imageViewMap = (ImageView) findViewById(R.id.imageViewMap);
-        textViewTitle = (TextView)findViewById(R.id.textViewTitle);
+        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
         textViewLocationAddress = (TextView) findViewById(R.id.textViewLocationAddress);
         textViewLocationCoordinators = (TextView) findViewById(R.id.textViewLocationCoordinators);
 
-        if(ms_gpsArrayList.size()>0){
+        if (ms_gpsArrayList.size() > 0) {
             MS_GPS ms_gps = ms_gpsArrayList.get(0);
-            textViewLocationAddress.setText("Location Address: "+ms_gps.getAddress());
-            textViewLocationCoordinators.setText("Location Coordinators: ("+ms_gps.getLatitude()+","+ms_gps.getLongitude()+")");
-        }else{
+            textViewLocationAddress.setText("Location Address: " + ms_gps.getAddress());
+            textViewLocationCoordinators.setText("Location Coordinators: (" + ms_gps.getLatitude() + "," + ms_gps.getLongitude() + ")");
+        } else {
             textViewLocationAddress.setVisibility(View.GONE);
             textViewLocationCoordinators.setVisibility(View.GONE);
         }
 
-        textViewTemperatureValue = (TextView)findViewById(R.id.textViewTemperatureValue);
+        textViewTemperatureValue = (TextView) findViewById(R.id.textViewTemperatureValue);
 
-        if(ms_temperatureArrayList.size()>0){
+        if (ms_temperatureArrayList.size() > 0) {
             MS_Temperature ms_temperature = ms_temperatureArrayList.get(0);
-            textViewTemperatureValue.setText("Temperature value: "+ms_temperature.getValue()+"ºC");
-        }else{
+            textViewTemperatureValue.setText("Temperature value: " + ms_temperature.getValue() + "ºC");
+        } else {
             textViewTemperatureValue.setVisibility(View.GONE);
 
         }

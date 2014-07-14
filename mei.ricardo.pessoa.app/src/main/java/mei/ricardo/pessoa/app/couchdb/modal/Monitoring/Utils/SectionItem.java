@@ -2,24 +2,24 @@ package mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils;
 
 public class SectionItem implements InterfaceItem {
 
-	private final String title;
+    private final String title;
     private final String type;
     private final String deviceMacAddress;
 
-	public SectionItem(String title,String type,String macAddress) {
+    public SectionItem(String title, String type, String macAddress) {
         this.title = title;
         this.type = type;
         this.deviceMacAddress = macAddress;
-	}
-	
-	public String getTitle(){
-		return title;
-	}
-	
-	@Override
-	public boolean isSection() {
-		return true;
-	}
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public boolean isSection() {
+        return true;
+    }
 
     public String getType() {
         return type;

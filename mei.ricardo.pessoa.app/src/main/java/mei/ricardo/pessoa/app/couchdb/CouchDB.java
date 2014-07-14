@@ -156,13 +156,13 @@ public class CouchDB implements Replication.ChangeListener {
                 Object mac_address = document.get("mac_address");
                 Object subtype = document.get("subtype");
                 Object timestamp = document.get("timestamp");
-                if (mac_address != null && subtype != null && timestamp!=null) {
+                if (mac_address != null && subtype != null && timestamp != null) {
                     //compoundKey.add(document.get("mac_address"));
                     //compoundKey.add(document.get("subtype"));
-                    Object[] objects = new Object[] {mac_address.toString(),subtype.toString(),timestamp.toString()};
+                    Object[] objects = new Object[]{mac_address.toString(), subtype.toString(), timestamp.toString()};
                     //emitter.emit("["+mac_address+","+subtype+","+document.get("timestamp")+"]", document); //TODO need to fix to array but for some reason dont allow with key []
                     //emitter.emit(compoundKey,document);
-                    emitter.emit(objects,document);
+                    emitter.emit(objects, document);
                 }
             }
         }, "1.1");

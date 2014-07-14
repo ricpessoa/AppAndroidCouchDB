@@ -173,13 +173,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         // your code.
-        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(this,"Are you sure you want to exit the application?");
+        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(this, "Are you sure you want to exit the application?");
         dialogFragmentYesNoOk.setType(2);
         dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_yes), getString(R.string.fire_no));
         dialogFragmentYesNoOk.setBackToPreviousActivity(true);
-        dialogFragmentYesNoOk.show(getFragmentManager(),"");
+        dialogFragmentYesNoOk.show(getFragmentManager(), "");
     }
 }

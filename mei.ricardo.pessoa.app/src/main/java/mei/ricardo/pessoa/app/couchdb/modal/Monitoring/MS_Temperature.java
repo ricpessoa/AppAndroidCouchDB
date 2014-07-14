@@ -16,18 +16,21 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
 /**
  * Created by rpessoa on 05/06/14.
  */
-public class MS_Temperature extends MonitorSensor{
+public class MS_Temperature extends MonitorSensor {
 
-    public enum NOTIFICATIONTYPE{LOW, RANGE,HIGH};
+    public enum NOTIFICATIONTYPE {LOW, RANGE, HIGH}
+
+    ;
     private float value;
     private String notifification;
 
-    public MS_Temperature(String value, String notification,String mac_address, String subType, String timestamp) {
-        super(mac_address,subType,timestamp);
+    public MS_Temperature(String value, String notification, String mac_address, String subType, String timestamp) {
+        super(mac_address, subType, timestamp);
         this.value = Float.parseFloat(value);
         this.notifification = notification;
     }
-    public MS_Temperature(Document document) throws Exception{
+
+    public MS_Temperature(Document document) throws Exception {
         super(document.getProperty("mac_address").toString(), document.getProperty("subtype").toString(), document.getProperty("timestamp").toString());
         this.value = Float.parseFloat(document.getProperty("value").toString());
         this.notifification = document.getProperty("notification").toString();
@@ -38,13 +41,13 @@ public class MS_Temperature extends MonitorSensor{
     }
 
     public Drawable getImage() {
-        if (notifification==null)
+        if (notifification == null)
             return Application.getmContext().getResources().getDrawable(R.drawable.temp_red_small);
 
-        if(!notifification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
+        if (!notifification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
             return Application.getmContext().getResources().getDrawable(R.drawable.temp_red_small);
         }
-        return  Application.getmContext().getResources().getDrawable(R.drawable.temp_green_small);
+        return Application.getmContext().getResources().getDrawable(R.drawable.temp_green_small);
     }
 
     public static ArrayList<MS_Temperature> getSensorTemperatureByMacAddressTimestamp(String macAddress, String timestamp, int numberResults) {

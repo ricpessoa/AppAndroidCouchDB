@@ -12,7 +12,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
-        android:paddingBottom="5dp"/>
+        android:paddingBottom="5dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

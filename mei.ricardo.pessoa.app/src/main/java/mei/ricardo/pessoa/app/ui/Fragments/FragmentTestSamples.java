@@ -1,7 +1,6 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,6 @@ import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorGPS;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 
 
@@ -48,7 +46,7 @@ public class FragmentTestSamples extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_test_samples, container, false);
-        Button testButton = (Button) rootView.findViewById(R.id.button);
+        Button testButton = (Button) rootView.findViewById(R.id.buttonEditSafezoneName);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +83,7 @@ public class FragmentTestSamples extends Fragment {
         protected Boolean doInBackground(Void... params) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(Application.hostUrl+Application.serviceAddDeviceUrl);
+            HttpPost httppost = new HttpPost(Application.hostUrl + Application.serviceAddDeviceUrl);
 
             try {
                 // Add your data
@@ -138,7 +136,7 @@ public class FragmentTestSamples extends Fragment {
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
                 Log.e(TAG, "Error ClientProtocolException in Login");
-                return  false;
+                return false;
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 Log.e(TAG, "Error IOException in Login");

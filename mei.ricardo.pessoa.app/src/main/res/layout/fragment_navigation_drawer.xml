@@ -9,7 +9,7 @@
         android:id="@+id/notificationLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:name="mei.ricardo.pessoa.app.ui.Fragments.FragmentNotification"/>
+        android:name="mei.ricardo.pessoa.app.ui.Fragments.FragmentNotification" />
 
     <ListView
         android:id="@+id/menu_list"
@@ -19,6 +19,6 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
         android:layout_below="@+id/notificationLayout"
-        android:layout_marginTop="5dp"/>
-    </RelativeLayout>
+        android:layout_marginTop="5dp" />
+</RelativeLayout>
 

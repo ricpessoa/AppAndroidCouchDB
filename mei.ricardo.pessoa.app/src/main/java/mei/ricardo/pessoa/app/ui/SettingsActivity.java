@@ -23,8 +23,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem)
-    {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
         onBackPressed();
         return true;
     }

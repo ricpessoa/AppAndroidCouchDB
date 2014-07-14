@@ -7,7 +7,7 @@ public class Sensor {
     private String name_sensor;
     private String type;
 
-    public Sensor(String name_sensor, String type){
+    public Sensor(String name_sensor, String type) {
         this.name_sensor = name_sensor;
         this.type = type;
     }

@@ -1,6 +1,5 @@
 package mei.ricardo.pessoa.app.ui.Safezone;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,33 +16,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.codehaus.jackson.map.ext.JodaDeserializers;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
-import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.couchdb.modal.Device;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.SectionItem;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorGPS;
-import mei.ricardo.pessoa.app.utils.Utilities;
+import mei.ricardo.pessoa.app.ui.Fragments.Utils.DownloadImageTask;
+;
 
-public class ListSafezones extends ActionBarActivity {
-    private static String TAG = ListSafezones.class.getCanonicalName();
+public class ActivityListSafezones extends ActionBarActivity {
+    private static String TAG = ActivityListSafezones.class.getCanonicalName();
     public static String varMacAddressOfDevice = "varMacAddressOfDevice";
     private String macAddress;
+    private ArrayList<Safezone> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +43,7 @@ public class ListSafezones extends ActionBarActivity {
 
         macAddress = getIntent().getExtras().getString(varMacAddressOfDevice);
 
-        ArrayList<Safezone> arrayList = Safezone.getSafezonesOfDeviceGPS(macAddress);
+        arrayList = Safezone.getSafezonesOfDeviceGPS(macAddress);
         for (Safezone safezone : arrayList) {
             Log.d(TAG, "Safezone " + safezone.getDevice() + " - " + safezone.getAddress());
         }
@@ -62,7 +53,10 @@ public class ListSafezones extends ActionBarActivity {
         listViewSafezones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Safezone safezone = arrayList.get(i);
+                Intent intent = new Intent(getApplicationContext(), ActivitySafezoneOptions.class);
+                intent.putExtra(ActivitySafezoneOptions.passVarIDSafezone, safezone.get_id());
+                startActivity(intent);
             }
         });
     }
@@ -107,7 +101,7 @@ public class ListSafezones extends ActionBarActivity {
 
                 final Safezone i = items.get(position);
                 if (i != null) {
-                    Safezone monitorSensor = (Safezone) i;
+                    Safezone safezone = (Safezone) i;
                     v = vi.inflate(R.layout.list_item_entry, null);
                     RelativeLayout relativeLayout = (RelativeLayout) v.findViewById(R.id.relative_layout_entry);
                     relativeLayout.setBackgroundColor(color);
@@ -115,14 +109,15 @@ public class ListSafezones extends ActionBarActivity {
                     final ImageView imageView = (ImageView) v.findViewById(R.id.icon);
                     final TextView title = (TextView) v.findViewById(R.id.deviceName);
                     final TextView subtitle = (TextView) v.findViewById(R.id.deviceDescription);
-                    if (imageView != null)
+                    if (imageView != null) {
                         imageView.setImageDrawable(null);
-                    new DownloadImageTask(imageView)
-                            .execute("https://cbks0.google.com/cbk?output=thumbnail&w=120&h=120&ll=" + monitorSensor.getLatitude() + "," + monitorSensor.getLongitude() + "&thumb=0");
+                        new DownloadImageTask(imageView)
+                                .execute("https://cbks0.google.com/cbk?output=thumbnail&w=120&h=120&ll=" + safezone.getLatitude() + "," + safezone.getLongitude() + "&thumb=0");
+                    }
                     if (title != null)
-                        title.setText(monitorSensor.getName());
+                        title.setText(safezone.getName());
                     if (subtitle != null)
-                        subtitle.setText(monitorSensor.getAddress());
+                        subtitle.setText(safezone.getAddress());
                 }
             } catch (Exception ex) {
                 Log.e(TAG, "error fill the safezone listview");
@@ -142,28 +137,5 @@ public class ListSafezones extends ActionBarActivity {
         }
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 }
