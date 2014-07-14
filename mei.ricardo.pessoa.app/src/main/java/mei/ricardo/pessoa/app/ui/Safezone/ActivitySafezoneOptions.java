@@ -1,7 +1,6 @@
 package mei.ricardo.pessoa.app.ui.Safezone;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.plus.model.people.Person;
-
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
 import mei.ricardo.pessoa.app.ui.Fragments.Utils.DownloadImageTask;
@@ -22,7 +19,9 @@ import mei.ricardo.pessoa.app.ui.Fragments.Utils.DownloadImageTask;
 public class ActivitySafezoneOptions extends ActionBarActivity implements View.OnClickListener {
     private static String TAG = ActivitySafezoneOptions.class.getCanonicalName();
     public static String passVarIDSafezone = "passVarIDSafezone";
-    public static String returnVariableNewName = "returnVariableNewName";
+    //public static String returnVariableNewName = "returnVariableNewName";
+    static final int valueOnActivityResultCode = 1;  // The request code
+    //http://rominirani.com/android-activity-call-and-wait/
     private String IDSafezone;
     private Safezone safezone;
 
@@ -77,7 +76,6 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
         return super.onOptionsItemSelected(item);
     }
 
-    static final int PICK_CONTACT_REQUEST = 1;  // The request code
 
     @Override
     public void onClick(View view) {
@@ -90,7 +88,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
             Intent intent = new Intent(this, ActivityEditNameSafezone.class);
             //intent.putExtra(ActivityEditNameSafezone.passVarAddressName, safezone.getAddress());
             intent.putExtra(ActivityEditNameSafezone.passVarNameSafezone, safezone.getName());
-            startActivityForResult(intent, PICK_CONTACT_REQUEST);
+            startActivityForResult(intent, valueOnActivityResultCode);
         } else if (view.getId() == R.id.buttonEditSafezoneRadius) {
             Log.d(TAG, "Clicked buttonEditSafezoneRadius");
         }
@@ -98,7 +96,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_CONTACT_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == valueOnActivityResultCode && resultCode == RESULT_OK) {
             //Display the modified values
             Toast.makeText(this, "TODO: UPDATE SAFEZONE NAME " + data.getExtras().getString(returnVariableNewName), Toast.LENGTH_SHORT).show();
 
