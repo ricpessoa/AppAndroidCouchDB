@@ -35,8 +35,9 @@ public class Safezone {
     private String _id;
     private String address;
     private String name;
-    private float latitude;
-    private float longitude;
+    //why double?? because double have 64 bits compared by float 32 bits //http://www.java-samples.com/showtutorial.php?tutorialid=261
+    private double latitude;
+    private double longitude;
     private int radius;
     private String notification; //[CHECK-IN CHECK-OUT OR BOTH]
     private String timestamp;
@@ -57,8 +58,8 @@ public class Safezone {
         this._id = _id;
         this.address = address;
         this.name = name;
-        this.latitude = Float.parseFloat(latitude);
-        this.longitude = Float.parseFloat(longitude);
+        this.latitude = Double.parseDouble(latitude);
+        this.longitude = Double.parseDouble(longitude);
         this.radius = Integer.parseInt(radius);
         this.notification = notification;
         this.timestamp = timestamp;
@@ -85,19 +86,19 @@ public class Safezone {
         this.name = name;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
