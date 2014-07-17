@@ -1,6 +1,8 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,7 +56,7 @@ public class FragmentTestSamples extends Fragment {
                 mRegisterTask.execute((Void) null);
             }
         });
-        Button testMSGPS = (Button) rootView.findViewById(R.id.buttonMonitoringGPS);
+        // Button testMSGPS = (Button) rootView.findViewById(R.id.buttonMonitoringGPS);
 //        testMSGPS.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

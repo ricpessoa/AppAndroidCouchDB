@@ -35,6 +35,7 @@ public class ActivityListSafezones extends ActionBarActivity {
     public static String varMacAddressOfDevice = "varMacAddressOfDevice";
     private String macAddress;
     private ArrayList<Safezone> arrayList;
+    private ListView listViewSafezones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,22 @@ public class ActivityListSafezones extends ActionBarActivity {
 
         macAddress = getIntent().getExtras().getString(varMacAddressOfDevice);
 
+//        for (Safezone safezone : arrayList) {
+//            Log.d(TAG, "Safezone " + safezone.getDevice() + " - " + safezone.getAddress());
+//        }
+        listViewSafezones = (ListView) findViewById(R.id.listViewSafezones);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshActivity();
+    }
+
+    private void refreshActivity() {
         arrayList = Safezone.getSafezonesOfDeviceGPS(macAddress);
-        for (Safezone safezone : arrayList) {
-            Log.d(TAG, "Safezone " + safezone.getDevice() + " - " + safezone.getAddress());
-        }
-        ListView listViewSafezones = (ListView) findViewById(R.id.listViewSafezones);
+
         SafezoneListViewAdapter adapter = new SafezoneListViewAdapter(this, arrayList);
         listViewSafezones.setAdapter(adapter);
         listViewSafezones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,7 +72,6 @@ public class ActivityListSafezones extends ActionBarActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,10 +125,14 @@ public class ActivityListSafezones extends ActionBarActivity {
                         new DownloadImageTask(imageView)
                                 .execute("https://cbks0.google.com/cbk?output=thumbnail&w=120&h=120&ll=" + safezone.getLatitude() + "," + safezone.getLongitude() + "&thumb=0");
                     }
-                    if (title != null)
+                    if(!safezone.getName().trim().equals("")){
                         title.setText(safezone.getName());
-                    if (subtitle != null)
                         subtitle.setText(safezone.getAddress());
+                    }else{
+                        title.setText(safezone.getAddress());
+                        subtitle.setText("");
+                    }
+
                 }
             } catch (Exception ex) {
                 Log.e(TAG, "error fill the safezone listview");

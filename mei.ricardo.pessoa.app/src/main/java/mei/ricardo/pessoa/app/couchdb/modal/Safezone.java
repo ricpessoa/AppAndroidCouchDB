@@ -1,6 +1,7 @@
 package mei.ricardo.pessoa.app.couchdb.modal;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
@@ -28,6 +30,8 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
  */
 public class Safezone {
     private static String TAG = Safezone.class.getCanonicalName();
+    public static String[] typeNotifications = {"NONE", "CHECK_INS_ONLY", "CHECK_OUTS_ONLY", "ALL"};
+
     private String _id;
     private String address;
     private String name;
@@ -37,9 +41,6 @@ public class Safezone {
     private String notification; //[CHECK-IN CHECK-OUT OR BOTH]
     private String timestamp;
     private String device;
-
-    public Safezone() {
-    }
 
     public Safezone(String address, String name, String latitude, String longitude, String radius, String notification, String timestamp, String device) {
         this.address = address;
@@ -112,6 +113,16 @@ public class Safezone {
         return notification;
     }
 
+    public int getNotificationPosition() {
+        if (getNotification().equals(typeNotifications[1]))
+            return 1;
+        else if (getNotification().equals(typeNotifications[2]))
+            return 2;
+        else if (getNotification().equals(typeNotifications[3]))
+            return 3;
+        return 0;
+    }
+
     public void setNotification(String notification) {
         this.notification = notification;
     }
@@ -169,7 +180,48 @@ public class Safezone {
         Document document = CouchDB.getmCouchDBinstance().getDatabase().getExistingDocument(idSafezone);
         if (document == null)
             return null;
-        Safezone tempSafezone = new Safezone(document.getProperty("address").toString(), document.getProperty("name").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), document.getProperty("radius").toString(), document.getProperty("notification").toString(), document.getProperty("timestamp").toString(), document.getProperty("device").toString());
+        Safezone tempSafezone = null;
+        try {
+            tempSafezone = new Safezone(idSafezone, document.getProperty("address").toString(), document.getProperty("name").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), document.getProperty("radius").toString(), document.getProperty("notification").toString(), document.getProperty("timestamp").toString(), document.getProperty("device").toString());
+        } catch (Exception ex) {
+            Log.d(TAG, "Error getting safezone " + idSafezone);
+        }
         return tempSafezone;
+    }
+
+    public void saveSafezone() throws CouchbaseLiteException {
+        // create an object to hold document data
+        Map<String, Object> properties = new HashMap<String, Object>();
+        if (CouchDB.getmCouchDBinstance().getDatabase() != null) {
+            properties.put("address", this.getAddress());
+            properties.put("latitude", this.getLatitude());
+            properties.put("longitude", this.getLongitude());
+            properties.put("name", this.getName());
+            properties.put("notification", this.getNotification());
+            properties.put("radius", this.getRadius());
+            properties.put("timestamp", System.currentTimeMillis());
+            properties.put("type", "safezone");
+            properties.put("device", this.getDevice());
+
+// getDocument if exist return document by id else create document with the parameter
+            Document document = CouchDB.getmCouchDBinstance().getDatabase().getDocument(this.get_id());
+            properties.put("_rev", document.getCurrentRevisionId()); //get last rev document
+// store the data in the document
+            document.putProperties(properties);
+        }
+    }
+
+    public static boolean delete(String idSafezone) {
+        Document document = CouchDB.getmCouchDBinstance().getDatabase().getExistingDocument(idSafezone);
+        if (document != null) {
+            try {
+                document.delete();
+                return true;
+            } catch (CouchbaseLiteException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 }

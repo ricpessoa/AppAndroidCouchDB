@@ -107,6 +107,10 @@
             android:name=".ui.Safezone.ActivityEditNameSafezone"
             android:label="@string/title_activity_activity_edit_name_safezone" >
         </activity>
+        <activity
+            android:name=".ui.Safezone.ActivitySafezoneEditMap"
+            android:label="@string/title_activity_activity_safezone_edit_map" >
+        </activity>
     </application>
 
 </manifest>

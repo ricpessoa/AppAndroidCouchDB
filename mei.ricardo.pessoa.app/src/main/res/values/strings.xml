@@ -136,12 +136,15 @@
     <string name="title_activity_safezone">Safezone</string>
     <string name="str_button_editRadius">Edit Radius</string>
     <string name="str_button_editNameSafezone">Edit Name</string>
+    <string name="str_button_editNotification">Edit Notification</string>
     <string name="str_button_editSafezone">Edit Location</string>
     <string name="str_button_deleteSafezone">Delete Safezone</string>
 
-    <!-- strings Safezone Activity -->
+    <!-- strings edit Safezone Activity -->
     <string name="title_activity_activity_edit_name_safezone">ActivityEditNameSafezone</string>
     <string name="str_editNameOfSafezone">Name Of Safezone:</string>
+    <string name="str_editNotificationOfSafezone">Notification of Safezone</string>
     <string name="str_button_save">Update</string>
+    <string name="title_activity_activity_safezone_edit_map">ActivitySafezoneEditMap</string>
 
 </resources>

@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/imageViewSafezoneStreetView"
-            android:layout_width="200dip"
-            android:layout_height="200dip"
+            android:layout_width="180dip"
+            android:layout_height="180dip"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dip"
@@ -63,10 +63,17 @@
             android:text="@string/str_button_editRadius" />
 
         <Button
+            android:id="@+id/buttonEditNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/str_button_editNotification"
+            android:layout_below="@+id/buttonEditSafezoneRadius"/>
+        <Button
             android:id="@+id/buttonEditSafezone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/buttonEditSafezoneRadius"
+            android:layout_below="@+id/buttonEditNotification"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dip"
             android:layout_marginTop="10dip"
@@ -79,6 +86,8 @@
             android:layout_below="@+id/buttonEditSafezone"
             android:layout_centerHorizontal="true"
             android:text="@string/str_button_deleteSafezone" />
+
+
 
 
     </RelativeLayout>

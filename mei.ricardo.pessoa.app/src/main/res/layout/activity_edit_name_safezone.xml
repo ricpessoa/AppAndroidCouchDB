@@ -25,15 +25,34 @@
         android:text="@string/str_editNameOfSafezone"
         android:id="@+id/textView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textViewEditNameSafezone"
+        android:layout_alignEnd="@+id/textViewEditNameSafezone" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/str_button_save"
         android:id="@+id/buttonUpdate"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/str_editNotificationOfSafezone"
+        android:id="@+id/textView2"
         android:layout_below="@+id/textViewEditNameSafezone"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dip" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textViewEditNameSafezone"
+        android:layout_alignEnd="@+id/textViewEditNameSafezone" />
+
+    <Spinner
+        android:id="@+id/spinnerNotifications"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"/>
 
 </RelativeLayout>

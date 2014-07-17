@@ -12,16 +12,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.couchbase.lite.CouchbaseLiteException;
+
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
 import mei.ricardo.pessoa.app.ui.Fragments.Utils.DownloadImageTask;
 
+/**
+ * References :
+ * startActivityForResult -  //http://rominirani.com/android-activity-call-and-wait/
+ * Dialog to picker one option - http://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
+ */
 public class ActivitySafezoneOptions extends ActionBarActivity implements View.OnClickListener {
     private static String TAG = ActivitySafezoneOptions.class.getCanonicalName();
     public static String passVarIDSafezone = "passVarIDSafezone";
-    //public static String returnVariableNewName = "returnVariableNewName";
-    static final int valueOnActivityResultCode = 1;  // The request code
-    //http://rominirani.com/android-activity-call-and-wait/
+    public static String returnVariableNewName = "returnVariableNewName";
+    public static String returnVariableNewNotification = "returnVariableNewNotification";
+    // The requests codes to startActivityForResult
+    static final int valueOnActivityResultCodeChangeName = 1;
+    static final int valueOnActivityResultCodeChangeNotifications = 2;
+    static final int valueOnActivityResultCodeChangeRadius = 3;
+    static final int valueOnActivityResultCodeChangeLocation = 3;
+
     private String IDSafezone;
     private Safezone safezone;
 
@@ -31,7 +43,20 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
         setContentView(R.layout.activity_safezone);
 
         IDSafezone = getIntent().getExtras().getString(passVarIDSafezone);
+        refreshActivity();
+        Button buttonEditLocation = (Button) findViewById(R.id.buttonEditSafezone);
+        buttonEditLocation.setOnClickListener(this);
+        Button buttonEditNotification = (Button) findViewById(R.id.buttonEditNotification);
+        buttonEditNotification.setOnClickListener(this);
+        Button buttonEditRadius = (Button) findViewById(R.id.buttonEditSafezoneRadius);
+        buttonEditRadius.setOnClickListener(this);
+        Button buttonEditName = (Button) findViewById(R.id.buttonEditSafezoneName);
+        buttonEditName.setOnClickListener(this);
+        Button buttonDelete = (Button) findViewById(R.id.buttonDeleteSafezone);
+        buttonDelete.setOnClickListener(this);
+    }
 
+    private void refreshActivity() {
         safezone = Safezone.getSafezoneByID(IDSafezone);
         ImageView imageViewSafezone = (ImageView) findViewById(R.id.imageViewSafezoneStreetView);
         new DownloadImageTask(imageViewSafezone)
@@ -43,17 +68,6 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
             TextViewname.setText(safezone.getName());
             TextViewname.setVisibility(View.VISIBLE);
         }
-
-        Button buttonEditLocation = (Button) findViewById(R.id.buttonEditSafezone);
-        buttonEditLocation.setOnClickListener(this);
-        Button buttonEditRadius = (Button) findViewById(R.id.buttonEditSafezoneRadius);
-        buttonEditRadius.setOnClickListener(this);
-        Button buttonEditName = (Button) findViewById(R.id.buttonEditSafezoneName);
-        buttonEditName.setOnClickListener(this);
-        Button buttonDelete = (Button) findViewById(R.id.buttonDeleteSafezone);
-        buttonDelete.setOnClickListener(this);
-
-
     }
 
 
@@ -79,28 +93,53 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.buttonDeleteSafezone) {
-            Log.d(TAG, "Clicked buttonDeleteSafezone");
-        } else if (view.getId() == R.id.buttonEditSafezone) {
+        if (view.getId() == R.id.buttonEditSafezone) {
             Log.d(TAG, "Clicked buttonEditSafezone");
-        } else if (view.getId() == R.id.buttonEditSafezoneName) {
-            Log.d(TAG, "Clicked buttonEditSafezoneName");
-            Intent intent = new Intent(this, ActivityEditNameSafezone.class);
-            //intent.putExtra(ActivityEditNameSafezone.passVarAddressName, safezone.getAddress());
-            intent.putExtra(ActivityEditNameSafezone.passVarNameSafezone, safezone.getName());
-            startActivityForResult(intent, valueOnActivityResultCode);
+            Intent intent = new Intent(this,ActivitySafezoneEditMap.class);
+            intent.putExtra(passVarIDSafezone,safezone.get_id());
+            startActivity(intent);
         } else if (view.getId() == R.id.buttonEditSafezoneRadius) {
             Log.d(TAG, "Clicked buttonEditSafezoneRadius");
+        } else if (view.getId() == R.id.buttonEditSafezoneName) {
+            Intent intent = new Intent(this, ActivityEditNameSafezone.class);
+            intent.putExtra(ActivityEditNameSafezone.passVarNameSafezone, safezone.getName());
+            startActivityForResult(intent, valueOnActivityResultCodeChangeName);
+        } else if (view.getId() == R.id.buttonEditNotification) {
+            Intent intent = new Intent(this, ActivityEditNameSafezone.class);
+            intent.putExtra(ActivityEditNameSafezone.passVarNotificationSafezone, safezone.getNotificationPosition());
+            startActivityForResult(intent, valueOnActivityResultCodeChangeNotifications);
+        } else if (view.getId() == R.id.buttonDeleteSafezone) {
+            boolean deleted = Safezone.delete(safezone.get_id());
+            if (deleted)
+                finish();
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == valueOnActivityResultCode && resultCode == RESULT_OK) {
+        if (requestCode == valueOnActivityResultCodeChangeName && resultCode == RESULT_OK) {
             //Display the modified values
-            Toast.makeText(this, "TODO: UPDATE SAFEZONE NAME " + data.getExtras().getString(returnVariableNewName), Toast.LENGTH_SHORT).show();
-
+            String newName = data.getExtras().getString(returnVariableNewName);
+            Toast.makeText(this, "TODO: UPDATE SAFEZONE NAME " + newName, Toast.LENGTH_SHORT).show();
+            safezone.setName(newName);
+            try {
+                safezone.saveSafezone();
+            } catch (CouchbaseLiteException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Some error happened when try save safezone", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == valueOnActivityResultCodeChangeNotifications && resultCode == RESULT_OK) {
+            int newNotification = data.getExtras().getInt(returnVariableNewNotification);
+            Toast.makeText(this, "TODO: UPDATE SAFEZONE Notification " + newNotification, Toast.LENGTH_SHORT).show();
+            safezone.setNotification(Safezone.typeNotifications[newNotification]);
+            try {
+                safezone.saveSafezone();
+            } catch (CouchbaseLiteException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Some error happened when try save safezone", Toast.LENGTH_SHORT).show();
+            }
         }
+        refreshActivity();
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

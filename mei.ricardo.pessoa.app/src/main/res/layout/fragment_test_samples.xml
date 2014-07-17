@@ -9,7 +9,7 @@
     tools:context="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard">
 
     <TextView
-        android:text="My Dashboard Fragment"
+        android:text="TEST SAMPLE CODES"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textViewTitle" />
@@ -17,19 +17,16 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View MS GPS"
-        android:id="@+id/buttonMonitoringGPS"
-        android:layout_below="@+id/textViewTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="send information of sensor GPS"
         android:id="@+id/buttonEditSafezoneName"
-        android:layout_below="@+id/buttonMonitoringGPS"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textViewTitle" />
+
+    <TextSwitcher
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textSwitcher"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
 

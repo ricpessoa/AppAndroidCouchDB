@@ -47,14 +47,16 @@ dependencies {
     // hack to add .so objects
     compile fileTree(dir: 'libs', include: 'td_collator_so.jar')
     compile fileTree(dir: 'libs', include: 'nineoldandroids-2.4.0.jar')
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
+    //http://docs.couchbase.com/couchbase-lite/cbl-android/cbl-android-1.0b2/
+    //exist one new api couchdb base lite
+
+    http://developer.couchbase.com/mobile/develop/guides/couchbase-lite/index.html
 
     // You must install or update the Support Repository through the SDK manager to use this dependency.
-    compile 'com.android.support:appcompat-v7:19.+'
-    // You must install or update the Support Repository through the SDK manager to use this dependency.
+    compile 'com.android.support:support-v4:19.+'
     compile 'com.android.support:appcompat-v7:19.+'
     compile 'com.couchbase.cblite:CBLite:1.0.0-beta2'
-    // You must install or update the Support Repository through the SDK manager to use this dependency.
-    compile 'com.android.support:support-v4:19.+'
     compile 'com.google.android.gms:play-services:4.2.42'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
