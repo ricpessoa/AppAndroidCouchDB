@@ -28,12 +28,13 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
     public static String passVarIDSafezone = "passVarIDSafezone";
     public static String returnVariableNewName = "returnVariableNewName";
     public static String returnVariableNewNotification = "returnVariableNewNotification";
+    public static String passVarIsToEditLocation = "passVarIsToEditLocation";
     // The requests codes to startActivityForResult
     static final int valueOnActivityResultCodeChangeName = 1;
     static final int valueOnActivityResultCodeChangeNotifications = 2;
     static final int valueOnActivityResultCodeChangeRadius = 3;
-    static final int valueOnActivityResultCodeChangeLocation = 3;
 
+    static final int valueOnActivityResultCodeChangeLocation = 3;
     private String IDSafezone;
     private Safezone safezone;
 
@@ -70,48 +71,38 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.safezone, menu);
-        return true;
+    private void openActivitySafezoneEditMap(boolean isToEditLocation) {
+        Intent intent = new Intent(this, ActivitySafezoneEditMap.class);
+        intent.putExtra(passVarIDSafezone, safezone.get_id());
+        intent.putExtra(passVarIsToEditLocation, isToEditLocation);
+        startActivity(intent);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.buttonEditSafezone) {
-            Log.d(TAG, "Clicked buttonEditSafezone");
-            Intent intent = new Intent(this,ActivitySafezoneEditMap.class);
-            intent.putExtra(passVarIDSafezone,safezone.get_id());
-            startActivity(intent);
-        } else if (view.getId() == R.id.buttonEditSafezoneRadius) {
-            Log.d(TAG, "Clicked buttonEditSafezoneRadius");
-        } else if (view.getId() == R.id.buttonEditSafezoneName) {
-            Intent intent = new Intent(this, ActivityEditNameSafezone.class);
-            intent.putExtra(ActivityEditNameSafezone.passVarNameSafezone, safezone.getName());
-            startActivityForResult(intent, valueOnActivityResultCodeChangeName);
-        } else if (view.getId() == R.id.buttonEditNotification) {
-            Intent intent = new Intent(this, ActivityEditNameSafezone.class);
-            intent.putExtra(ActivityEditNameSafezone.passVarNotificationSafezone, safezone.getNotificationPosition());
-            startActivityForResult(intent, valueOnActivityResultCodeChangeNotifications);
-        } else if (view.getId() == R.id.buttonDeleteSafezone) {
-            boolean deleted = Safezone.delete(safezone.get_id());
-            if (deleted)
-                finish();
+        switch (view.getId()) {
+            case R.id.buttonEditSafezone:
+                openActivitySafezoneEditMap(true);
+                break;
+            case R.id.buttonEditSafezoneRadius:
+                openActivitySafezoneEditMap(false);
+                break;
+            case R.id.buttonEditSafezoneName:
+                Intent intentEdtiName = new Intent(this, ActivityEditNameSafezone.class);
+                intentEdtiName.putExtra(ActivityEditNameSafezone.passVarNameSafezone, safezone.getName());
+                startActivityForResult(intentEdtiName, valueOnActivityResultCodeChangeName);
+                break;
+            case R.id.buttonEditNotification:
+                Intent intentEditNotification = new Intent(this, ActivityEditNameSafezone.class);
+                intentEditNotification.putExtra(ActivityEditNameSafezone.passVarNotificationSafezone, safezone.getNotificationPosition());
+                startActivityForResult(intentEditNotification, valueOnActivityResultCodeChangeNotifications);
+                break;
+            case R.id.buttonDeleteSafezone:
+                boolean deleted = Safezone.delete(safezone.get_id());
+                if (deleted)
+                    finish();
+                break;
+
         }
     }
 

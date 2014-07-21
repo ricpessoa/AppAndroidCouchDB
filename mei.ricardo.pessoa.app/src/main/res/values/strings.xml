@@ -144,7 +144,12 @@
     <string name="title_activity_activity_edit_name_safezone">ActivityEditNameSafezone</string>
     <string name="str_editNameOfSafezone">Name Of Safezone:</string>
     <string name="str_editNotificationOfSafezone">Notification of Safezone</string>
-    <string name="str_button_save">Update</string>
+    <string name="str_button_update">Update</string>
+    <string name="str_button_save">Save</string>
+
+    <!-- strings edit Safezone EDIT MAP Activity -->
     <string name="title_activity_activity_safezone_edit_map">ActivitySafezoneEditMap</string>
+    <string name="str_search_adress">Search Address</string>
+    <string name="str_radius">Radius:</string>
 
 </resources>

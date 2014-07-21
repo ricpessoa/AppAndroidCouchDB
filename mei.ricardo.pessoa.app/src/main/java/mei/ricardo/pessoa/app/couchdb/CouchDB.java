@@ -196,7 +196,6 @@ public class CouchDB implements Replication.ChangeListener {
         if (liveQuery == null) {
 
             liveQuery = view.createQuery().toLiveQuery();
-
             liveQuery.addChangeListener(new LiveQuery.ChangeListener() {
                 @Override
                 public void changed(LiveQuery.ChangeEvent event) {
@@ -262,5 +261,7 @@ public class CouchDB implements Replication.ChangeListener {
         }
 
     }
+
+
 
 }

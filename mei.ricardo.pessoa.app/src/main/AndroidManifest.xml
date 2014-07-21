@@ -109,7 +109,15 @@
         </activity>
         <activity
             android:name=".ui.Safezone.ActivitySafezoneEditMap"
-            android:label="@string/title_activity_activity_safezone_edit_map" >
+            android:label="@string/title_activity_activity_safezone_edit_map"
+            android:launchMode="singleTop"> <!--singleTop to not open a new activity-->
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
     </application>
 

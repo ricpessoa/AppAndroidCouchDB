@@ -86,7 +86,9 @@ public class ActivityListSafezones extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_addSafezone) {
+            Intent intent = new Intent(this, ActivitySafezoneEditMap.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -125,10 +127,10 @@ public class ActivityListSafezones extends ActionBarActivity {
                         new DownloadImageTask(imageView)
                                 .execute("https://cbks0.google.com/cbk?output=thumbnail&w=120&h=120&ll=" + safezone.getLatitude() + "," + safezone.getLongitude() + "&thumb=0");
                     }
-                    if(!safezone.getName().trim().equals("")){
+                    if (!safezone.getName().trim().equals("")) {
                         title.setText(safezone.getName());
                         subtitle.setText(safezone.getAddress());
-                    }else{
+                    } else {
                         title.setText(safezone.getAddress());
                         subtitle.setText("");
                     }
