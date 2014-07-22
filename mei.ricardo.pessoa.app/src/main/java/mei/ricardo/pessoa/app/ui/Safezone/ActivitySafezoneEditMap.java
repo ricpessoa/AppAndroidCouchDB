@@ -20,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.couchbase.lite.CouchbaseLiteException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +44,8 @@ public class ActivitySafezoneEditMap extends Activity {
     private GoogleMap googleMap;
     private String safezoneID;
     private Safezone safezone;
+    private String mac_AddressOfDevice;
+    private boolean insertNewSafezone = false;
     private boolean editLocation;
     Circle circle;
     Marker marker;
@@ -54,6 +58,7 @@ public class ActivitySafezoneEditMap extends Activity {
         if (bundle != null) {
             safezoneID = bundle.getString(ActivitySafezoneOptions.passVarIDSafezone);
             editLocation = bundle.getBoolean(ActivitySafezoneOptions.passVarIsToEditLocation);
+            mac_AddressOfDevice = bundle.getString(ActivityListSafezones.varMacAddressOfDevice);
             safezone = Safezone.getSafezoneByID(safezoneID);
         }
 
@@ -61,10 +66,11 @@ public class ActivitySafezoneEditMap extends Activity {
             Log.d(TAG, "Safezone to edit");
         } else {
             Log.d(TAG, "Safezone to insert");
+            insertNewSafezone = true;
         }
         try {
             // Loading map
-            if (!editLocation)
+            if (!insertNewSafezone)
                 initSeekBar();
 
             initilizeMap();
@@ -79,7 +85,7 @@ public class ActivitySafezoneEditMap extends Activity {
         relativeLayoutRadius.setVisibility(View.VISIBLE);
 
         SeekBar seekBarRadius = (SeekBar) findViewById(R.id.seek_bar_radius);
-        seekBarRadius.setProgress(safezone.getRadius());
+        seekBarRadius.setProgress(500-safezone.getRadius());
         final TextView textViewRadius = (TextView) findViewById(R.id.textView2);
         textViewRadius.setText(safezone.getRadius() + " m");
         seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -160,10 +166,8 @@ public class ActivitySafezoneEditMap extends Activity {
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        if (!editLocation) {
-            // Associate searchable configuration with the SearchView
-            searchView.setVisibility(View.GONE);
-        }
+        // Associate searchable configuration with the SearchView
+
         MenuItem menuItemUpdateSafezone = menu.findItem(R.id.saveSafezone);
 
         if (safezoneID == null) {
@@ -196,13 +200,20 @@ public class ActivitySafezoneEditMap extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.saveSafezone) {
+            try {
+                safezone.saveSafezone(insertNewSafezone);
+            } catch (CouchbaseLiteException e) {
+                Log.e(TAG, "Error inserting/update safezone");
+                e.printStackTrace();
+            }
+
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     /**
-     * lookup safezone address thread *
+     * lookup safezone address BASED IN LATLNG thread *
      */
     public class ReverseGeocodeLookupTask extends AsyncTask<Void, Void, List<Address>> {
         private final LatLng latLng;
@@ -244,14 +255,18 @@ public class ActivitySafezoneEditMap extends Activity {
                 safezone.setAddress(newAddress);
                 Log.d(TAG, "Safezone address updated to: " + newAddress);
                 marker.setTitle(newAddress);
-                //safezone.setAddress();
+
+                if (marker.isInfoWindowShown()) {
+                    marker.hideInfoWindow();
+                    marker.showInfoWindow();
+                }
             }
             Log.d(TAG, "Finished task");
         }
     }
 
     /**
-     * Address lookup thread *
+     * lookup latitude and Longitude Base in ADDRESS  thread *
      */
 
     public class GeocodeLookupTask extends AsyncTask<String, Void, Address> {
@@ -289,25 +304,15 @@ public class ActivitySafezoneEditMap extends Activity {
             Double lng = location.getLongitude();
             final LatLng latLng = new LatLng(lat, lng);
 
-            Marker hamburg = googleMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(location.toString()));
-            // Move the camera instantly to hamburg with a zoom of 15.
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+            String newAddressName = getAddressString(location);
 
-            // Zoom in, animating the camera.
-            googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            if (insertNewSafezone) {
+                insertNewSafezoneInMap(latLng.latitude, latLng.longitude, 500, newAddressName, true);
+            } else if (safezone != null) {
+                insertSafezoneInMap(latLng.latitude, latLng.longitude, safezone.getRadius(), newAddressName, true);
+            }
 
 
-//            if (!address.equals(getString(R.string.noLocationMsg))) {
-//                addressTextView.setText(address);
-//                poi = new POI(address, location.getLatitude(), location.getLongitude());
-//            } else {
-//                addressTextView.setText(userInputAddress);
-//                poi = new POI(userInputAddress, location.getLatitude(), location.getLongitude());
-//            }
-
-            // SafezoneUtils.animateMapTo(controller, poi.getGeoPoint(), SafezoneUtils.FIND_ZOOM);
         }
     }
 
@@ -319,8 +324,15 @@ public class ActivitySafezoneEditMap extends Activity {
 
     }
 
+    private void insertNewSafezoneInMap(Double lat, Double lng, int radius, String address, boolean isDraggable) {
+        String dateTimestamp = new Date().getTime() + "";
+        safezone = new Safezone("safezone_" + dateTimestamp, address, address, lat.toString(), lng.toString(), radius + "", Safezone.typeNotifications[3], dateTimestamp, mac_AddressOfDevice);
+        insertSafezoneInMap(lat, lng, radius, address, isDraggable);
+    }
+
     private void insertSafezoneInMap(Double lat, Double lng, int radius, String address, boolean isDraggable) {
         // create marker
+        removeAllMarkers();
         Log.d(TAG, "Lat:" + lat + " Lng:" + lng);
         LatLng latLng = new LatLng(lat, lng);
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(address);
@@ -338,6 +350,13 @@ public class ActivitySafezoneEditMap extends Activity {
         markerOptions.draggable(isDraggable);
 
         marker = googleMap.addMarker(markerOptions);
+        marker.setTitle(address);
+
+        if (insertNewSafezone) {
+            initSeekBar();
+        }
+
+
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
     }
 

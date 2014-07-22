@@ -88,6 +88,7 @@ public class ActivityListSafezones extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.action_addSafezone) {
             Intent intent = new Intent(this, ActivitySafezoneEditMap.class);
+            intent.putExtra(varMacAddressOfDevice, macAddress);
             startActivity(intent);
             return true;
         }

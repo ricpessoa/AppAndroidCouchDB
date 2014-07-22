@@ -114,7 +114,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
             Toast.makeText(this, "TODO: UPDATE SAFEZONE NAME " + newName, Toast.LENGTH_SHORT).show();
             safezone.setName(newName);
             try {
-                safezone.saveSafezone();
+                safezone.saveSafezone(false);
             } catch (CouchbaseLiteException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Some error happened when try save safezone", Toast.LENGTH_SHORT).show();
@@ -124,7 +124,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
             Toast.makeText(this, "TODO: UPDATE SAFEZONE Notification " + newNotification, Toast.LENGTH_SHORT).show();
             safezone.setNotification(Safezone.typeNotifications[newNotification]);
             try {
-                safezone.saveSafezone();
+                safezone.saveSafezone(false);
             } catch (CouchbaseLiteException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Some error happened when try save safezone", Toast.LENGTH_SHORT).show();

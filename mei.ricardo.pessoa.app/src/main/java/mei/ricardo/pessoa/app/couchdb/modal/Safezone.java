@@ -190,7 +190,7 @@ public class Safezone {
         return tempSafezone;
     }
 
-    public void saveSafezone() throws CouchbaseLiteException {
+    public void saveSafezone(boolean isToInsertNewSafezone) throws CouchbaseLiteException {
         // create an object to hold document data
         Map<String, Object> properties = new HashMap<String, Object>();
         if (CouchDB.getmCouchDBinstance().getDatabase() != null) {
@@ -206,7 +206,9 @@ public class Safezone {
 
 // getDocument if exist return document by id else create document with the parameter
             Document document = CouchDB.getmCouchDBinstance().getDatabase().getDocument(this.get_id());
-            properties.put("_rev", document.getCurrentRevisionId()); //get last rev document
+            if (!isToInsertNewSafezone) {
+                properties.put("_rev", document.getCurrentRevisionId()); //get last rev document
+            }
 // store the data in the document
             document.putProperties(properties);
         }
