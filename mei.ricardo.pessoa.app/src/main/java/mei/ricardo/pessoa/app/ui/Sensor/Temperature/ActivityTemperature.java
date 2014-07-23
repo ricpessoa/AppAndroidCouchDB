@@ -54,7 +54,7 @@ public class ActivityTemperature extends ActionBarActivity {
                         Log.d(TAG, "error in max or min");
                     } else {
                         if (tempMax != (int) maxTemperature || tempMin != (int) minTemperature) {
-                            Toast.makeText(getApplicationContext(), "Some change in temperature", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "Some change in temperature", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), ActivityListSensors.class);
                             intent.putExtra(varPassMinimumTemperature, tempMin);
                             intent.putExtra(varPassMaximumTemperature, tempMax);

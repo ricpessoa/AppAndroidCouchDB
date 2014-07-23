@@ -3,6 +3,7 @@ package mei.ricardo.pessoa.app.ui.Sensor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,9 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
@@ -46,7 +50,6 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
         mListViewSensors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] sensors = mDevice.getSensors();
                 if (mDevice.getArrayListSensors() != null) {
                     Sensor sensor = mDevice.getArrayListSensors().get(i);
                     if (sensor.getType() == Device.DEVICESTYPE.GPS.toString()) {
@@ -80,10 +83,19 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
         Toast.makeText(this, "received id document " + ID, Toast.LENGTH_SHORT).show();
         mDevice = Device.getDeviceByID(ID);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, mDevice.getSensors());
+                android.R.layout.simple_list_item_1, android.R.id.text1, mDevice.getSensorsToShowInArrayString());
         // Assign adapter to ListView
         mListViewSensors.setAdapter(adapter);
         mSwitchMonitoringDevice.setChecked(mDevice.isMonitoring());
+
+
+//        Log.d(TAG, "o que vou fazer??? " + mDevice.getSensors());
+//        HashMap<Integer, Object> hashMap = mDevice.getSensors();
+//        for (Integer key : hashMap.keySet()) {
+//            //Capturamos o valor a partir da chave
+//            Object sensor = (Object) hashMap.get(key);
+//            System.out.println(key + " = " + sensor);
+//        }
 
     }
 
@@ -101,7 +113,8 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         mDevice.setMonitoring(isChecked);
         try {
-            mDevice.saveDevice();
+            if (mDevice.isMonitoring() != isChecked)
+                mDevice.saveDevice(false);
             Toast.makeText(this, "change Monitoring Device successful", Toast.LENGTH_SHORT);
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
@@ -113,19 +126,38 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == valueOnActivityResultCodeTemperature && resultCode == RESULT_OK) {
+        //ArrayList<Sensor> arrayList = mDevice.getArrayListSensors();
+        if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
-            if (bundle != null) {
-                int minTemperature = bundle.getInt(ActivityTemperature.varPassMinimumTemperature);
-                int maxTemperature = bundle.getInt(ActivityTemperature.varPassMaximumTemperature);
-                Toast.makeText(this, "Receive something from temperature " + minTemperature + " " + maxTemperature, Toast.LENGTH_SHORT).show();
+
+            if (requestCode == valueOnActivityResultCodeTemperature) {
+                if (bundle != null) {
+                    int index = 2;
+                    int minTemperature = bundle.getInt(ActivityTemperature.varPassMinimumTemperature);
+                    int maxTemperature = bundle.getInt(ActivityTemperature.varPassMaximumTemperature);
+                    SensorTemperature sensorTemperature = (SensorTemperature) mDevice.getArrayListSensors().get(index);
+                    sensorTemperature.setMin_temperature(minTemperature);
+                    sensorTemperature.setMax_temperature(maxTemperature);
+                    Toast.makeText(this, "Receive something from temperature " + minTemperature + " " + maxTemperature, Toast.LENGTH_SHORT).show();
+                }
+            } else if (requestCode == valueOnActivityResultCodeBattery) {
+                if (bundle != null) {
+                    int index = 3;
+                    int lowBattery = bundle.getInt(ActivityBattery.varPassLowBattery);
+                    int criticalBattery = bundle.getInt(ActivityBattery.varPassCriticalBattery);
+                    SensorBattery sensorBattery = (SensorBattery) mDevice.getArrayListSensors().get(index);
+                    sensorBattery.setLow_battery(lowBattery);
+                    sensorBattery.setCritical_battery(criticalBattery);
+                    Toast.makeText(this, "Receive something from battery " + lowBattery + " " + criticalBattery, Toast.LENGTH_SHORT).show();
+                }
             }
-        } else if (requestCode == valueOnActivityResultCodeBattery && resultCode == RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            if (bundle != null) {
-                int lowBattery = bundle.getInt(ActivityBattery.varPassLowBattery);
-                int criticalBattery = bundle.getInt(ActivityBattery.varPassCriticalBattery);
-                Toast.makeText(this, "Receive something from battery " + lowBattery + " " + criticalBattery, Toast.LENGTH_SHORT).show();
+
+            try {
+                //mDevice.setArrayListSensors(arrayList);
+                mDevice.saveDevice(true);
+            } catch (CouchbaseLiteException e) {
+                Log.d(TAG, "device: " + mDevice.getMac_address() + " error trying save");
+                e.printStackTrace();
             }
         }
     }

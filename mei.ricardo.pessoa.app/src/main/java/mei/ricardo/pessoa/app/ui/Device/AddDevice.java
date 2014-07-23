@@ -82,7 +82,7 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             if (atLeastOneSensor && validMacAddress && validNameDevice) {
                 Device device = new Device(macAddress.getText().toString(), nameDevice.getText().toString(), arraySensors, false);
                 try {
-                    device.saveDevice();
+                    device.saveDevice(false);
                 } catch (CouchbaseLiteException e) {
                     if (e.getCBLStatus().getCode() == Status.CONFLICT) {
                         Log.e(TAG, "Error Conflict try save device");

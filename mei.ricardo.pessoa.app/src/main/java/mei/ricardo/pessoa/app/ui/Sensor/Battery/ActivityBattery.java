@@ -54,7 +54,7 @@ public class ActivityBattery extends ActionBarActivity {
                         Log.d(TAG, "error in low or critical");
                     } else {
                         if (batCritical != (int) criticalBattery || batLow != (int) lowBattery) {
-                            Toast.makeText(getApplicationContext(), "Some change in battery", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "Some change in battery", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), ActivityListSensors.class);
                             intent.putExtra(varPassLowBattery, batLow);
                             intent.putExtra(varPassCriticalBattery, batCritical);

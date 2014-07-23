@@ -6,6 +6,7 @@ package mei.ricardo.pessoa.app.couchdb.modal;
 public class Sensor {
     private String name_sensor;
     private String type;
+    private boolean enable;
 
     public Sensor(String name_sensor, String type) {
         this.name_sensor = name_sensor;
@@ -26,5 +27,13 @@ public class Sensor {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    public boolean isEnable() {
+        return enable;
     }
 }

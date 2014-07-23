@@ -5,12 +5,13 @@ import android.util.Log;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
 
+import org.codehaus.jackson.map.ext.JodaDeserializers;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
-import mei.ricardo.pessoa.app.couchdb.SensorGPS;
 
 /**
  * Created by rpessoa on 06/05/14.
@@ -128,14 +129,17 @@ public class Device {
         return hashMapSensors;
     }
 
-    public void saveDevice() throws CouchbaseLiteException {
+    public void saveDevice(boolean updateSensors) throws CouchbaseLiteException {
         // create an object to hold document data
         Map<String, Object> properties = new HashMap<String, Object>();
 
         if (CouchDB.getmCouchDBinstance().getDatabase() != null) {
             properties.put("timestamp", System.currentTimeMillis());
             properties.put("name_device", name_device);
-            properties.put("sensors", sensors);
+            if (updateSensors)
+                properties.put("sensors", parseToSave(arrayListSensors, sensors));
+            else
+                properties.put("sensors", sensors);
             properties.put("type", "device");
             properties.put("monitoring", monitoring);
 // getDocument if exist return document by id else create document with the parameter
@@ -146,7 +150,29 @@ public class Device {
         }
     }
 
-    public String[] getSensors() {
+    private HashMap<String, Object> parseToSave(ArrayList<Sensor> arrayListSensors, HashMap<String, Object> sensors) {
+        for (Map.Entry<String, Object> entry : sensors.entrySet()) {
+            String key = entry.getKey();
+            HashMap<String, Object> value = new HashMap<String, Object>();
+            try {
+                value = (HashMap<String, Object>) entry.getValue();
+            } catch (ClassCastException ex) {
+                Log.d(TAG, "value -> error");
+            }
+            String type = value.get("type").toString();
+            Log.d(TAG, "pass " + type);
+            if (type.equals(DEVICESTYPE.temperature.toString())) {
+                value.put("min_temperature", ((SensorTemperature) arrayListSensors.get(2)).getMin_temperature());
+                value.put("max_temperature", ((SensorTemperature) arrayListSensors.get(2)).getMax_temperature());
+            } else if (type.equals(DEVICESTYPE.battery.toString())) {
+                value.put("low_battery", ((SensorBattery) arrayListSensors.get(3)).getLow_battery());
+                value.put("critical_battery", ((SensorBattery) arrayListSensors.get(3)).getCritical_battery());
+            }
+        }
+        return sensors;
+    }
+
+    public String[] getSensorsToShowInArrayString() {
         ArrayList<String> arrayListSensors = new ArrayList<String>();
         if (showPanicButton)
             arrayListSensors.add(devicesTypesString[0]);
