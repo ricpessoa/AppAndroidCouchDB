@@ -1,24 +1,17 @@
-package mei.ricardo.pessoa.app.ui.Safezone;
+package mei.ricardo.pessoa.app.ui.Sensor.Safezone;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
 
 public class ActivityEditNameSafezone extends ActionBarActivity {
     private static String TAG = ActivitySafezoneOptions.class.getCanonicalName();
@@ -40,37 +33,6 @@ public class ActivityEditNameSafezone extends ActionBarActivity {
 
         initNameOfSafezone();
         initNotification();
-
-//        setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                if (i == 0) {
-//                    Toast.makeText(getApplicationContext(), "Not valid option", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//        textViewNotification = (TextView) findViewById(R.id.editTextNotifications);
-//        textViewNotification.setText(Safezone.typeNotifications[previousNotification]);
-//        textViewNotification.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-//                builder.setTitle("Select a Notification Settings");
-//                builder.setItems(optionNotifications, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // the user clicked on colors[which]
-//                        Toast.makeText(getApplicationContext(), "clicked " + optionNotifications[which], Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent();
-//                        intent.putExtra(ActivitySafezoneOptions.returnVariableNewNotification, Safezone.typeNotifications[which]);
-//                        setResult(RESULT_OK, intent);
-//                        finish();
-//                    }
-//                });
-//                builder.show();
-//            }
-//        });
 
         Button buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
@@ -95,8 +57,6 @@ public class ActivityEditNameSafezone extends ActionBarActivity {
         spinnerNotifications = (Spinner) findViewById(R.id.spinnerNotifications);
         if (previousNotification != -1) {
 // Create an ArrayAdapter using the string array and a default spinner layout
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.planets_array, android.R.layout.simple_spinner_item);
             ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, optionNotifications);
 // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

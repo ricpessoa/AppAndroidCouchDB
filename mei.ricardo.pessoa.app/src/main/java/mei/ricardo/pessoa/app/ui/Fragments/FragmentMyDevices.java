@@ -35,7 +35,7 @@ import mei.ricardo.pessoa.app.couchdb.CouchDB;
 import mei.ricardo.pessoa.app.ui.Device.AddDevice;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.ui.Sensor.ActivitySensors;
+import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 
 public class FragmentMyDevices extends Fragment {
     public static final String notify = "mei.ricardo.pessoa.app.notify.devices";
@@ -73,8 +73,8 @@ public class FragmentMyDevices extends Fragment {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
                 DeviceRow deviceRow = deviceListAdapter.getCodeLearnChapter(arg2);
-                Intent intent = new Intent(getActivity(), ActivitySensors.class);
-                intent.putExtra(ActivitySensors.var_pass_id_sensor, deviceRow.deviceID);
+                Intent intent = new Intent(getActivity(), ActivityListSensors.class);
+                intent.putExtra(ActivityListSensors.var_pass_id_sensor, deviceRow.deviceID);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }

@@ -77,7 +77,7 @@
             android:name=".ui.Device.AddDevice"
             android:label="@string/title_activity_add_device" />
         <activity
-            android:name=".ui.Sensor.ActivitySensors"
+            android:name=".ui.Sensor.ActivityListSensors"
             android:label="@string/title_activity_sensors" />
         <activity
             android:name=".ui.MonitoringSensor.ActivityMonitorSensorGPS"
@@ -98,26 +98,32 @@
                 android:value=".ui.Fragments.FragmentMyDashboard" />
         </activity>
         <activity
-            android:name=".ui.Safezone.ActivityListSafezones"
+            android:name=".ui.Sensor.Safezone.ActivityListSafezones"
             android:label="@string/title_activity_list_safezones" />
         <activity
-            android:name=".ui.Safezone.ActivitySafezoneOptions"
+            android:name=".ui.Sensor.Safezone.ActivitySafezoneOptions"
             android:label="@string/title_activity_safezone" />
         <activity
-            android:name=".ui.Safezone.ActivityEditNameSafezone"
+            android:name=".ui.Sensor.Safezone.ActivityEditNameSafezone"
             android:label="@string/title_activity_activity_edit_name_safezone" >
         </activity>
         <activity
-            android:name=".ui.Safezone.ActivitySafezoneEditMap"
+            android:name=".ui.Sensor.Safezone.ActivitySafezoneEditMap"
             android:label="@string/title_activity_activity_safezone_edit_map"
-            android:launchMode="singleTop"> <!--singleTop to not open a new activity-->
+            android:launchMode="singleTop" > <!-- singleTop to not open a new activity -->
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".ui.Sensor.Temperature.ActivityTemperature"
+            android:label="@string/title_activity_activity_temperature" >
         </activity>
     </application>
 

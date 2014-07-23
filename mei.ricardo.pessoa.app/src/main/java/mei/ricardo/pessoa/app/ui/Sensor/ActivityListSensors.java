@@ -1,6 +1,5 @@
 package mei.ricardo.pessoa.app.ui.Sensor;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -17,19 +16,26 @@ import com.couchbase.lite.CouchbaseLiteException;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
-import mei.ricardo.pessoa.app.ui.Safezone.ActivityListSafezones;
+import mei.ricardo.pessoa.app.couchdb.modal.SensorBattery;
+import mei.ricardo.pessoa.app.couchdb.modal.SensorTemperature;
+import mei.ricardo.pessoa.app.ui.Sensor.Safezone.ActivityListSafezones;
+import mei.ricardo.pessoa.app.ui.Sensor.Temperature.ActivityTemperature;
 
-public class ActivitySensors extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener {
-    private static String TAG = ActivitySensors.class.getName();
+public class ActivityListSensors extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener {
+    private static String TAG = ActivityListSensors.class.getName();
     public static String var_pass_id_sensor = "var_pass_id_sensor";
+    public static String varMacAddressOfDevice = "varMacAddressOfDevice";
     private static Device mDevice;
     private Switch mSwitchMonitoringDevice;
     private ListView mListViewSensors;
 
+    static final int valueOnActivityResultCodeTemperature = 1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sensors);
+        setContentView(R.layout.activity_list_sensors);
 
         mSwitchMonitoringDevice = (Switch) findViewById(R.id.switchMonitoringDevice);
         mSwitchMonitoringDevice.setOnCheckedChangeListener(this);
@@ -43,8 +49,15 @@ public class ActivitySensors extends ActionBarActivity implements CompoundButton
                     Sensor sensor = mDevice.getArrayListSensors().get(i);
                     if (sensor.getType() == Device.DEVICESTYPE.GPS.toString()) {
                         Intent intent = new Intent(getApplicationContext(), ActivityListSafezones.class);
-                        intent.putExtra(ActivityListSafezones.varMacAddressOfDevice, mDevice.getMac_address());
+                        intent.putExtra(varMacAddressOfDevice, mDevice.getMac_address());
                         startActivity(intent);
+                    } else if (sensor.getType() == Device.DEVICESTYPE.temperature.toString()) {
+                        Intent intent = new Intent(getApplicationContext(), ActivityTemperature.class);
+                        SensorTemperature sensorTemperature = (SensorTemperature) sensor;
+                        intent.putExtra(varMacAddressOfDevice, mDevice.getMac_address());
+                        intent.putExtra(ActivityTemperature.varPassMinimumTemperature, sensorTemperature.getMin_temperature());
+                        intent.putExtra(ActivityTemperature.varPassMaximumTemperature, sensorTemperature.getMax_temperature());
+                        startActivityForResult(intent, valueOnActivityResultCodeTemperature);
                     } else {
                         Toast.makeText(getApplicationContext(), "sensortype:" + mDevice.getArrayListSensors().get(i).getType(), Toast.LENGTH_SHORT).show();
                     }
@@ -85,6 +98,21 @@ public class ActivitySensors extends ActionBarActivity implements CompoundButton
             e.printStackTrace();
             Toast.makeText(this, "Some error trying change Monitoring Device", Toast.LENGTH_SHORT);
             mDevice.setMonitoring(!mDevice.isMonitoring());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == valueOnActivityResultCodeTemperature && resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                int minTemperature = bundle.getInt(ActivityTemperature.varPassMinimumTemperature);
+                int maxTemperature = bundle.getInt(ActivityTemperature.varPassMaximumTemperature);
+                Toast.makeText(this, "Receive someting from temperature " + minTemperature + " " + maxTemperature, Toast.LENGTH_SHORT).show();
+
+            }
+
         }
     }
 }

@@ -152,4 +152,9 @@
     <string name="str_search_adress">Search Address</string>
     <string name="str_radius">Radius:</string>
 
+    <!-- strings Temperature Activity -->
+    <string name="title_activity_activity_temperature">Settings Temperature</string>
+    <string name="str_temperature_minimum">Minimum Temperature Notification</string>
+    <string name="str_temperature_maximum">Maximum Temperature Notification</string>
+
 </resources>

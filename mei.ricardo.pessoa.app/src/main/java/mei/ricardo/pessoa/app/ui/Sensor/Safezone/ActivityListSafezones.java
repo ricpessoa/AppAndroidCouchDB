@@ -1,11 +1,8 @@
-package mei.ricardo.pessoa.app.ui.Safezone;
+package mei.ricardo.pessoa.app.ui.Sensor.Safezone;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,17 +19,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
 import mei.ricardo.pessoa.app.ui.Fragments.Utils.DownloadImageTask;
+import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 ;
 
 public class ActivityListSafezones extends ActionBarActivity {
     private static String TAG = ActivityListSafezones.class.getCanonicalName();
-    public static String varMacAddressOfDevice = "varMacAddressOfDevice";
     private String macAddress;
     private ArrayList<Safezone> arrayList;
     private ListView listViewSafezones;
@@ -42,11 +38,8 @@ public class ActivityListSafezones extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_safezones);
 
-        macAddress = getIntent().getExtras().getString(varMacAddressOfDevice);
+        macAddress = getIntent().getExtras().getString(ActivityListSensors.varMacAddressOfDevice);
 
-//        for (Safezone safezone : arrayList) {
-//            Log.d(TAG, "Safezone " + safezone.getDevice() + " - " + safezone.getAddress());
-//        }
         listViewSafezones = (ListView) findViewById(R.id.listViewSafezones);
 
     }
@@ -88,7 +81,7 @@ public class ActivityListSafezones extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.action_addSafezone) {
             Intent intent = new Intent(this, ActivitySafezoneEditMap.class);
-            intent.putExtra(varMacAddressOfDevice, macAddress);
+            intent.putExtra(ActivityListSensors.varMacAddressOfDevice, macAddress);
             startActivity(intent);
             return true;
         }

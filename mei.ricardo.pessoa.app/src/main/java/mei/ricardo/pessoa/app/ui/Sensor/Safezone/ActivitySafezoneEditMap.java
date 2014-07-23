@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app.ui.Safezone;
+package mei.ricardo.pessoa.app.ui.Sensor.Safezone;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -37,6 +37,7 @@ import java.util.Locale;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
+import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 
 public class ActivitySafezoneEditMap extends Activity {
     private static String TAG = ActivitySafezoneOptions.class.getCanonicalName();
@@ -58,7 +59,7 @@ public class ActivitySafezoneEditMap extends Activity {
         if (bundle != null) {
             safezoneID = bundle.getString(ActivitySafezoneOptions.passVarIDSafezone);
             editLocation = bundle.getBoolean(ActivitySafezoneOptions.passVarIsToEditLocation);
-            mac_AddressOfDevice = bundle.getString(ActivityListSafezones.varMacAddressOfDevice);
+            mac_AddressOfDevice = bundle.getString(ActivityListSensors.varMacAddressOfDevice);
             safezone = Safezone.getSafezoneByID(safezoneID);
         }
 
@@ -70,7 +71,7 @@ public class ActivitySafezoneEditMap extends Activity {
         }
         try {
             // Loading map
-            if (!insertNewSafezone)
+            if (!insertNewSafezone && !editLocation)
                 initSeekBar();
 
             initilizeMap();
@@ -102,7 +103,7 @@ public class ActivitySafezoneEditMap extends Activity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                safezone.setRadius(seekBar.getProgress()+500);
             }
         });
     }
@@ -120,6 +121,7 @@ public class ActivitySafezoneEditMap extends Activity {
             googleMap.getUiSettings().setZoomControlsEnabled(false); // true to enable
             googleMap.getUiSettings().setCompassEnabled(false);
             googleMap.getUiSettings().setRotateGesturesEnabled(false);
+
             googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                 @Override
                 public void onMarkerDragStart(Marker marker) {
@@ -302,14 +304,13 @@ public class ActivitySafezoneEditMap extends Activity {
 
             Double lat = location.getLatitude();
             Double lng = location.getLongitude();
-            final LatLng latLng = new LatLng(lat, lng);
 
             String newAddressName = getAddressString(location);
 
             if (insertNewSafezone) {
-                insertNewSafezoneInMap(latLng.latitude, latLng.longitude, 500, newAddressName, true);
+                insertNewSafezoneInMap(lat, lng, 500, newAddressName, true);
             } else if (safezone != null) {
-                insertSafezoneInMap(latLng.latitude, latLng.longitude, safezone.getRadius(), newAddressName, true);
+                insertSafezoneInMap(lat, lng, safezone.getRadius(), newAddressName, true);
             }
 
 
