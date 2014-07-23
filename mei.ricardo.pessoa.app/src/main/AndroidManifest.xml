@@ -125,6 +125,10 @@
             android:name=".ui.Sensor.Temperature.ActivityTemperature"
             android:label="@string/title_activity_activity_temperature" >
         </activity>
+        <activity
+            android:name=".ui.Sensor.Battery.ActivityBattery"
+            android:label="@string/title_activity_activity_battery" >
+        </activity>
     </application>
 
 </manifest>

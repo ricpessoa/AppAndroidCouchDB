@@ -18,6 +18,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
 import mei.ricardo.pessoa.app.couchdb.modal.SensorBattery;
 import mei.ricardo.pessoa.app.couchdb.modal.SensorTemperature;
+import mei.ricardo.pessoa.app.ui.Sensor.Battery.ActivityBattery;
 import mei.ricardo.pessoa.app.ui.Sensor.Safezone.ActivityListSafezones;
 import mei.ricardo.pessoa.app.ui.Sensor.Temperature.ActivityTemperature;
 
@@ -30,6 +31,7 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
     private ListView mListViewSensors;
 
     static final int valueOnActivityResultCodeTemperature = 1;
+    static final int valueOnActivityResultCodeBattery = 2;
 
 
     @Override
@@ -58,8 +60,15 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
                         intent.putExtra(ActivityTemperature.varPassMinimumTemperature, sensorTemperature.getMin_temperature());
                         intent.putExtra(ActivityTemperature.varPassMaximumTemperature, sensorTemperature.getMax_temperature());
                         startActivityForResult(intent, valueOnActivityResultCodeTemperature);
+                    } else if (sensor.getType() == Device.DEVICESTYPE.battery.toString()) {
+                        Intent intent = new Intent(getApplicationContext(), ActivityBattery.class);
+                        SensorBattery sensorBattery = (SensorBattery) sensor;
+                        intent.putExtra(varMacAddressOfDevice, mDevice.getMac_address());
+                        intent.putExtra(ActivityBattery.varPassLowBattery, sensorBattery.getLow_battery());
+                        intent.putExtra(ActivityBattery.varPassCriticalBattery, sensorBattery.getCritical_battery());
+                        startActivityForResult(intent, valueOnActivityResultCodeBattery);
                     } else {
-                        Toast.makeText(getApplicationContext(), "sensortype:" + mDevice.getArrayListSensors().get(i).getType(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Sensor :" + mDevice.getArrayListSensors().get(i).getType() + " dont have settings", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -109,10 +118,15 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
             if (bundle != null) {
                 int minTemperature = bundle.getInt(ActivityTemperature.varPassMinimumTemperature);
                 int maxTemperature = bundle.getInt(ActivityTemperature.varPassMaximumTemperature);
-                Toast.makeText(this, "Receive someting from temperature " + minTemperature + " " + maxTemperature, Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(this, "Receive something from temperature " + minTemperature + " " + maxTemperature, Toast.LENGTH_SHORT).show();
             }
-
+        } else if (requestCode == valueOnActivityResultCodeBattery && resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                int lowBattery = bundle.getInt(ActivityBattery.varPassLowBattery);
+                int criticalBattery = bundle.getInt(ActivityBattery.varPassCriticalBattery);
+                Toast.makeText(this, "Receive something from battery " + lowBattery + " " + criticalBattery, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
