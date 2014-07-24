@@ -78,7 +78,12 @@ public class Device {
                 Log.d(TAG, "value -> error");
             }
             String type = value.get("type").toString();
-            boolean isEnable = Boolean.parseBoolean(value.get("enable").toString());
+            boolean isEnable = false;
+            try {
+                isEnable = Boolean.parseBoolean(value.get("enable").toString());
+            } catch (NullPointerException ex) {
+                Log.e(TAG, "Error. Parse sensor enable");
+            }
             if (type.equals(DEVICESTYPE.panic_button.toString())) {
                 showPanicButton = true;
                 SensorPanicButton sensorPanicButton = new SensorPanicButton(isEnable);

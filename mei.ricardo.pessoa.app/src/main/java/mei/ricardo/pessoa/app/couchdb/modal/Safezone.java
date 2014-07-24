@@ -1,15 +1,12 @@
 package mei.ricardo.pessoa.app.couchdb.modal;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
 import com.couchbase.lite.Query;
 import com.couchbase.lite.QueryEnumerator;
 import com.couchbase.lite.QueryRow;
-
-import org.codehaus.jackson.map.ext.JodaDeserializers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,11 +16,6 @@ import java.util.Map;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_NotHave;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 
 /**
  * Created by rpessoa on 12/07/14.
@@ -145,8 +137,8 @@ public class Safezone {
     }
 
     public static ArrayList<Safezone> getSafezonesOfDeviceGPS(String macAddress) {
-        //CouchDB.viewGetSafezones;
-        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetSafezones;
+        //CouchDB.viewGetSafezonesToFilterWithMacAddress;
+        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetSafezonesToFilterWithMacAddress;
         Query query = view.createQuery();
         ArrayList<Safezone> arrayListSafezones = new ArrayList<Safezone>();
         List<Object> keyArray = new ArrayList<Object>();

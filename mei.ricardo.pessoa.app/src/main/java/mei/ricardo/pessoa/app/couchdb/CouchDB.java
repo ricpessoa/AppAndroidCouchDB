@@ -15,17 +15,16 @@ import com.couchbase.lite.replicator.Replication;
 import com.couchbase.lite.support.CouchbaseLiteApplication;
 import com.couchbase.lite.util.Log;
 
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
+import mei.ricardo.pessoa.app.ui.Sensor.Safezone.ActivityListSafezones;
 
 /**
  * Created by rpessoa on 12/05/14.
@@ -39,6 +38,7 @@ public class CouchDB implements Replication.ChangeListener {
 
     //couch internals
     public static View viewGetDevices;
+    public static View viewGetSafezonesToFilterWithMacAddress;
     public static View viewGetSafezones;
     public static View viewGetMonitoringSensors;
     public static View viewGetDevicesMonitoring;
@@ -103,9 +103,9 @@ public class CouchDB implements Replication.ChangeListener {
 
         startLiveQuery(liveQueryDevice, viewGetDevices);
 
-        String allSafezonesViewName = "getAllSafezones";
-        viewGetSafezones = database.getView(String.format("%s/%s", designDocName, allSafezonesViewName));
-        viewGetSafezones.setMap(new Mapper() {
+        String getSafezonesToFilterWithMacAddressViewName = "getSafezonesToFilterWithMacAddressViewName";
+        viewGetSafezonesToFilterWithMacAddress = database.getView(String.format("%s/%s", designDocName, getSafezonesToFilterWithMacAddressViewName));
+        viewGetSafezonesToFilterWithMacAddress.setMap(new Mapper() {
             @Override
             public void map(Map<String, Object> document, Emitter emitter) {
                 Object objtype = document.get("type");
@@ -115,9 +115,21 @@ public class CouchDB implements Replication.ChangeListener {
                     emitter.emit(objDevice.toString(), document);
                 }
             }
-        }, "2");
+        }, "1.0");
 
-        //startLiveQuery(liveQueryGetSafezones, viewGetSafezones);
+
+        String allSafezonesViewName = "getAllSafezones";
+        viewGetSafezones = database.getView(String.format("%s/%s", designDocName, allSafezonesViewName));
+        viewGetSafezones.setMap(new Mapper() {
+            @Override
+            public void map(Map<String, Object> document, Emitter emitter) {
+                Object objtype = document.get("type");
+                if (objtype != null && objtype.equals("safezone")) {
+                    emitter.emit(objtype.toString(), document);
+                }
+            }
+        }, "1.0");
+        startLiveQuery(liveQueryGetSafezones, viewGetSafezones);
 
 
         String allMonitorSensorsViewName = "getAllMonitorSensors";
@@ -132,7 +144,7 @@ public class CouchDB implements Replication.ChangeListener {
             }
         }, "1.0");
 
-        //startLiveQuery(liveQueryMonitoringSensors, viewGetMonitoringSensors);
+        startLiveQuery(liveQueryMonitoringSensors, viewGetMonitoringSensors);
 
         String DevicesToMonitoringViewName = "getDevicesToMonitoring";
         viewGetDevicesMonitoring = database.getView(String.format("%s/%s", designDocName, DevicesToMonitoringViewName));
@@ -141,11 +153,11 @@ public class CouchDB implements Replication.ChangeListener {
             public void map(Map<String, Object> document, Emitter emitter) {
                 Object objDevice = document.get("type");
                 Object monitoring = document.get("monitoring");
-                if (objDevice != null && objDevice.equals("device") && monitoring.equals(true)) {
+                if (objDevice != null && objDevice.equals("device") && monitoring != null && monitoring.equals(true)) {
                     emitter.emit(objDevice.toString(), document);
                 }
             }
-        }, "1.0");
+        }, "2.0");
 
         String MonitoringSensor = "getMonitorSensorByKeys";
         viewGetMonitorSensor = database.getView(String.format("%s/%s", designDocName, MonitoringSensor));
@@ -165,7 +177,7 @@ public class CouchDB implements Replication.ChangeListener {
                     emitter.emit(objects, document);
                 }
             }
-        }, "1.1");
+        }, "1.0");
     }
 
     private void startSync() {
@@ -237,8 +249,11 @@ public class CouchDB implements Replication.ChangeListener {
             Application.getmContext().sendBroadcast(intent);
             android.util.Log.d(TAG, "_Notify -> " + FragmentMyDevices.class.getCanonicalName());
         } else if (notifySafezones) {
-            //TODO: send broadcast to safezone view
-            android.util.Log.d(TAG, "_Notify -> Safezones");
+            Log.d(TAG, "_Notify -> " + ActivityListSafezones.class.getCanonicalName());
+            //TODO send broadcast to Safezone Activity
+
+            intent.setAction(ActivityListSafezones.notify);
+            Application.getmContext().sendBroadcast(intent);
 
         } else if (notifyMonitorSensors) {
             //TODO: send broadcast to monitor activity_sensors view
@@ -261,7 +276,6 @@ public class CouchDB implements Replication.ChangeListener {
         }
 
     }
-
 
 
 }

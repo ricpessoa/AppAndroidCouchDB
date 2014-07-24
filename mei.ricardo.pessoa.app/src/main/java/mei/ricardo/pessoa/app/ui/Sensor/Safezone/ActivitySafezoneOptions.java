@@ -1,6 +1,9 @@
 package mei.ricardo.pessoa.app.ui.Sensor.Safezone;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,11 +32,12 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
     // The requests codes to startActivityForResult
     static final int valueOnActivityResultCodeChangeName = 1;
     static final int valueOnActivityResultCodeChangeNotifications = 2;
-    static final int valueOnActivityResultCodeChangeRadius = 3;
 
-    static final int valueOnActivityResultCodeChangeLocation = 3;
     private String IDSafezone;
     private Safezone safezone;
+
+    public static final String notify = "mei.ricardo.pessoa.app.ui.Sensor.Safezone";
+    private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,6 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
         setContentView(R.layout.activity_safezone);
 
         IDSafezone = getIntent().getExtras().getString(passVarIDSafezone);
-        refreshActivity();
         Button buttonEditLocation = (Button) findViewById(R.id.buttonEditSafezone);
         buttonEditLocation.setOnClickListener(this);
         Button buttonEditNotification = (Button) findViewById(R.id.buttonEditNotification);
@@ -66,6 +69,22 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
             TextViewname.setText(safezone.getName());
             TextViewname.setVisibility(View.VISIBLE);
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        deviceBroadcastReceiver = new DeviceBroadcastReceiver();
+        registerReceiver(deviceBroadcastReceiver, new IntentFilter(notify));
+        refreshActivity();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (deviceBroadcastReceiver != null)
+            unregisterReceiver(deviceBroadcastReceiver);
     }
 
     private void openActivitySafezoneEditMap(boolean isToEditLocation) {
@@ -108,7 +127,6 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
         if (requestCode == valueOnActivityResultCodeChangeName && resultCode == RESULT_OK) {
             //Display the modified values
             String newName = data.getExtras().getString(returnVariableNewName);
-            Toast.makeText(this, "TODO: UPDATE SAFEZONE NAME " + newName, Toast.LENGTH_SHORT).show();
             safezone.setName(newName);
             try {
                 safezone.saveSafezone(false);
@@ -118,7 +136,6 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
             }
         } else if (requestCode == valueOnActivityResultCodeChangeNotifications && resultCode == RESULT_OK) {
             int newNotification = data.getExtras().getInt(returnVariableNewNotification);
-            Toast.makeText(this, "TODO: UPDATE SAFEZONE Notification " + newNotification, Toast.LENGTH_SHORT).show();
             safezone.setNotification(Safezone.typeNotifications[newNotification]);
             try {
                 safezone.saveSafezone(false);
@@ -129,5 +146,14 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
         }
         refreshActivity();
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private class DeviceBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+            refreshActivity();
+        }
     }
 }

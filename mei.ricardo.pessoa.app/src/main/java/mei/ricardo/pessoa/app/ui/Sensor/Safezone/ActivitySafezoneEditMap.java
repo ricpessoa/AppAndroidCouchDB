@@ -42,7 +42,7 @@ import mei.ricardo.pessoa.app.ui.Fragments.Utils.Utils;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 
 public class ActivitySafezoneEditMap extends Activity {
-    private static String TAG = ActivitySafezoneOptions.class.getCanonicalName();
+    private static String TAG = ActivitySafezoneEditMap.class.getCanonicalName();
     // Google Map
     private GoogleMap googleMap;
     private String safezoneID;
@@ -88,7 +88,7 @@ public class ActivitySafezoneEditMap extends Activity {
         relativeLayoutRadius.setVisibility(View.VISIBLE);
 
         SeekBar seekBarRadius = (SeekBar) findViewById(R.id.seek_bar_radius);
-        seekBarRadius.setProgress(500 - safezone.getRadius());
+        seekBarRadius.setProgress(safezone.getRadius() - 500);
         final TextView textViewRadius = (TextView) findViewById(R.id.textView2);
         textViewRadius.setText(safezone.getRadius() + " m");
         seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -207,6 +207,9 @@ public class ActivitySafezoneEditMap extends Activity {
             try {
                 if (safezone != null) {
                     safezone.saveSafezone(insertNewSafezone);
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
                 } else {
                     Toast.makeText(this, "Please need insert a valid security zone", Toast.LENGTH_SHORT).show();
                 }
@@ -240,7 +243,7 @@ public class ActivitySafezoneEditMap extends Activity {
 
             try {
                 //adds = AlzNav.gpsManager.getGeocoder().getFromLocation(mLat, mLon, 1);
-                Log.d(TAG, "new Location: " + latLng.latitude + " , " + latLng.longitude);
+                //Log.d(TAG, "new Location: " + latLng.latitude + " , " + latLng.longitude);
                 Geocoder geo = new Geocoder(getBaseContext(), Locale.getDefault());
                 adds = geo.getFromLocation(latLng.latitude, latLng.longitude, 1);//1 max result
             } catch (Exception e) {
@@ -262,7 +265,9 @@ public class ActivitySafezoneEditMap extends Activity {
                 //setAddress(AlzNav.gpsManager.getAddressString(adds.get(0)));
                 String newAddress = getAddressString(adds.get(0));
                 safezone.setAddress(newAddress);
-                Log.d(TAG, "Safezone address updated to: " + newAddress);
+                safezone.setLatitude(latLng.latitude);
+                safezone.setLongitude(latLng.longitude);
+                //Log.d(TAG, "Safezone address updated to: " + newAddress);
                 marker.setTitle(newAddress);
 
                 if (marker.isInfoWindowShown()) {
@@ -318,6 +323,9 @@ public class ActivitySafezoneEditMap extends Activity {
             if (insertNewSafezone) {
                 insertNewSafezoneInMap(lat, lng, 500, newAddressName, true);
             } else if (safezone != null) {
+                safezone.setAddress(newAddressName);
+                safezone.setLatitude(lat);
+                safezone.setLongitude(lng);
                 insertSafezoneInMap(lat, lng, safezone.getRadius(), newAddressName, true);
             }
 
@@ -327,10 +335,6 @@ public class ActivitySafezoneEditMap extends Activity {
 
     private void removeAllMarkers() {
         googleMap.clear();
-    }
-
-    private void insertMarker() {
-
     }
 
     private void insertNewSafezoneInMap(Double lat, Double lng, int radius, String address, boolean isDraggable) {

@@ -1,7 +1,9 @@
 package mei.ricardo.pessoa.app.ui.Sensor.Safezone;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,9 +19,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
@@ -33,6 +37,9 @@ public class ActivityListSafezones extends ActionBarActivity {
     private ArrayList<Safezone> arrayList;
     private ListView listViewSafezones;
 
+    public static final String notify = "mei.ricardo.pessoa.app.ui.Sensor.Safezone";
+    private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +48,21 @@ public class ActivityListSafezones extends ActionBarActivity {
         macAddress = getIntent().getExtras().getString(ActivityListSensors.varMacAddressOfDevice);
 
         listViewSafezones = (ListView) findViewById(R.id.listViewSafezones);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         refreshActivity();
+        deviceBroadcastReceiver = new DeviceBroadcastReceiver();
+        registerReceiver(deviceBroadcastReceiver, new IntentFilter(notify));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (deviceBroadcastReceiver != null)
+            unregisterReceiver(deviceBroadcastReceiver);
     }
 
     private void refreshActivity() {
@@ -101,6 +116,7 @@ public class ActivityListSafezones extends ActionBarActivity {
             vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;
@@ -136,17 +152,25 @@ public class ActivityListSafezones extends ActionBarActivity {
             return v;
         }
 
-        public void updateDeviceList(ArrayList<Safezone> results) {
-            try {
-                items = results;
-                //Triggers the list update
-                notifyDataSetChanged();
-            } catch (Exception ex) {
-                Log.e("ERRRORRRR", "wtf happeend???");
-            }
-
-        }
+//        public void updateSafezoneList(ArrayList<Safezone> results) {
+//            try {
+//                items = results;
+//                //Triggers the list update
+//                notifyDataSetChanged();
+//            } catch (Exception ex) {
+//                Log.e("ERRRORRRR", "wtf happeend???");
+//            }
+//
+//        }
     }
 
+    private class DeviceBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+            refreshActivity();
+        }
+    }
 
 }
