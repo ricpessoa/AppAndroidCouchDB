@@ -3,7 +3,7 @@ package mei.ricardo.pessoa.app.couchdb.modal;
 /**
  * Created by rpessoa on 06/05/14.
  */
-public class Sensor {
+public abstract class Sensor {
     private String name_sensor;
     private String type;
     private boolean enable;
@@ -11,6 +11,13 @@ public class Sensor {
     public Sensor(String name_sensor, String type) {
         this.name_sensor = name_sensor;
         this.type = type;
+        this.enable = false; //BTW not needed
+    }
+
+    public Sensor(String name_sensor, String type, boolean isEnable) {
+        this.name_sensor = name_sensor;
+        this.type = type;
+        this.enable = isEnable;
     }
 
     public String getName_sensor() {

@@ -66,12 +66,21 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_checkbox_battery"
+        android:id="@+id/checkBoxBattery"
+        android:layout_below="@+id/checkBoxPanicButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/str_button_save_device"
         android:id="@+id/button_save_device"
-        android:layout_below="@id/checkBoxPanicButton"
+        android:layout_below="@id/checkBoxBattery"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
 

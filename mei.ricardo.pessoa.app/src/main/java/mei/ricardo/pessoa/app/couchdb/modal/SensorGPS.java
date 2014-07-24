@@ -10,12 +10,13 @@ public class SensorGPS extends Sensor {
     //private ArrayList<Safezone> safezoneArrayList = new ArrayList<Safezone>();
 
     public SensorGPS() {
-        super("SensorGPS", Device.DEVICESTYPE.GPS.toString());
+        super("Sensor GPS", Device.DEVICESTYPE.GPS.toString());
     }
 
-    public SensorGPS(String name_sensor, String type) {
-        super(name_sensor, type);
+    public SensorGPS(boolean isEnable) {
+        super("Sensor GPS", Device.DEVICESTYPE.GPS.toString(), isEnable);
     }
+
 
 //    public ArrayList<Safezone> getSafezoneArrayList() {
 //        return safezoneArrayList;

@@ -59,6 +59,8 @@
     <string name="str_checkbox_temperature">Temperature</string>
     <string name="str_checkbox_gps">GPS</string>
     <string name="str_checkbox_panicbutton">Panic Button</string>
+    <string name="str_checkbox_battery">Battery Level</string>
+
     <string name="str_select_sensors">Select the following sensors in the device:</string>
     <string name="str_button_save_device">Save Device</string>
 

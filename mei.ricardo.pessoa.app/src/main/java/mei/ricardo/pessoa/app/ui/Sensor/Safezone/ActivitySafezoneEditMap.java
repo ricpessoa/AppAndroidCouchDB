@@ -37,6 +37,8 @@ import java.util.Locale;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
+import mei.ricardo.pessoa.app.ui.Fragments.Utils.DialogFragmentYesNoOk;
+import mei.ricardo.pessoa.app.ui.Fragments.Utils.Utils;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 
 public class ActivitySafezoneEditMap extends Activity {
@@ -86,7 +88,7 @@ public class ActivitySafezoneEditMap extends Activity {
         relativeLayoutRadius.setVisibility(View.VISIBLE);
 
         SeekBar seekBarRadius = (SeekBar) findViewById(R.id.seek_bar_radius);
-        seekBarRadius.setProgress(500-safezone.getRadius());
+        seekBarRadius.setProgress(500 - safezone.getRadius());
         final TextView textViewRadius = (TextView) findViewById(R.id.textView2);
         textViewRadius.setText(safezone.getRadius() + " m");
         seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -103,7 +105,7 @@ public class ActivitySafezoneEditMap extends Activity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                safezone.setRadius(seekBar.getProgress()+500);
+                safezone.setRadius(seekBar.getProgress() + 500);
             }
         });
     }
@@ -189,7 +191,7 @@ public class ActivitySafezoneEditMap extends Activity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, "handleIntent search:" + query, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "handleIntent search:" + query, Toast.LENGTH_SHORT).show();
             // Do work using string
             new GeocodeLookupTask().execute(query);
         }
@@ -203,7 +205,11 @@ public class ActivitySafezoneEditMap extends Activity {
         int id = item.getItemId();
         if (id == R.id.saveSafezone) {
             try {
-                safezone.saveSafezone(insertNewSafezone);
+                if (safezone != null) {
+                    safezone.saveSafezone(insertNewSafezone);
+                } else {
+                    Toast.makeText(this, "Please need insert a valid security zone", Toast.LENGTH_SHORT).show();
+                }
             } catch (CouchbaseLiteException e) {
                 Log.e(TAG, "Error inserting/update safezone");
                 e.printStackTrace();
@@ -239,6 +245,7 @@ public class ActivitySafezoneEditMap extends Activity {
                 adds = geo.getFromLocation(latLng.latitude, latLng.longitude, 1);//1 max result
             } catch (Exception e) {
                 Log.e(TAG, "Geocoder unavailable: " + e.getMessage());
+                showDialogFragment();
                 this.cancel(true);
             }
 
@@ -283,7 +290,7 @@ public class ActivitySafezoneEditMap extends Activity {
                 addresses = geo.getFromLocationName(params[0], 1);
             } catch (IOException e) {
                 Log.e(TAG, "GEOCODER IO: " + e.getMessage());
-                //TODO create a dialog instead
+                showDialogFragment();
                 this.cancel(true);
             }
             if (addresses != null) {
@@ -291,6 +298,7 @@ public class ActivitySafezoneEditMap extends Activity {
             }
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Address location) { // runs on the UI thread
@@ -369,5 +377,17 @@ public class ActivitySafezoneEditMap extends Activity {
         return (add != null ? (add.getLocality() != null ? (", " + add.getLocality()) : "") : "");
     }
 
+    private void showDialogFragment() {
+        String msgNotification = "Error. An error occurred while processing your request. Please try again later.";
+        if (!Utils.isNetworkAvailable(getApplicationContext())) {
+            msgNotification = "Please check your internet connection or try again later.";
+        }
+
+        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), msgNotification);
+        dialogFragmentYesNoOk.setType(1);
+        dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_ok), "");
+        dialogFragmentYesNoOk.setBackToPreviousActivity(true);
+        dialogFragmentYesNoOk.show(getFragmentManager(), "");
+    }
 
 }

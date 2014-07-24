@@ -13,18 +13,18 @@ public class SensorTemperature extends Sensor {
     private float max_temperature;
 
     public SensorTemperature() {
-        super("SensorTemperature", Device.DEVICESTYPE.temperature.toString());
+        super("Sensor Temperature", Device.DEVICESTYPE.temperature.toString());
     }
 
-    public SensorTemperature(String name_sensor, String type) {
-        super(name_sensor, type);
+    public SensorTemperature(boolean isEnable) {
+        super("Sensor Temperature", Device.DEVICESTYPE.temperature.toString(), isEnable);
     }
 
-    public SensorTemperature(String name, String type, float min_temperature, float max_temperature) {
-        super(name, type);
-        this.min_temperature = min_temperature;
-        this.max_temperature = max_temperature;
-    }
+//    public SensorTemperature(String name, String type, float min_temperature, float max_temperature) {
+//        super(name, type);
+//        this.min_temperature = min_temperature;
+//        this.max_temperature = max_temperature;
+//    }
 
     public float getMax_temperature() {
         return max_temperature;
@@ -54,6 +54,7 @@ public class SensorTemperature extends Sensor {
         } catch (Exception ex) {
             Log.e(TAG, "Error getting the min temperature of sensor");
         }
+
 
         this.min_temperature = minTemp;
         this.max_temperature = maxTemp;

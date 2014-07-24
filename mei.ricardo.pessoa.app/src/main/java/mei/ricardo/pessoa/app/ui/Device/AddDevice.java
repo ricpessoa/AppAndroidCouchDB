@@ -20,6 +20,9 @@ import java.util.HashMap;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
+import mei.ricardo.pessoa.app.couchdb.modal.SensorBattery;
+import mei.ricardo.pessoa.app.couchdb.modal.SensorGPS;
+import mei.ricardo.pessoa.app.couchdb.modal.SensorPanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.SensorTemperature;
 
 public class AddDevice extends ActionBarActivity implements View.OnClickListener {
@@ -58,27 +61,35 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             CheckBox checkBoxTemperature = (CheckBox) findViewById(R.id.checkBoxTemperature);
             CheckBox checkBoxGPS = (CheckBox) findViewById(R.id.checkBoxGPS);
             CheckBox checkBoxPanicButton = (CheckBox) findViewById(R.id.checkBoxPanicButton);
+            CheckBox checkBoxBattery = (CheckBox) findViewById(R.id.checkBoxBattery);
 
             HashMap<String, Object> arraySensors = new HashMap<String, Object>();
 
             if (checkBoxPanicButton.isChecked()) {
                 atLeastOneSensor = true;
-                Sensor s = new Sensor("Sensor Panic Button", "panic_button");
-                arraySensors.put(arraySensors.size() + "", s);
+                SensorPanicButton sensorPanicButton = new SensorPanicButton(true);
+                arraySensors.put(arraySensors.size() + "", sensorPanicButton);
             }
 
             if (checkBoxGPS.isChecked()) {
                 atLeastOneSensor = true;
-                Sensor s = new Sensor("Sensor GPS", "GPS");
+                SensorGPS s = new SensorGPS(true);
                 arraySensors.put(arraySensors.size() + "", s);
             }
 
             if (checkBoxTemperature.isChecked()) {
                 atLeastOneSensor = true;
-                SensorTemperature s = new SensorTemperature("Sensor Temperature", "temperature");
-                arraySensors.put(arraySensors.size() + "", s);
+                SensorTemperature sensorTemperature = new SensorTemperature(true);
+                arraySensors.put(arraySensors.size() + "", sensorTemperature);
             }
 
+            if (checkBoxBattery.isChecked()) {
+                atLeastOneSensor = true;
+                SensorBattery sensorBattery = new SensorBattery(true);
+                arraySensors.put(arraySensors.size() + "", sensorBattery);
+
+            }
+            //create device
             if (atLeastOneSensor && validMacAddress && validNameDevice) {
                 Device device = new Device(macAddress.getText().toString(), nameDevice.getText().toString(), arraySensors, false);
                 try {

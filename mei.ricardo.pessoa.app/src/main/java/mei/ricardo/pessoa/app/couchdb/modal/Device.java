@@ -78,23 +78,23 @@ public class Device {
                 Log.d(TAG, "value -> error");
             }
             String type = value.get("type").toString();
-
+            boolean isEnable = Boolean.parseBoolean(value.get("enable").toString());
             if (type.equals(DEVICESTYPE.panic_button.toString())) {
                 showPanicButton = true;
-                SensorPanicButton sensorPanicButton = new SensorPanicButton();
+                SensorPanicButton sensorPanicButton = new SensorPanicButton(isEnable);
                 arrayListSensors.add(sensorPanicButton);
             } else if (type.equals(DEVICESTYPE.GPS.toString())) {
                 showSafezone = true;
-                SensorGPS sensorGPS = new SensorGPS();
+                SensorGPS sensorGPS = new SensorGPS(isEnable);
                 arrayListSensors.add(sensorGPS);
             } else if (type.equals(DEVICESTYPE.temperature.toString())) {
                 showTemperature = true;
-                SensorTemperature sensorTemperature = new SensorTemperature();
+                SensorTemperature sensorTemperature = new SensorTemperature(isEnable);
                 sensorTemperature.parseSensorTemperature(value);
                 arrayListSensors.add(sensorTemperature);
             } else if (type.equals(DEVICESTYPE.battery.toString())) {
                 showBattery = true;
-                SensorBattery sensorBattery = new SensorBattery();
+                SensorBattery sensorBattery = new SensorBattery(isEnable);
                 sensorBattery.parseSensorBattery(value);
                 arrayListSensors.add(sensorBattery);
             }

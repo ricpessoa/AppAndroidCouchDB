@@ -103,7 +103,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mButtonSignUp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Need add Register Activity
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             }

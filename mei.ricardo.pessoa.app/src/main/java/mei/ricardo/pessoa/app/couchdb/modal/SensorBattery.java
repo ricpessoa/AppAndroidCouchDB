@@ -13,18 +13,18 @@ public class SensorBattery extends Sensor {
     private float critical_battery = 15;
 
     public SensorBattery() {
-        super("SensorBattery", Device.DEVICESTYPE.battery.toString());
+        super("Sensor Battery", Device.DEVICESTYPE.battery.toString());
     }
 
-    public SensorBattery(String name_sensor, String type) {
-        super(name_sensor, type);
+    public SensorBattery(boolean isEnable) {
+        super("Sensor Battery", Device.DEVICESTYPE.battery.toString(), isEnable);
     }
 
-    public SensorBattery(String name, String type, float low_battery, float critical_battery) {
-        super(name, type);
-        this.low_battery = low_battery;
-        this.critical_battery = critical_battery;
-    }
+//    public SensorBattery(String name, String type, float low_battery, float critical_battery) {
+//        super(name, type);
+//        this.low_battery = low_battery;
+//        this.critical_battery = critical_battery;
+//    }
 
     public float getCritical_battery() {
         return critical_battery;
