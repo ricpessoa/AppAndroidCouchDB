@@ -18,13 +18,11 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
  */
 public class MS_Temperature extends MonitorSensor {
 
-    public enum NOTIFICATIONTYPE {LOW, RANGE, HIGH}
-
-    ;
+    public enum NOTIFICATIONTYPE {LOW, RANGE, HIGH};
     private float value;
     private String notifification;
 
-    public MS_Temperature(String value, String notification, String mac_address, String subType, String timestamp) {
+    public MS_Temperature(String value, String notification, String mac_address, String subType, String timestamp) throws Exception{
         super(mac_address, subType, timestamp);
         this.value = Float.parseFloat(value);
         this.notifification = notification;
@@ -38,6 +36,10 @@ public class MS_Temperature extends MonitorSensor {
 
     public float getValue() {
         return value;
+    }
+
+    public String getNotifification() {
+        return notifification;
     }
 
     public Drawable getImage() {

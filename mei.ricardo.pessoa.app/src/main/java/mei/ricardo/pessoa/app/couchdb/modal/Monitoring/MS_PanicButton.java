@@ -23,6 +23,11 @@ public class MS_PanicButton extends MonitorSensor {
         this.pressed = Boolean.parseBoolean(pressed);
     }
 
+    public MS_PanicButton(Document document) throws Exception {
+        super(document.getProperty("mac_address").toString(), document.getProperty("subtype").toString(), document.getProperty("timestamp").toString());
+        this.pressed = Boolean.parseBoolean(document.getProperty("pressed").toString());
+    }
+
     public boolean isPressed() {
         return pressed;
     }

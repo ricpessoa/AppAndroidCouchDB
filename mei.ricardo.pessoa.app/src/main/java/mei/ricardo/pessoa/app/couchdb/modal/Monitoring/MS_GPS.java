@@ -12,6 +12,7 @@ import java.util.Iterator;
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
+import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
 
 /**
  * Created by rpessoa on 05/06/14.

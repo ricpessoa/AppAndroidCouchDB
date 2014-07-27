@@ -21,15 +21,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import java.util.ArrayList;
-import java.util.List;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
 import mei.ricardo.pessoa.app.ui.Fragments.Utils.DownloadImageTask;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
-;
 
 public class ActivityListSafezones extends ActionBarActivity {
     private static String TAG = ActivityListSafezones.class.getCanonicalName();
@@ -152,23 +149,13 @@ public class ActivityListSafezones extends ActionBarActivity {
             return v;
         }
 
-//        public void updateSafezoneList(ArrayList<Safezone> results) {
-//            try {
-//                items = results;
-//                //Triggers the list update
-//                notifyDataSetChanged();
-//            } catch (Exception ex) {
-//                Log.e("ERRRORRRR", "wtf happeend???");
-//            }
-//
-//        }
     }
 
     private class DeviceBroadcastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "I Receive a broadcast of Safezones ", Toast.LENGTH_SHORT).show();
             refreshActivity();
         }
     }

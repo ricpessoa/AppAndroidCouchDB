@@ -152,7 +152,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "I Receive a broadcast of Safezone ", Toast.LENGTH_SHORT).show();
             refreshActivity();
         }
     }

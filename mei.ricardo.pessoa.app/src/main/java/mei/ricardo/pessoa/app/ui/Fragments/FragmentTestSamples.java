@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -40,6 +42,8 @@ public class FragmentTestSamples extends Fragment {
 
     private static String TAG = FragmentTestSamples.class.getName();
     private TesteDeviceRegisterTask mRegisterTask = null;
+    CheckBox checkBoxBattery, checkBoxGPS, checkBoxPanicButton, checkBoxTemperature;
+    EditText editTextMacAddress, editTextLat, editTextLng, editTextValueBattery, editTextValueTemperature;
 
     public FragmentTestSamples() {
     }
@@ -56,14 +60,20 @@ public class FragmentTestSamples extends Fragment {
                 mRegisterTask.execute((Void) null);
             }
         });
-        // Button testMSGPS = (Button) rootView.findViewById(R.id.buttonMonitoringGPS);
-//        testMSGPS.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorGPS.class);
-//                startActivity(intent);
-//            }
-//        });
+        checkBoxPanicButton = (CheckBox) rootView.findViewById(R.id.checkBoxPanicButton);
+        checkBoxGPS = (CheckBox) rootView.findViewById(R.id.checkBoxGPS);
+        checkBoxBattery = (CheckBox) rootView.findViewById(R.id.checkBoxBattery);
+        checkBoxTemperature = (CheckBox) rootView.findViewById(R.id.checkBoxTemperature);
+        editTextMacAddress = (EditText) rootView.findViewById(R.id.editTextMacAddress);
+        editTextMacAddress.setText("az");
+        editTextLat = (EditText) rootView.findViewById(R.id.editTextLat);
+        editTextLat.setText("41.23206");
+        editTextLng = (EditText) rootView.findViewById(R.id.editTextLng);
+        editTextLng.setText("-8.624164");
+        editTextValueBattery = (EditText) rootView.findViewById(R.id.editTextValueBattery);
+        editTextValueBattery.setText("10");
+        editTextValueTemperature = (EditText) rootView.findViewById(R.id.editTextValueTemperature);
+        editTextValueTemperature.setText("24");
         return rootView;
     }
 
@@ -89,28 +99,45 @@ public class FragmentTestSamples extends Fragment {
 
             try {
                 // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
-                nameValuePairs.add(new BasicNameValuePair("mac", macAddress));
-                //rua silva aroso (out put not necessaru save)
-                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.23206"));
-                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.698981"));
-                // ponte da madalena (fora do raio de minha casa)
-                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.108071"));
-                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.636909"));
-                //perto da estacao de gaia (fora do raio de casa e dentro do rs catarina)
-                nameValuePairs.add(new BasicNameValuePair("latfrom", "41.126969"));
-                nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.624164"));
-                //entro dois raios mas fora
-                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.11845"));
-                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.622257"));
+//                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
+//                nameValuePairs.add(new BasicNameValuePair("mac", macAddress));
+//                //rua silva aroso (out put not necessaru save)
+//                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.23206"));
+//                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.698981"));
+//                // ponte da madalena (fora do raio de minha casa)
+//                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.108071"));
+//                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.636909"));
+//                //perto da estacao de gaia (fora do raio de casa e dentro do rs catarina)
+//                nameValuePairs.add(new BasicNameValuePair("latfrom", "41.126969"));
+//                nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.624164"));
+//                //entro dois raios mas fora
+//                //nameValuePairs.add(new BasicNameValuePair("latfrom", "41.11845"));
+//                //nameValuePairs.add(new BasicNameValuePair("lngfrom", "-8.622257"));
+//
+//                //send value temperature
+//                nameValuePairs.add(new BasicNameValuePair("temp", "25"));
+//                //send value panic button
+//                //nameValuePairs.add(new BasicNameValuePair("press", "true"));
+//                //send value to battery
+//                nameValuePairs.add(new BasicNameValuePair("batt", "50"));
 
-                //send value temperature
-                nameValuePairs.add(new BasicNameValuePair("temp", "5"));
-                //send value panic button
-                nameValuePairs.add(new BasicNameValuePair("press", "true"));
-                //send value to battery
-                nameValuePairs.add(new BasicNameValuePair("batt", "89"));
 
+                // Add your data
+                ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                nameValuePairs.add(new BasicNameValuePair("mac", editTextMacAddress.getText().toString()));
+                if (checkBoxPanicButton.isChecked()) {
+                    nameValuePairs.add(new BasicNameValuePair("press", "true"));
+                }
+                if (checkBoxBattery.isChecked()) {
+                    nameValuePairs.add(new BasicNameValuePair("batt", editTextValueBattery.getText().toString()));
+                }
+                if (checkBoxGPS.isChecked()) {
+                    nameValuePairs.add(new BasicNameValuePair("latfrom", editTextLat.getText().toString()));
+                    nameValuePairs.add(new BasicNameValuePair("lngfrom", editTextLng.getText().toString()));
+                }
+                if (checkBoxTemperature.isChecked()) {
+                    nameValuePairs.add(new BasicNameValuePair("temp", editTextValueTemperature.getText().toString()));
+                }
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -128,20 +155,20 @@ public class FragmentTestSamples extends Fragment {
                         return loginsuccessfull;
                     }
                 } catch (JSONException e) {
-                    Log.e(TAG, "Error JSONException in Login");
+                    Log.e(TAG, "Error JSONException in POST");
                     return false;
                 } catch (NullPointerException e) {
-                    Log.e(TAG, "Null Point exception on Login");
+                    Log.e(TAG, "Null Point exception on POST");
                     return false;
                 }
 
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
-                Log.e(TAG, "Error ClientProtocolException in Login");
+                Log.e(TAG, "Error ClientProtocolException in POST");
                 return false;
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                Log.e(TAG, "Error IOException in Login");
+                Log.e(TAG, "Error IOException in POST");
                 return false;
             }
             return false;
@@ -155,10 +182,10 @@ public class FragmentTestSamples extends Fragment {
         protected void onPostExecute(final Boolean success) {
             mRegisterTask = null;
             if (success) {
-                Toast.makeText(Application.getmContext(), "V successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Application.getmContext(), "Successful", Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(Application.getmContext(), "X unsuccessful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Application.getmContext(), "XUnsuccessful", Toast.LENGTH_SHORT).show();
 
             }
         }

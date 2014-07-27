@@ -27,9 +27,11 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 public class MonitorSensor implements InterfaceItem {
     private static String TAG = MonitorSensor.class.getName();
 
-    public enum SUBTYPE {panic_button, GPS, temperature;}
+    public enum SUBTYPE {panic_button, GPS, temperature, battery}
 
-    public static String[] subtypeSections = {"Sensor Panic Button", "Sensor GPS", "Sensor Temperature"};
+    ;
+
+    public static String[] subtypeSections = {"Sensor Panic Button", "Sensor GPS", "Sensor Temperature", "Battery Level"};
     public String subtype;
     public String timestamp;
     public String mac_address;
@@ -90,6 +92,13 @@ public class MonitorSensor implements InterfaceItem {
                     try {
                         MS_PanicButton ms_panicButton = new MS_PanicButton(document.getProperty("pressed").toString(), macAddress, subType, document.getProperty("timestamp").toString());
                         arrayList.add(ms_panicButton);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "Error Panic Button parse error value or other some reason");
+                    }
+                } else if (subType.equals(SUBTYPE.battery.toString())) {
+                    try {
+                        MS_Battery ms_battery = new MS_Battery(document.getProperty("value").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+                        arrayList.add(ms_battery);
                     } catch (Exception ex) {
                         Log.e(TAG, "Error Panic Button parse error value or other some reason");
                     }
@@ -246,6 +255,47 @@ public class MonitorSensor implements InterfaceItem {
         return arrayList;
     }
 
+    /*
+        public static ArrayList<MonitorSensor> getLastNotificationToNotify() {
+            com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitoringSensorsFromLastDay;
+            Query query = view.createQuery();
+            query.setDescending(true);
+            try {
+                QueryEnumerator rowEnum = query.run();
+                for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+                    QueryRow row = it.next();
+                    Document document = row.getDocument();
+                    String subType = document.getProperty("subtype").toString();
+                    if (subType.equals(SUBTYPE.GPS.toString())) {
+                        try {
+                            MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+                            arrayList.add(ms_gps);
+                        } catch (Exception ex) {
+                            Log.e(TAG, "Error GPS not valid for some reason");
+                        }
+                    } else if (subType.equals(SUBTYPE.temperature.toString())) {
+                        try {
+                            MS_Temperature ms_temperature = new MS_Temperature(document.getProperty("value").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+                            arrayList.add(ms_temperature);
+                        } catch (Exception ex) {
+                            Log.e(TAG, "Error Temperature parse error value or other some reason");
+                        }
+                    } else if (subType.equals(SUBTYPE.panic_button.toString())) {
+                        try {
+                            MS_PanicButton ms_panicButton = new MS_PanicButton(document.getProperty("pressed").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+                            arrayList.add(ms_panicButton);
+                        } catch (Exception ex) {
+                            Log.e(TAG, "Error Panic Button parse error value or other some reason");
+                        }
+                    }
+                }
+
+            } catch (CouchbaseLiteException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    */
     public String getMac_address() {
         return mac_address;
     }
@@ -265,6 +315,7 @@ public class MonitorSensor implements InterfaceItem {
         MS_NotHave ms_notHave = (MS_NotHave) this;
         return "Not yet received any information from " + ms_notHave.getSubtype() + " sensor!";
     }
+
 
     @Override
     public boolean isSection() {
