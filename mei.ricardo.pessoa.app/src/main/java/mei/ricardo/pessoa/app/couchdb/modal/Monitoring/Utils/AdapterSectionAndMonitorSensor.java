@@ -24,6 +24,7 @@ import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorGPS;
 import mei.ricardo.pessoa.app.utils.Utilities;
 
 public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> {
+    private String TAG = AdapterSectionAndMonitorSensor.class.getCanonicalName();
     private Context context;
     public ArrayList<InterfaceItem> items;
     private LayoutInflater vi;
@@ -92,8 +93,9 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
                 }
             }
         } catch (Exception ex) {
-            Log.d("_________________________________________-", "_____________________________________");
+            Log.e(TAG, "error:" + ex);
         }
+
         return v;
     }
 
@@ -116,7 +118,7 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
             //Triggers the list update
             notifyDataSetChanged();
         } catch (Exception ex) {
-            Log.e("ERRRORRRR", "wtf happeend???");
+            Log.e(TAG, "wtf happeend???");
         }
 
     }

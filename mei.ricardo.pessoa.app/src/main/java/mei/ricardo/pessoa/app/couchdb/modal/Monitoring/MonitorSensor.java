@@ -307,7 +307,10 @@ public class MonitorSensor implements InterfaceItem {
             return ms_gps.getAddress();
         } else if (this.getClass() == MS_Temperature.class) {
             MS_Temperature ms_temperature = (MS_Temperature) this;
-            return ms_temperature.getValue() + " Temperature";
+            return ms_temperature.getValue() + "ºC Temperature";
+        } else if (this.getClass() == MS_Battery.class) {
+            MS_Battery ms_battery = (MS_Battery) this;
+            return ms_battery.getValue() + "% Battery Level";
         } else if (this.getClass() == MS_PanicButton.class) {
             MS_PanicButton ms_panicButton = (MS_PanicButton) this;
             return ms_panicButton.isPressed() + " pressed";

@@ -20,11 +20,6 @@ public class SensorTemperature extends Sensor {
         super("Sensor Temperature", Device.DEVICESTYPE.temperature.toString(), isEnable);
     }
 
-//    public SensorTemperature(String name, String type, float min_temperature, float max_temperature) {
-//        super(name, type);
-//        this.min_temperature = min_temperature;
-//        this.max_temperature = max_temperature;
-//    }
 
     public float getMax_temperature() {
         return max_temperature;

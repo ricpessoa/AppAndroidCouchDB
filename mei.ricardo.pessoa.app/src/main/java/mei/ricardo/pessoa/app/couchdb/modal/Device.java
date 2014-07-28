@@ -165,7 +165,6 @@ public class Device {
                 Log.d(TAG, "value -> error");
             }
             String type = value.get("type").toString();
-            Log.d(TAG, "pass " + type);
             if (type.equals(DEVICESTYPE.temperature.toString())) {
                 value.put("min_temperature", ((SensorTemperature) arrayListSensors.get(2)).getMin_temperature());
                 value.put("max_temperature", ((SensorTemperature) arrayListSensors.get(2)).getMax_temperature());
@@ -205,24 +204,16 @@ public class Device {
         return showPanicButton;
     }
 
-    public void setShowPanicButton(boolean showPanicButton) {
-        this.showPanicButton = showPanicButton;
-    }
-
     public boolean isShowSafezone() {
         return showSafezone;
-    }
-
-    public void setShowSafezone(boolean showSafezone) {
-        this.showSafezone = showSafezone;
     }
 
     public boolean isShowTemperature() {
         return showTemperature;
     }
 
-    public void setShowTemperature(boolean showTemperature) {
-        this.showTemperature = showTemperature;
+    public boolean isShowBattery() {
+        return showBattery;
     }
 
     public ArrayList<Sensor> getArrayListSensors() {

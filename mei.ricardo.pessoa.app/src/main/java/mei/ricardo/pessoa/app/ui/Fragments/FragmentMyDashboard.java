@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import java.util.Iterator;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.FragmentNotificationOfMonitoring;
 
 
 public class FragmentMyDashboard extends Fragment {
@@ -44,8 +44,6 @@ public class FragmentMyDashboard extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_my_dashboard, container, false);
-
-
         //arrayTabs = arrayList.toArray(new String[arrayList.size()]);
 
         return rootView;
@@ -76,7 +74,6 @@ public class FragmentMyDashboard extends Fragment {
                 QueryRow row = it.next();
 
                 DeviceRow deviceRow = new DeviceRow();
-                Log.d("Document ID:", row.getDocumentId());
                 deviceRow.deviceID = row.getDocumentId();
                 deviceRow.deviceName = row.getDocument().getProperty("name_device").toString();
                 deviceRowsList.add(deviceRow);

@@ -185,10 +185,10 @@ public class CouchDB implements Replication.ChangeListener {
                 Object objTimestamp = document.get("timestamp");
                 long timestamp = Long.parseLong(objTimestamp.toString());
                 if (objType != null && objType.equals("monitoring_sensor") && timestamp > actualTimestamp) {
-                    emitter.emit(timestamp, document);
+                    emitter.emit(objTimestamp.toString(), document);
                 }
             }
-        }, "7.0");
+        }, "8.0");
 
         startLiveQueryMonitoringSensor(liveQueryMonitoringSensors, viewGetMonitoringSensorsFromLastDay);
     }
@@ -236,7 +236,6 @@ public class CouchDB implements Replication.ChangeListener {
     private void startLiveQueryMonitoringSensor(LiveQuery liveQuery, com.couchbase.lite.View view) throws Exception {
         if (liveQuery == null) {
             liveQuery = view.createQuery().toLiveQuery();
-            liveQuery.waitForRows();
             liveQuery.setDescending(true);
             liveQuery.addChangeListener(new LiveQuery.ChangeListener() {
                 @Override
@@ -256,12 +255,18 @@ public class CouchDB implements Replication.ChangeListener {
         List<MS_Notification> MSNotificationList = new ArrayList<MS_Notification>();
         MS_Notification MSNotification = new MS_Notification();
         int sensorCount = 0;
+        String previousTimestamp = null; //this timestamp is to know if ms_monitoring is about the same
         for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
             QueryRow row = it.next();
-            android.util.Log.d("Document ID:", row.getDocumentId());
+
             Document document = row.getDocument();
             Object objectSubType = document.getProperty("subtype");
             Object objectMacAddress = document.getProperty("mac_address");
+            Object actualTimestamp = document.getProperty("timestamp");
+
+            if (previousTimestamp == null) {
+                previousTimestamp = actualTimestamp.toString();
+            }
 
             if (objectSubType != null && objectMacAddress != null) {
                 if (actualDevice == null) {
@@ -272,26 +277,23 @@ public class CouchDB implements Replication.ChangeListener {
                         MSNotificationList.add(MSNotification);
                         MSNotification = new MS_Notification();
                     }
-                    //actualDevice.getArrayListSensors().size()
-                    if (actualDevice.getArrayListSensors().size()== sensorCount) {
+                    if (actualDevice.getArrayListSensors().size() == sensorCount || !actualTimestamp.toString().equals(previousTimestamp)) {
                         MSNotificationList.add(MSNotification);
                         MSNotification = new MS_Notification();
                         sensorCount = 0;
+                        previousTimestamp = actualTimestamp.toString();
                     }
                 }
 
                 if (objectSubType.equals(MonitorSensor.SUBTYPE.GPS.toString())) {
-                    Log.d(TAG + "_teste", "GPS");
                     try {
                         MS_GPS ms_gps = new MS_GPS(document);
                         MSNotification.setGpsNotification(ms_gps);
                         sensorCount++;
                     } catch (Exception e) {
                         e.printStackTrace();
-                        android.util.Log.e(TAG, "Error receiving monitoring");
                     }
                 } else if (objectSubType.equals(MonitorSensor.SUBTYPE.panic_button.toString())) {
-                    Log.d(TAG + "_teste", "Panic Button");
                     try {
                         MS_PanicButton ms_panicButton = new MS_PanicButton(document);
                         MSNotification.setPanicButtonNotification(ms_panicButton);
@@ -300,7 +302,6 @@ public class CouchDB implements Replication.ChangeListener {
                         e.printStackTrace();
                     }
                 } else if (objectSubType.equals(MonitorSensor.SUBTYPE.battery.toString())) {
-                    Log.d(TAG + "_teste", "Battery");
                     try {
                         MS_Battery ms_battery = new MS_Battery(document);
                         MSNotification.setBatteryNotification(ms_battery);
@@ -309,7 +310,6 @@ public class CouchDB implements Replication.ChangeListener {
                         e.printStackTrace();
                     }
                 } else if (objectSubType.equals(MonitorSensor.SUBTYPE.temperature.toString())) {
-                    Log.d(TAG + "_teste", "Temperature");
                     try {
                         MS_Temperature ms_temperature = new MS_Temperature(document);
                         MSNotification.setTemperatureNotification(ms_temperature);
@@ -338,7 +338,6 @@ public class CouchDB implements Replication.ChangeListener {
 
         for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
             QueryRow row = it.next();
-            android.util.Log.d("Document ID:", row.getDocumentId());
 
             if (row.getKey().toString().equals("monitoring_sensor")) {
                 notifyMonitorSensors = true;

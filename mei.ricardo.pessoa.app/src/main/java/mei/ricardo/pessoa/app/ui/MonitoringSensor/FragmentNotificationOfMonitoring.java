@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package mei.ricardo.pessoa.app.ui.Fragments;
+package mei.ricardo.pessoa.app.ui.MonitoringSensor;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,7 +39,6 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.AdapterSectionAndMonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.SectionItem;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorPanicButton;
 
 public class FragmentNotificationOfMonitoring extends Fragment implements AdapterView.OnItemClickListener {
     private static final String ARG_POSITION = "position";
@@ -140,16 +139,23 @@ public class FragmentNotificationOfMonitoring extends Fragment implements Adapte
                 }
             }
             if (tempDevice.isShowSafezone()) {
-                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 5);
+                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 4);
                 if (arrayList.size() > 0) {
                     arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1], Device.DEVICESTYPE.GPS.toString(), deviceID));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
             if (tempDevice.isShowTemperature()) {
-                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature", 5);
+                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature", 4);
                 if (arrayList.size() > 0) {
                     arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2], Device.DEVICESTYPE.temperature.toString(), deviceID));
+                    arrayOfMonitoring.addAll(arrayList);
+                }
+            }
+            if (tempDevice.isShowBattery()) {
+                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "battery", 4);
+                if (arrayList.size() > 0) {
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[3], Device.DEVICESTYPE.battery.toString(), deviceID));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }

@@ -1,12 +1,17 @@
 package mei.ricardo.pessoa.app.couchdb.modal.Monitoring;
 
+import android.graphics.drawable.Drawable;
+
 import com.couchbase.lite.Document;
+
+import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.R;
 
 /**
  * Created by rpessoa on 26/07/14.
  */
 public class MS_Battery extends MonitorSensor {
-    public enum NOTIFICATIONTYPE {CRITICAL, LOW, NORMAL}
+    public enum NOTIFICATIONTYPE {CRITICAL, LOW, RANGE}
 
     private float value;
     private String notifification;
@@ -29,5 +34,18 @@ public class MS_Battery extends MonitorSensor {
 
     public String getNotifification() {
         return notifification;
+    }
+
+    public Drawable getImage() {
+        if (notifification == null)
+            return Application.getmContext().getResources().getDrawable(R.drawable.bat_critical_small);
+
+        if (notifification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
+            return Application.getmContext().getResources().getDrawable(R.drawable.bat_range_small);
+        } else if (notifification.equals(NOTIFICATIONTYPE.CRITICAL.toString())) {
+            return Application.getmContext().getResources().getDrawable(R.drawable.bat_critical_small);
+        } else {
+            return Application.getmContext().getResources().getDrawable(R.drawable.bat_low_small);
+        }
     }
 }

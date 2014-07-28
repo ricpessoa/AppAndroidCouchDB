@@ -1,11 +1,12 @@
 package mei.ricardo.pessoa.app.couchdb.modal;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -18,7 +19,6 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
-import mei.ricardo.pessoa.app.ui.SettingsActivity;
 
 /**
  * Created by rpessoa on 27/07/14.
@@ -95,9 +95,9 @@ public class MS_Notification {
         } else {
             if (getGpsNotification() != null)
                 notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
-            if (getTemperatureNotification() != null && !getGpsNotification().equals(MS_Temperature.NOTIFICATIONTYPE.RANGE))
+            if (getTemperatureNotification() != null && !getTemperatureNotification().getNotifification().equals(MS_Temperature.NOTIFICATIONTYPE.RANGE.toString()))
                 notificationString.add("Temperature: " + temperatureNotification.getNotifification() + " - " + temperatureNotification.getValue());
-            if (getBatteryNotification() != null && !getBatteryNotification().equals(MS_Battery.NOTIFICATIONTYPE.NORMAL))
+            if (getBatteryNotification() != null && !getBatteryNotification().getNotifification().equals(MS_Battery.NOTIFICATIONTYPE.RANGE.toString()))
                 notificationString.add("Battery: " + batteryNotification.getNotifification() + " - " + batteryNotification.getValue());
         }
         return notificationString.toArray(new String[notificationString.size()]);
@@ -126,15 +126,19 @@ public class MS_Notification {
       /* Increase notification number every time a new notification arrives */
         //mBuilder.setNumber(++numMessages);
 
-
+//Define sound URI
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
       /* Add Big View Specific Configuration */
         NotificationCompat.InboxStyle inboxStyle =
                 new NotificationCompat.InboxStyle();
 
         String[] events = new String[6];
-        for (int i = 0; i < MSNotificationList.size(); i++) {
-            events = MSNotificationList.get(i).fillNotificationStriongArray();
-        }
+        //for (int i = 0; i < MSNotificationList.size(); i++) {
+        //    events = MSNotificationList.get(i).fillNotificationStriongArray();
+        // }
+
+        events = MSNotificationList.get(0).fillNotificationStriongArray();
+
 
         // Sets a title for the Inbox style big view
         inboxStyle.setBigContentTitle("Monitoring Notification");
@@ -143,7 +147,7 @@ public class MS_Notification {
             inboxStyle.addLine(events[i]);
         }
         mBuilder.setStyle(inboxStyle);
-
+        mBuilder.setSound(soundUri); //This sets the sound to play
 
       /* Creates an explicit intent for an Activity in your app */
         Intent resultIntent = new Intent(mContext, MainActivity.class);

@@ -14,4 +14,8 @@ public class Utils {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    public static long getTimestamp() {
+       return System.currentTimeMillis() / 1000L;
+    }
 }

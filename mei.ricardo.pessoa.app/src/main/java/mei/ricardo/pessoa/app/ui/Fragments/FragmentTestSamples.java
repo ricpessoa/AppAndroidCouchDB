@@ -35,6 +35,7 @@ import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
+import mei.ricardo.pessoa.app.ui.Fragments.Utils.Utils;
 import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
 
 
@@ -138,6 +139,7 @@ public class FragmentTestSamples extends Fragment {
                 if (checkBoxTemperature.isChecked()) {
                     nameValuePairs.add(new BasicNameValuePair("temp", editTextValueTemperature.getText().toString()));
                 }
+                nameValuePairs.add(new BasicNameValuePair("timestamp", "" + Utils.getTimestamp()));
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
