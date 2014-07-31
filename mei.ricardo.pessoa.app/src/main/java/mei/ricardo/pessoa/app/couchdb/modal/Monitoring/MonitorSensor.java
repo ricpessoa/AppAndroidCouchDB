@@ -13,13 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.couchdb.modal.Device;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
+import mei.ricardo.pessoa.app.utils.InterfaceItem;
 
 /**
  * Created by rpessoa on 03/06/14.
@@ -59,20 +55,17 @@ public class MonitorSensor implements InterfaceItem {
         Log.d(TAG, "Find for keys:[" + macAddress + "," + subType + "]");
 
         List<Object> keyArray = new ArrayList<Object>();
-        int count = 0;
         keyArray.add(macAddress);
         keyArray.add(subType);
         query.setStartKey(new Object[]{macAddress, subType, new HashMap()});
         query.setEndKey(new Object[]{macAddress, subType});
-        //query.setLimit(5);
+        query.setLimit(limit);
         query.setDescending(true);
-
 
         try {
             QueryEnumerator rowEnum = query.run();
             for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
                 QueryRow row = it.next();
-                //if (row.getKey(equals(keyArray)) {
                 Document document = row.getDocument();
                 if (subType.equals(SUBTYPE.GPS.toString())) {
                     try {
@@ -103,80 +96,17 @@ public class MonitorSensor implements InterfaceItem {
                         Log.e(TAG, "Error Panic Button parse error value or other some reason");
                     }
                 }
-                if (limit > 0)
-                    count++;
-                //Log.d(TAG, "Document ID:" + row.getDocumentId());
-                //arrayList.add(row.getDocumentId()+" - "+row.getDocument().getProperty("subtype").toString());
-                // }
-                if (limit > 0 && limit == count)
-                    return arrayList;
             }
 
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
-        if (arrayList.size() == 0) { //TODO: need fix if dindt receive any notification or the device dont have this sensor
+        if (arrayList.size() == 0) {
             arrayList.add(new MS_NotHave(subType));
         }
         return arrayList;
     }
 
-    /**
-     * This method is to show the monitoring sensor in listview (mode lite)
-     */
-    public static ArrayList<InterfaceItem> getMonitoringSensorByMacAddressAndSubtypeMOREEFFICENT(String macAddress, String subType, int limit) {
-        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
-        Query query = view.createQuery();
-        ArrayList<InterfaceItem> arrayList = new ArrayList<InterfaceItem>();
-        //List<Object> keyArray = new ArrayList<Object>();
-        Log.d(TAG, "Find for keys:[" + macAddress + "," + subType + "]");
-
-        List<Object> keyArray = new ArrayList<Object>();
-        keyArray.add(macAddress);
-        keyArray.add(subType);
-        query.setStartKey(new Object[]{macAddress, subType, new HashMap()});
-        query.setEndKey(new Object[]{macAddress, subType});
-        query.setLimit(limit);
-        query.setDescending(true);
-
-
-        try {
-            QueryEnumerator rowEnum = query.run();
-            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
-                QueryRow row = it.next();
-                Document document = row.getDocument();
-                if (subType.equals(SUBTYPE.GPS.toString())) {
-                    try {
-                        MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
-                        arrayList.add(ms_gps);
-                    } catch (Exception ex) {
-                        Log.e(TAG, "Error GPS not valid for some reason");
-                    }
-                } else if (subType.equals(SUBTYPE.temperature.toString())) {
-                    try {
-                        MS_Temperature ms_temperature = new MS_Temperature(document.getProperty("value").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
-                        arrayList.add(ms_temperature);
-                    } catch (Exception ex) {
-                        Log.e(TAG, "Error Temperature parse error value or other some reason");
-                    }
-                } else if (subType.equals(SUBTYPE.panic_button.toString())) {
-                    try {
-                        MS_PanicButton ms_panicButton = new MS_PanicButton(document.getProperty("pressed").toString(), macAddress, subType, document.getProperty("timestamp").toString());
-                        arrayList.add(ms_panicButton);
-                    } catch (Exception ex) {
-                        Log.e(TAG, "Error Panic Button parse error value or other some reason");
-                    }
-                }
-            }
-
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-        if (arrayList.size() == 0) { //TODO: need fix if dindt receive any notification or the device dont have this sensor
-            arrayList.add(new MS_NotHave(subType));
-        }
-        return arrayList;
-    }
 
     /**
      * this method show in listview/MAP the MS_GPS

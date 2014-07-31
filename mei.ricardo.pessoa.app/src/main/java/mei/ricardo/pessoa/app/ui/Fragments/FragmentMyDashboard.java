@@ -1,138 +1,171 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.astuetz.PagerSlidingTabStrip;
-import com.couchbase.lite.CouchbaseLiteException;
-import com.couchbase.lite.Query;
-import com.couchbase.lite.QueryEnumerator;
-import com.couchbase.lite.QueryRow;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 
 import java.util.ArrayList;
 
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 
 
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.couchdb.CouchDB;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.FragmentNotificationOfMonitoring;
+import mei.ricardo.pessoa.app.couchdb.modal.Device;
+import mei.ricardo.pessoa.app.ui.MainActivity;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.FragmentListNotificationOfMonitoring;
 
 
 public class FragmentMyDashboard extends Fragment {
-    public static final String TAG = FragmentMyDashboard.class
-            .getSimpleName();
-    private static ArrayList<DeviceRow> arrayTabs;
+    private static String TAG = FragmentMyDashboard.class.getName();
+    private TabHost mTabHost;
+    private ViewPager mViewPager;
+    private TabsAdapter mTabsAdapter;
 
-    public static FragmentMyDashboard newInstance() {
-        return new FragmentMyDashboard();
+    public FragmentMyDashboard() {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_my_dashboard, container, false);
-        //arrayTabs = arrayList.toArray(new String[arrayList.size()]);
+        mTabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
+        mTabHost.setup();
+
+        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+        mTabsAdapter = new TabsAdapter(getActivity(), mTabHost, mViewPager);
+
+        HashMap<String, String> hasMapDevices = Device.getHashMapOfDevices();
+
+        for (Map.Entry<String, String> e : hasMapDevices.entrySet()) {
+            String key = e.getKey();
+            String value = e.getValue();
+
+            Bundle b = new Bundle();
+            b.putString(FragmentListNotificationOfMonitoring.passIDOfDevice, key);
+            mTabsAdapter.addTab(mTabHost.newTabSpec(value).setIndicator(value), FragmentListNotificationOfMonitoring.class, b);
+        }
 
         return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        arrayTabs = getDevicesOnCouchDB();
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view
-                .findViewById(R.id.tabs);
-
-        ViewPager pager = (ViewPager) view.findViewById(R.id.pager);
-        MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
-        pager.setAdapter(adapter);
-        tabs.setViewPager(pager);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((MainActivity) activity).onSectionAttached(0);
     }
 
 
-    private ArrayList<DeviceRow> getDevicesOnCouchDB() {
-        ArrayList<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
-        deviceRowsList.add(new DeviceRow("All Devices", ""));
-        com.couchbase.lite.View view = CouchDB.viewGetDevicesMonitoring;
-        Query query = view.createQuery();
-        try {
-            QueryEnumerator rowEnum = query.run();
-            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
-                QueryRow row = it.next();
+    /**
+     * This is a helper class that implements the management of tabs and all
+     * details of connecting a ViewPager with associated TabHost.  It relies on a
+     * trick.  Normally a tab host has a simple API for supplying a View or
+     * Intent that each tab will show.  This is not sufficient for switching
+     * between pages.  So instead we make the content part of the tab host
+     * 0dp high (it is not shown) and the TabsAdapter supplies its own dummy
+     * view to show as the tab content.  It listens to changes in tabs, and takes
+     * care of switch to the correct paged in the ViewPager whenever the selected
+     * tab changes.
+     */
+    public static class TabsAdapter extends FragmentStatePagerAdapter implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+        private final Context mContext;
+        private final TabHost mTabHost;
+        private final ViewPager mViewPager;
+        private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
-                DeviceRow deviceRow = new DeviceRow();
-                deviceRow.deviceID = row.getDocumentId();
-                deviceRow.deviceName = row.getDocument().getProperty("name_device").toString();
-                deviceRowsList.add(deviceRow);
+        static final class TabInfo {
+            private final String tag;
+            private final Class<?> clss;
+            private final Bundle args;
 
+            TabInfo(String _tag, Class<?> _class, Bundle _args) {
+                tag = _tag;
+                clss = _class;
+                args = _args;
             }
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-        return deviceRowsList;
-    }
-
-
-    public class DeviceRow {
-        public String deviceID;
-        public String deviceName;
-
-        public DeviceRow() {
         }
 
-        public DeviceRow(String _id, String deviceName) {
-            this.deviceID = _id;
-            this.deviceName = deviceName;
+        static class DummyTabFactory implements TabHost.TabContentFactory {
+            private final Context mContext;
 
+            public DummyTabFactory(Context context) {
+                mContext = context;
+            }
+
+            public View createTabContent(String tag) {
+                View v = new View(mContext);
+                v.setMinimumWidth(0);
+                v.setMinimumHeight(0);
+                return v;
+            }
         }
-    }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
-            super(fm);
+        public TabsAdapter(FragmentActivity activity, TabHost tabHost, ViewPager pager) {
+            super(activity.getSupportFragmentManager());
+            mContext = activity;
+            mTabHost = tabHost;
+            mViewPager = pager;
+            mTabHost.setOnTabChangedListener(this);
+            mViewPager.setAdapter(this);
+            mViewPager.setOnPageChangeListener(this);
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
+        public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
+            tabSpec.setContent(new DummyTabFactory(mContext));
+            String tag = tabSpec.getTag();
 
-            if (!arrayTabs.get(position).deviceName.equals(""))
-                return arrayTabs.get(position).deviceName;
-            else
-                return arrayTabs.get(position).deviceID;
+            TabInfo info = new TabInfo(tag, clss, args);
+            mTabs.add(info);
+            mTabHost.addTab(tabSpec);
+            notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return arrayTabs.size();
+            return mTabs.size();
         }
 
         @Override
         public Fragment getItem(int position) {
-            DeviceRow device = arrayTabs.get(position);
-            //FragmentNotificationOfMonitoring fragmentNotificationOfMonitoring = new FragmentNotificationOfMonitoring();
-            //fragmentNotificationOfMonitoring.deviceID = device.deviceID;
-            //return fragmentNotificationOfMonitoring;
+            TabInfo info = mTabs.get(position);
 
+            return Fragment.instantiate(mContext, info.clss.getName(), info.args);
 
-            return FragmentNotificationOfMonitoring.newInstance(device.deviceID);
-            //return new TabsFragment();
-            //return new FragmentNotificationOfMonitoring(device.deviceID);
         }
 
+        public void onTabChanged(String tabId) {
+            int position = mTabHost.getCurrentTab();
+            mViewPager.setCurrentItem(position);
+        }
 
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        public void onPageSelected(int position) {
+            // Unfortunately when TabHost changes the current tab, it kindly
+            // also takes care of putting focus on it when not in touch mode.
+            // The jerk.
+            // This hack tries to prevent this from pulling focus out of our
+            // ViewPager.
+            TabWidget widget = mTabHost.getTabWidget();
+            int oldFocusability = widget.getDescendantFocusability();
+            widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+            mTabHost.setCurrentTab(position);
+            widget.setDescendantFocusability(oldFocusability);
+        }
+
+        public void onPageScrollStateChanged(int state) {
+        }
     }
+
 }

@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils;
+package mei.ricardo.pessoa.app.utils;
 
 public interface InterfaceItem {
 

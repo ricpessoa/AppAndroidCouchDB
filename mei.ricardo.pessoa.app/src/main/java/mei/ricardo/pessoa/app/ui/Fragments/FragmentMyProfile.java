@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.ui.MainActivity;
 import mei.ricardo.pessoa.app.R;
 
 public class FragmentMyProfile extends Fragment {

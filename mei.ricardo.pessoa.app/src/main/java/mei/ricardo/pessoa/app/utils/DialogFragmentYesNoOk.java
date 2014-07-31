@@ -1,4 +1,4 @@
-package mei.ricardo.pessoa.app.ui.Fragments.Utils;
+package mei.ricardo.pessoa.app.utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

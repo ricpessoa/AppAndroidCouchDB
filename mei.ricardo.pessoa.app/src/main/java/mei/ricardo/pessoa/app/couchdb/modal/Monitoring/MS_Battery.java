@@ -3,9 +3,15 @@ package mei.ricardo.pessoa.app.couchdb.modal.Monitoring;
 import android.graphics.drawable.Drawable;
 
 import com.couchbase.lite.Document;
+import com.couchbase.lite.QueryEnumerator;
+import com.couchbase.lite.QueryRow;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
+import mei.ricardo.pessoa.app.couchdb.modal.Device;
 
 /**
  * Created by rpessoa on 26/07/14.
@@ -47,5 +53,22 @@ public class MS_Battery extends MonitorSensor {
         } else {
             return Application.getmContext().getResources().getDrawable(R.drawable.bat_low_small);
         }
+    }
+
+    public static ArrayList<MS_Battery> getSensorBatteryByMacAddressTimestamp(String macAddress, String timestamp, int numberResults) {
+        QueryEnumerator rowEnum = MonitorSensor.getMonitorSensorByMacAddressSubtypeTimestamp(macAddress, Device.DEVICESTYPE.battery.toString(), timestamp, numberResults);
+        ArrayList<MS_Battery> ms_batteryArrayList = new ArrayList<MS_Battery>();
+        for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+            QueryRow row = it.next();
+            Document document = row.getDocument();
+            MS_Battery ms_battery = null;
+            try {
+                ms_battery = new MS_Battery(document);
+                ms_batteryArrayList.add(ms_battery);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return ms_batteryArrayList;
     }
 }

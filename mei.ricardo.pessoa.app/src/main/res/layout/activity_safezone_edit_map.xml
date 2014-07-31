@@ -16,7 +16,7 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewBatteryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -29,7 +29,7 @@
             android:id="@+id/seek_bar_radius"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/textViewBatteryValue"
             android:layout_toLeftOf="@+id/textView2"
             android:layout_toStartOf="@+id/textView2"
             android:max="4500"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/textViewBatteryValue"
             android:text="@string/str_radius"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>

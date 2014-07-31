@@ -37,8 +37,8 @@ import java.util.Locale;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
-import mei.ricardo.pessoa.app.ui.Fragments.Utils.DialogFragmentYesNoOk;
-import mei.ricardo.pessoa.app.ui.Fragments.Utils.Utils;
+import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
+import mei.ricardo.pessoa.app.utils.Utils;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 
 public class ActivitySafezoneEditMap extends Activity {

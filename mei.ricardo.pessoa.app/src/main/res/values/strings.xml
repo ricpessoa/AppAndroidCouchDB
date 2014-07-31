@@ -153,6 +153,8 @@
     <string name="title_activity_activity_safezone_edit_map">ActivitySafezoneEditMap</string>
     <string name="str_search_adress">Search Address</string>
     <string name="str_radius">Radius:</string>
+    <!-- strings Activity Monitor Sensor Panic Button -->
+    <string name="str_button_calcDirection">Go to this Direction</string>
 
     <!-- strings Temperature Activity -->
     <string name="title_activity_activity_temperature">Settings Temperature</string>

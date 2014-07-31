@@ -32,10 +32,12 @@ import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.ui.Device.AddDevice;
-import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.ui.MainActivity;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
+import mei.ricardo.pessoa.app.utils.DeviceRow;
 
 public class FragmentMyDevices extends Fragment {
     public static final String notify = "mei.ricardo.pessoa.app.notify.devices";
@@ -124,19 +126,12 @@ public class FragmentMyDevices extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
-            deviceListAdapter.updateDeviceList(getDevicesOnCouchDB());
+            deviceListAdapter.updateDeviceList(Device.getDevicesOnCouchDB());
         }
     }
 
-    public class DeviceRow {
-        public String deviceID;
-        public String deviceName;
-        public String deviceDescription;
-    }
-
     public class DeviceListAdapter extends BaseAdapter {
-
-        List<DeviceRow> deviceList = getDevicesOnCouchDB();
+        List<DeviceRow> deviceList = Device.getDevicesOnCouchDB();
 
         public void updateDeviceList(List<DeviceRow> results) {
             deviceList = results;
@@ -181,44 +176,6 @@ public class FragmentMyDevices extends Fragment {
         public DeviceRow getCodeLearnChapter(int position) {
             return deviceList.get(position);
         }
-
-    }
-
-    private List<DeviceRow> getDevicesOnCouchDB() {
-        List<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
-
-        com.couchbase.lite.View view = CouchDB.viewGetDevices;
-        Query query = view.createQuery();
-        try {
-            QueryEnumerator rowEnum = query.run();
-            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
-                QueryRow row = it.next();
-
-                DeviceRow deviceRow = new DeviceRow();
-                Log.d("Document ID:", row.getDocumentId());
-                deviceRow.deviceID = row.getDocumentId();
-                String nameDevice = "";
-                HashMap<Object, Object> numbSensors = new HashMap<Object, Object>();
-
-                try {
-                    nameDevice = row.getDocument().getProperty("name_device").toString();
-                    numbSensors = (HashMap<Object, Object>) row.getDocument().getProperty("sensors");
-                } catch (NullPointerException ex) {
-                    nameDevice = "Device " + row.getDocumentId();
-                } catch (Exception ex) {
-                    Log.e(TAG, "Error in Device _id:" + nameDevice);
-                }
-                deviceRow.deviceName = nameDevice;
-                if (numbSensors == null)
-                    break;
-                deviceRow.deviceDescription = "Number of Sensors " + numbSensors.size();
-                deviceRowsList.add(deviceRow);
-
-            }
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-        return deviceRowsList;
     }
 
 }

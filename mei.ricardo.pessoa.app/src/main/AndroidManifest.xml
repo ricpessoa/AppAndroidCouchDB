@@ -51,7 +51,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.Navigation.MainActivity" />
+        <activity android:name=".ui.MainActivity" />
         <activity
             android:name=".ui.Fragments.FragmentMyDashboard"
             android:label="@string/title_activity_fragment_my_dashboard" />

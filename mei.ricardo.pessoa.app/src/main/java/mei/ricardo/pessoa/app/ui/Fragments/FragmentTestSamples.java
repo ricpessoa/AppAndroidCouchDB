@@ -1,8 +1,6 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,12 +29,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.ui.Fragments.Utils.Utils;
-import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.utils.Utils;
+import mei.ricardo.pessoa.app.ui.MainActivity;
 
 
 public class FragmentTestSamples extends Fragment {

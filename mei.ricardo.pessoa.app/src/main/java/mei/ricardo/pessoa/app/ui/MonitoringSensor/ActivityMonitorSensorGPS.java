@@ -27,10 +27,9 @@ import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.AdapterSectionAndMonitorSensor;
-import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils.InterfaceItem;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.Utils.SlidingUpPanelLayout;
-import mei.ricardo.pessoa.app.utils.Utilities;
+import mei.ricardo.pessoa.app.utils.InterfaceItem;
+import mei.ricardo.pessoa.app.utils.Utils;
 
 public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanelLayout.PanelSlideListener {
     private static String TAG = ActivityMonitorSensorGPS.class.getName();
@@ -132,7 +131,7 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(ms_gps.latitude, ms_gps.longitude))
                             .icon(bitmapDescriptorMarker)
-                            .title("Address: " + ms_gps.getAddress() + " at " + Utilities.ConvertTimestampToDateFormat(ms_gps.getTimestamp())));
+                            .title("Address: " + ms_gps.getAddress() + " at " + Utils.ConvertTimestampToDateFormat(ms_gps.getTimestamp())));
 
                 }
             }

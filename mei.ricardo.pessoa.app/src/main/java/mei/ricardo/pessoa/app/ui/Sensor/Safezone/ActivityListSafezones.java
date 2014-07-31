@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
-import mei.ricardo.pessoa.app.ui.Fragments.Utils.DownloadImageTask;
+import mei.ricardo.pessoa.app.utils.DownloadImageTask;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 
 public class ActivityListSafezones extends ActionBarActivity {

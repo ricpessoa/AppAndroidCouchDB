@@ -1,6 +1,4 @@
-package mei.ricardo.pessoa.app.couchdb.modal.Monitoring.Utils;
-
-import java.util.ArrayList;
+package mei.ricardo.pessoa.app.ui.MonitoringSensor;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,13 +14,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorGPS;
-import mei.ricardo.pessoa.app.utils.Utilities;
+import mei.ricardo.pessoa.app.utils.InterfaceItem;
+import mei.ricardo.pessoa.app.utils.SectionItem;
+import mei.ricardo.pessoa.app.utils.Utils;
 
+/**
+ * Created by rpessoa on 31/07/14.
+ */
 public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> {
     private String TAG = AdapterSectionAndMonitorSensor.class.getCanonicalName();
     private Context context;
@@ -89,7 +93,7 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
                     if (title != null)
                         title.setText(monitorSensor.getTitle());
                     if (subtitle != null)
-                        subtitle.setText(Utilities.ConvertTimestampToDateFormat(monitorSensor.getTimestamp()));
+                        subtitle.setText(Utils.ConvertTimestampToDateFormat(monitorSensor.getTimestamp()));
                 }
             }
         } catch (Exception ex) {
@@ -97,30 +101,6 @@ public class AdapterSectionAndMonitorSensor extends ArrayAdapter<InterfaceItem> 
         }
 
         return v;
-    }
-
-//    public synchronized void updateDeviceList(ArrayList<InterfaceItem> results) {
-//        try {
-//            items.clear();
-//            items.addAll(items);
-//            // items = results;
-//            //Triggers the list update
-//            notifyDataSetChanged();
-//        }catch (Exception ex){
-//            Log.e("ERRRORRRR", "wtf happeend???");
-//        }
-//
-//    }
-
-    public void updateDeviceList(ArrayList<InterfaceItem> results) {
-        try {
-            items = results;
-            //Triggers the list update
-            notifyDataSetChanged();
-        } catch (Exception ex) {
-            Log.e(TAG, "wtf happeend???");
-        }
-
     }
 
 }

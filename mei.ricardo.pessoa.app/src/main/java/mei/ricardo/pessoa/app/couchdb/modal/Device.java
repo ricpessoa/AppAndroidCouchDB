@@ -4,14 +4,19 @@ import android.util.Log;
 
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
-
-import org.codehaus.jackson.map.ext.JodaDeserializers;
+import com.couchbase.lite.Query;
+import com.couchbase.lite.QueryEnumerator;
+import com.couchbase.lite.QueryRow;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
+import mei.ricardo.pessoa.app.utils.DeviceRow;
 
 /**
  * Created by rpessoa on 06/05/14.
@@ -48,6 +53,32 @@ public class Device {
         this.monitoring = checked;
     }
 
+    /**
+     * This method is to construct TabHost with devices
+     */
+    public static HashMap<String, String> getHashMapOfDevices() {
+        HashMap<String, String> deviceHaspMap = new HashMap<String, String>();
+        deviceHaspMap.put("", "All Devices");
+        com.couchbase.lite.View view = CouchDB.viewGetDevicesMonitoring;
+        Query query = view.createQuery();
+        try {
+            QueryEnumerator rowEnum = query.run();
+            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+                QueryRow row = it.next();
+
+                Object deviceID = row.getDocumentId();
+                Object deviceName = row.getDocument().getProperty("name_device");
+                if (deviceName != null) {
+                    deviceHaspMap.put(deviceID.toString(), deviceName.toString());
+                }
+
+            }
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+        return deviceHaspMap;
+    }
+
     public static Device getDeviceByID(String _id) {
         Document document = CouchDB.getmCouchDBinstance().getDatabase().getExistingDocument(_id);
         if (document == null)
@@ -65,6 +96,42 @@ public class Device {
         }
         tempDevice.getSensorsOfDevice();
         return tempDevice;
+    }
+
+    public static List<DeviceRow> getDevicesOnCouchDB() {
+        List<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
+
+        com.couchbase.lite.View view = CouchDB.viewGetDevices;
+        Query query = view.createQuery();
+        try {
+            QueryEnumerator rowEnum = query.run();
+            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+                QueryRow row = it.next();
+
+                DeviceRow deviceRow = new DeviceRow();
+                deviceRow.deviceID = row.getDocumentId();
+                String nameDevice = "";
+                HashMap<Object, Object> numbSensors = new HashMap<Object, Object>();
+
+                try {
+                    nameDevice = row.getDocument().getProperty("name_device").toString();
+                    numbSensors = (HashMap<Object, Object>) row.getDocument().getProperty("sensors");
+                } catch (NullPointerException ex) {
+                    nameDevice = "Device " + row.getDocumentId();
+                } catch (Exception ex) {
+                    Log.e(TAG, "Error in Device _id:" + nameDevice);
+                }
+                deviceRow.deviceName = nameDevice;
+                if (numbSensors == null)
+                    break;
+                deviceRow.deviceDescription = "Number of Sensors " + numbSensors.size();
+                deviceRowsList.add(deviceRow);
+
+            }
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+        return deviceRowsList;
     }
 
     private void getSensorsOfDevice() {

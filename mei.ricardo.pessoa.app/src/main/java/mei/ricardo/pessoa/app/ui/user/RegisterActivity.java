@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.ui.Fragments.Utils.DialogFragmentYesNoOk;
+import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.R;
 
 

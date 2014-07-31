@@ -80,7 +80,7 @@ public class ActivityEditNameSafezone extends ActionBarActivity {
             textViewName.setText(previousName);
         } else {
             textViewName.setVisibility(View.GONE);
-            ((TextView) findViewById(R.id.textView)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.textViewBatteryValue)).setVisibility(View.GONE);
         }
     }
 }

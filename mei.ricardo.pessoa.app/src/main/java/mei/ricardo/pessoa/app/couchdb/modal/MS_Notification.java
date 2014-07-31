@@ -18,7 +18,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
-import mei.ricardo.pessoa.app.ui.Navigation.MainActivity;
+import mei.ricardo.pessoa.app.ui.MainActivity;
 
 /**
  * Created by rpessoa on 27/07/14.

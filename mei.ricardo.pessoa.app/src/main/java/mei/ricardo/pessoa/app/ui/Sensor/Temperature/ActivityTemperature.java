@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.ui.Fragments.Utils.DialogFragmentYesNoOk;
+import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 
 public class ActivityTemperature extends ActionBarActivity {

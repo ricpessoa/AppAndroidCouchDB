@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/str_temperature_minimum"
-        android:id="@+id/textView" />
+        android:id="@+id/textViewBatteryValue" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/editTextNumberLow"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/textViewBatteryValue"
         android:layout_alignRight="@+id/editTextNumberCritical"
         android:layout_alignEnd="@+id/editTextNumberCritical"
         android:layout_alignParentLeft="true"
