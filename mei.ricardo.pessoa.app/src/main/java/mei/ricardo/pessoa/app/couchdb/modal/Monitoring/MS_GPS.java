@@ -1,12 +1,16 @@
 package mei.ricardo.pessoa.app.couchdb.modal.Monitoring;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
+import com.couchbase.lite.Query;
 import com.couchbase.lite.QueryEnumerator;
 import com.couchbase.lite.QueryRow;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import mei.ricardo.pessoa.app.Application;
@@ -18,7 +22,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
  * Created by rpessoa on 05/06/14.
  */
 public class MS_GPS extends MonitorSensor {
-
+    private static String TAG = MS_GPS.class.getCanonicalName();
     public static String[] NOTIFICATIONTYPE = {"CHECK-IN", "CHECK-OUT"};
     public float latitude;
     public float longitude;
@@ -89,4 +93,38 @@ public class MS_GPS extends MonitorSensor {
         }
         return ms_gpsArrayList;
     }
+
+    /**
+     * this method show in listview/MAP the MS_GPS
+     */
+    public static ArrayList<MS_GPS> getSensorGPSByMacAddressAndSubtype(String macAddress, String subType, int limit) {
+        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
+        Query query = view.createQuery();
+        ArrayList<MS_GPS> arrayList = new ArrayList<MS_GPS>();
+
+        query.setStartKey(new Object[]{macAddress, subType, new HashMap()});
+        query.setEndKey(new Object[]{macAddress, subType});
+        query.setDescending(true);
+        query.setLimit(limit);
+
+        try {
+            QueryEnumerator rowEnum = query.run();
+            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+                QueryRow row = it.next();
+                Document document = row.getDocument();
+                if (subType.equals(SUBTYPE.GPS.toString())) {
+                    try {
+                        MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+                        arrayList.add(ms_gps);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "Error GPS not valid for some reason");
+                    }
+                }
+            }
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
 }

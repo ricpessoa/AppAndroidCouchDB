@@ -20,6 +20,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorGPS;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityListMonitorSensorPBTempBatt;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorPanicButton;
 import mei.ricardo.pessoa.app.utils.InterfaceItem;
 import mei.ricardo.pessoa.app.utils.SectionItem;
@@ -117,7 +118,13 @@ public class CustomAdapter extends BaseAdapter {
                     if (sectionItem.getType().equals(Device.DEVICESTYPE.GPS.toString())) {
                         //show entire safezones
                         Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorGPS.class);
-                        intent.putExtra(ActivityMonitorSensorGPS.passVariableID, sectionItem.getDeviceMacAddress());
+                        intent.putExtra(ActivityMonitorSensorGPS.passVariableIDOfDevice, sectionItem.getDeviceMacAddress());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Application.getmContext().startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(Application.getmContext(), ActivityListMonitorSensorPBTempBatt.class);
+                        intent.putExtra(ActivityListMonitorSensorPBTempBatt.passVariableIDOfDevice, sectionItem.getDeviceMacAddress());
+                        intent.putExtra(ActivityListMonitorSensorPBTempBatt.passVariableTypeSensor, sectionItem.getType());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Application.getmContext().startActivity(intent);
                     }

@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.utils.InterfaceItem;
 
 /**
@@ -24,8 +25,6 @@ public class MonitorSensor implements InterfaceItem {
     private static String TAG = MonitorSensor.class.getName();
 
     public enum SUBTYPE {panic_button, GPS, temperature, battery}
-
-    ;
 
     public static String[] subtypeSections = {"Sensor Panic Button", "Sensor GPS", "Sensor Temperature", "Battery Level"};
     public String subtype;
@@ -46,7 +45,6 @@ public class MonitorSensor implements InterfaceItem {
     /**
      * This method is to show the monitoring sensor in listview (mode lite)
      */
-    //TODO: exist other method more eficient
     public static ArrayList<InterfaceItem> getMonitoringSensorByMacAddressAndSubtype(String macAddress, String subType, int limit) {
         com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
         Query query = view.createQuery();
@@ -107,40 +105,6 @@ public class MonitorSensor implements InterfaceItem {
         return arrayList;
     }
 
-
-    /**
-     * this method show in listview/MAP the MS_GPS
-     */
-    public static ArrayList<MS_GPS> getSensorGPSByMacAddressAndSubtype(String macAddress, String subType, int limit) {
-        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
-        Query query = view.createQuery();
-        ArrayList<MS_GPS> arrayList = new ArrayList<MS_GPS>();
-
-        query.setStartKey(new Object[]{macAddress, subType, new HashMap()});
-        query.setEndKey(new Object[]{macAddress, subType});
-        query.setDescending(true);
-        query.setLimit(limit);
-
-        try {
-            QueryEnumerator rowEnum = query.run();
-            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
-                QueryRow row = it.next();
-                Document document = row.getDocument();
-                if (subType.equals(SUBTYPE.GPS.toString())) {
-                    try {
-                        MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), macAddress, subType, document.getProperty("timestamp").toString());
-                        arrayList.add(ms_gps);
-                    } catch (Exception ex) {
-                        Log.e(TAG, "Error GPS not valid for some reason");
-                    }
-                }
-            }
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-        return arrayList;
-    }
-
     public static QueryEnumerator getMonitorSensorByMacAddressSubtypeTimestamp(String macAddress, String subType, String timestamp, int limit) {
         com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
         Query query = view.createQuery();
@@ -159,73 +123,103 @@ public class MonitorSensor implements InterfaceItem {
         return rowEnum;
     }
 
-    public static ArrayList<InterfaceItem> getSensorPanicButtonByMacAddressAndSubtype(String macAddress, String subType, String timestamp, int limit) {
-        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
-        Query query = view.createQuery();
-        ArrayList<InterfaceItem> arrayList = new ArrayList<InterfaceItem>();
+//    public static ArrayList<MonitorSensor> getSensorGPSByMacAddressAndSubtype(String macAddress, String subType, int limit) {
+//        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
+//        Query query = view.createQuery();
+//        ArrayList<MS_GPS> arrayList = new ArrayList<MS_GPS>();
+//
+//        query.setStartKey(new Object[]{macAddress, subType, new HashMap()});
+//        query.setEndKey(new Object[]{macAddress, subType});
+//        query.setDescending(true);
+//        query.setLimit(limit);
+//
+//        try {
+//            QueryEnumerator rowEnum = query.run();
+//            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+//                QueryRow row = it.next();
+//                Document document = row.getDocument();
+//                if (subType.equals(SUBTYPE.GPS.toString())) {
+//                    try {
+//                        MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+//                        arrayList.add(ms_gps);
+//                    } catch (Exception ex) {
+//                        Log.e(TAG, "Error GPS not valid for some reason");
+//                    }
+//                }
+//            }
+//        } catch (CouchbaseLiteException e) {
+//            e.printStackTrace();
+//        }
+//        return arrayList;
+//    }
 
-        List<Object> keyArray = new ArrayList<Object>();
-        query.setDescending(true);
-        query.setStartKey(new Object[]{macAddress, subType, timestamp, new HashMap()});
-        query.setEndKey(new Object[]{macAddress, subType, timestamp});
-        query.setLimit(limit);
-        try {
-            QueryEnumerator rowEnum = query.run();
-            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
-                QueryRow row = it.next();
-                if (row.getKey().equals(keyArray)) {
-                    Document document = row.getDocument();
-                }
-            }
+//    public static ArrayList<InterfaceItem> getSensorPanicButtonByMacAddressAndSubtype(String macAddress, String subType, String timestamp, int limit) {
+//        com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
+//        Query query = view.createQuery();
+//        ArrayList<InterfaceItem> arrayList = new ArrayList<InterfaceItem>();
+//
+//        List<Object> keyArray = new ArrayList<Object>();
+//        query.setDescending(true);
+//        query.setStartKey(new Object[]{macAddress, subType, timestamp, new HashMap()});
+//        query.setEndKey(new Object[]{macAddress, subType, timestamp});
+//        query.setLimit(limit);
+//        try {
+//            QueryEnumerator rowEnum = query.run();
+//            for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+//                QueryRow row = it.next();
+//                if (row.getKey().equals(keyArray)) {
+//                    Document document = row.getDocument();
+//                }
+//            }
+//
+//        } catch (CouchbaseLiteException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return arrayList;
+//    }
 
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
 
-        return arrayList;
-    }
-
-    /*
-        public static ArrayList<MonitorSensor> getLastNotificationToNotify() {
-            com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitoringSensorsFromLastDay;
-            Query query = view.createQuery();
-            query.setDescending(true);
-            try {
-                QueryEnumerator rowEnum = query.run();
-                for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
-                    QueryRow row = it.next();
-                    Document document = row.getDocument();
-                    String subType = document.getProperty("subtype").toString();
-                    if (subType.equals(SUBTYPE.GPS.toString())) {
-                        try {
-                            MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
-                            arrayList.add(ms_gps);
-                        } catch (Exception ex) {
-                            Log.e(TAG, "Error GPS not valid for some reason");
-                        }
-                    } else if (subType.equals(SUBTYPE.temperature.toString())) {
-                        try {
-                            MS_Temperature ms_temperature = new MS_Temperature(document.getProperty("value").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
-                            arrayList.add(ms_temperature);
-                        } catch (Exception ex) {
-                            Log.e(TAG, "Error Temperature parse error value or other some reason");
-                        }
-                    } else if (subType.equals(SUBTYPE.panic_button.toString())) {
-                        try {
-                            MS_PanicButton ms_panicButton = new MS_PanicButton(document.getProperty("pressed").toString(), macAddress, subType, document.getProperty("timestamp").toString());
-                            arrayList.add(ms_panicButton);
-                        } catch (Exception ex) {
-                            Log.e(TAG, "Error Panic Button parse error value or other some reason");
-                        }
-                    }
-                }
-
-            } catch (CouchbaseLiteException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    */
+    //        public static ArrayList<MonitorSensor> getLastNotificationToNotify() {
+//            com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitoringSensorsFromLastDay;
+//            Query query = view.createQuery();
+//            query.setDescending(true);
+//            try {
+//                QueryEnumerator rowEnum = query.run();
+//                for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
+//                    QueryRow row = it.next();
+//                    Document document = row.getDocument();
+//                    String subType = document.getProperty("subtype").toString();
+//                    if (subType.equals(SUBTYPE.GPS.toString())) {
+//                        try {
+//                            MS_GPS ms_gps = new MS_GPS(document.getProperty("address").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+//                            arrayList.add(ms_gps);
+//                        } catch (Exception ex) {
+//                            Log.e(TAG, "Error GPS not valid for some reason");
+//                        }
+//                    } else if (subType.equals(SUBTYPE.temperature.toString())) {
+//                        try {
+//                            MS_Temperature ms_temperature = new MS_Temperature(document.getProperty("value").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+//                            arrayList.add(ms_temperature);
+//                        } catch (Exception ex) {
+//                            Log.e(TAG, "Error Temperature parse error value or other some reason");
+//                        }
+//                    } else if (subType.equals(SUBTYPE.panic_button.toString())) {
+//                        try {
+//                            MS_PanicButton ms_panicButton = new MS_PanicButton(document.getProperty("pressed").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+//                            arrayList.add(ms_panicButton);
+//                        } catch (Exception ex) {
+//                            Log.e(TAG, "Error Panic Button parse error value or other some reason");
+//                        }
+//                    }
+//                }
+//
+//            } catch (CouchbaseLiteException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
     public String getMac_address() {
         return mac_address;
     }

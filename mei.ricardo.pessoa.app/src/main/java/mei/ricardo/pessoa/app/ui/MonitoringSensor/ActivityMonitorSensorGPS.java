@@ -5,7 +5,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +27,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
@@ -36,14 +34,13 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.Utils.SlidingUpPanelLayout;
-import mei.ricardo.pessoa.app.utils.DeviceRow;
 import mei.ricardo.pessoa.app.utils.InterfaceItem;
 import mei.ricardo.pessoa.app.utils.Utils;
 
 public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanelLayout.PanelSlideListener, AdapterView.OnItemClickListener {
     private static String TAG = ActivityMonitorSensorGPS.class.getName();
-    public static String passVariableID = "gps_id";
-    private String macAddress;
+    public static String passVariableIDOfDevice = "passVariableIDOfDevice";
+    private String macAddressDevice;
 
     private ListView mListView;
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
@@ -65,7 +62,7 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
         setContentView(R.layout.activity_monitor_sensor_safezones);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        macAddress = getIntent().getExtras().getString(passVariableID);
+        macAddressDevice = getIntent().getExtras().getString(passVariableIDOfDevice);
 
         mListView = (ListView) findViewById(R.id.list);
         mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
@@ -86,7 +83,7 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
         mTransparentHeaderView = LayoutInflater.from(this).inflate(R.layout.transparent_header_view, null, false);
         mSpaceView = mTransparentHeaderView.findViewById(R.id.space);
 
-        monitoringGPSes = MonitorSensor.getSensorGPSByMacAddressAndSubtype(macAddress, Device.DEVICESTYPE.GPS.toString(), 30);
+        monitoringGPSes = MS_GPS.getSensorGPSByMacAddressAndSubtype(macAddressDevice, Device.DEVICESTYPE.GPS.toString(), 30);
         MS_GPSListAdapter adapter = new MS_GPSListAdapter(monitoringGPSes);
         mListView.addHeaderView(mTransparentHeaderView);
         mListView.setAdapter(adapter);
@@ -230,18 +227,14 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
             relativeLayout.setBackgroundColor(Color.WHITE);
 
             ImageView imageView = (ImageView) arg1.findViewById(R.id.icon);
-            TextView chapterName = (TextView) arg1.findViewById(R.id.deviceName);
-            TextView chapterDesc = (TextView) arg1.findViewById(R.id.deviceDescription);
+            TextView RowName = (TextView) arg1.findViewById(R.id.deviceName);
+            TextView RowDesc = (TextView) arg1.findViewById(R.id.deviceDescription);
             MS_GPS ms_gpsRow = deviceList.get(arg0);
 
-            chapterName.setText(ms_gpsRow.getAddress());
-            chapterDesc.setText(Utils.ConvertTimestampToDateFormat(ms_gpsRow.getTimestamp()));
+            RowName.setText(ms_gpsRow.getAddress());
+            RowDesc.setText(Utils.ConvertTimestampToDateFormat(ms_gpsRow.getTimestamp()));
             imageView.setImageDrawable(ms_gpsRow.getImage());
             return arg1;
-        }
-
-        public MS_GPS getCodeLearnChapter(int position) {
-            return deviceList.get(position);
         }
     }
 }

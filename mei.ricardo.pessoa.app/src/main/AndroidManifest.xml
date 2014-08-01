@@ -129,6 +129,10 @@
             android:name=".ui.Sensor.Battery.ActivityBattery"
             android:label="@string/title_activity_activity_battery" >
         </activity>
+        <activity
+            android:name=".ui.MonitoringSensor.ActivityListMonitorSensorPBTempBatt"
+            android:label="@string/title_activity_activity_monitor_sensor_pbtemp_batt" >
+        </activity>
     </application>
 
 </manifest>

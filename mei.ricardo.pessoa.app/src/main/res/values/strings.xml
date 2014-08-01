@@ -62,7 +62,6 @@
     <string name="str_checkbox_gps">GPS</string>
     <string name="str_checkbox_panicbutton">Panic Button</string>
     <string name="str_checkbox_battery">Battery Level</string>
-
     <string name="str_select_sensors">Select the following sensors in the device:</string>
     <string name="str_button_save_device">Save Device</string>
 
@@ -167,5 +166,6 @@
     <string name="title_activity_activity_battery">Settings Battery</string>
     <string name="str_battery_low">Low Battery Level Notification</string>
     <string name="str_battery_critical">Critical Battery Level Notification</string>
+    <string name="title_activity_activity_monitor_sensor_pbtemp_batt">ActivityMonitorSensorPBTempBatt</string>
 
 </resources>
