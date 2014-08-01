@@ -31,6 +31,8 @@ public class FragmentMyDashboard extends Fragment {
     private TabHost mTabHost;
     private ViewPager mViewPager;
     private TabsAdapter mTabsAdapter;
+    public static int currentPagerPosition = 0;
+    private HashMap<String, String> hasMapDevices;
 
     public FragmentMyDashboard() {
     }
@@ -45,8 +47,11 @@ public class FragmentMyDashboard extends Fragment {
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
         mTabsAdapter = new TabsAdapter(getActivity(), mTabHost, mViewPager);
 
-        HashMap<String, String> hasMapDevices = Device.getHashMapOfDevices();
-
+        hasMapDevices = Device.getHashMapOfDevices();
+        if (hasMapDevices.size() == 1) {
+            //TODO: DONT HAVE ANY DEVICE, PLEASE ADD A DEVICE
+            return rootView;
+        }
         for (Map.Entry<String, String> e : hasMapDevices.entrySet()) {
             String key = e.getKey();
             String value = e.getValue();
@@ -65,6 +70,13 @@ public class FragmentMyDashboard extends Fragment {
         ((MainActivity) activity).onSectionAttached(0);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (hasMapDevices != null && hasMapDevices.size() >= currentPagerPosition) {
+            mTabsAdapter.mViewPager.setCurrentItem(currentPagerPosition);
+        }
+    }
 
     /**
      * This is a helper class that implements the management of tabs and all
@@ -76,6 +88,8 @@ public class FragmentMyDashboard extends Fragment {
      * view to show as the tab content.  It listens to changes in tabs, and takes
      * care of switch to the correct paged in the ViewPager whenever the selected
      * tab changes.
+     * <p/>
+     * FragmentStatePagerAdapter save the state of fragment on Pager =)
      */
     public static class TabsAdapter extends FragmentStatePagerAdapter implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
         private final Context mContext;
@@ -138,9 +152,7 @@ public class FragmentMyDashboard extends Fragment {
         @Override
         public Fragment getItem(int position) {
             TabInfo info = mTabs.get(position);
-
             return Fragment.instantiate(mContext, info.clss.getName(), info.args);
-
         }
 
         public void onTabChanged(String tabId) {
@@ -162,6 +174,7 @@ public class FragmentMyDashboard extends Fragment {
             widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
             mTabHost.setCurrentTab(position);
             widget.setDescendantFocusability(oldFocusability);
+            currentPagerPosition = position;
         }
 
         public void onPageScrollStateChanged(int state) {

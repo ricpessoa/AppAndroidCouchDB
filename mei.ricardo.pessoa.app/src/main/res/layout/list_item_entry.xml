@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:padding="6dip"
     android:id="@+id/relative_layout_entry">
 
@@ -35,7 +35,5 @@
         android:layout_below="@+id/deviceName"
         android:layout_alignLeft="@+id/deviceName"
         android:layout_alignStart="@+id/deviceName" />
-
-
 
 </RelativeLayout> 

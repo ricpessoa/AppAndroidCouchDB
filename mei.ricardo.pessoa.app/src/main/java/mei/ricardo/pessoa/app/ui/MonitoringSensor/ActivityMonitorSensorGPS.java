@@ -2,14 +2,20 @@ package mei.ricardo.pessoa.app.ui.MonitoringSensor;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,16 +28,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.Utils.SlidingUpPanelLayout;
+import mei.ricardo.pessoa.app.utils.DeviceRow;
 import mei.ricardo.pessoa.app.utils.InterfaceItem;
 import mei.ricardo.pessoa.app.utils.Utils;
 
-public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanelLayout.PanelSlideListener {
+public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanelLayout.PanelSlideListener, AdapterView.OnItemClickListener {
     private static String TAG = ActivityMonitorSensorGPS.class.getName();
     public static String passVariableID = "gps_id";
     private String macAddress;
@@ -47,7 +56,7 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
 
     private GoogleMap mMap;
 
-    public ArrayList<InterfaceItem> monitoringGPSes = new ArrayList<InterfaceItem>();
+    public ArrayList<MS_GPS> monitoringGPSes = new ArrayList<MS_GPS>();
     private static int previowsSelectMarker = 0;
 
     @Override
@@ -57,7 +66,7 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         macAddress = getIntent().getExtras().getString(passVariableID);
-        Log.d(TAG, "mac address received = " + macAddress);
+
         mListView = (ListView) findViewById(R.id.list);
         mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 
@@ -78,24 +87,12 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
         mSpaceView = mTransparentHeaderView.findViewById(R.id.space);
 
         monitoringGPSes = MonitorSensor.getSensorGPSByMacAddressAndSubtype(macAddress, Device.DEVICESTYPE.GPS.toString(), 30);
-        AdapterSectionAndMonitorSensor adapter = new AdapterSectionAndMonitorSensor(this, monitoringGPSes, Color.WHITE);
+        MS_GPSListAdapter adapter = new MS_GPSListAdapter(monitoringGPSes);
         mListView.addHeaderView(mTransparentHeaderView);
         mListView.setAdapter(adapter);
 
         // mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.simple_list_item, testData));
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                previowsSelectMarker = position - 1;
-                CameraUpdate update = getLastKnownLocation(monitoringGPSes.get(position - 1));
-                if (update != null) {
-                    mMap.moveCamera(update);
-                }
-                //getLastKnownLocation(monitoringGPSes.get(position));
-                mSlidingUpPanelLayout.collapsePane();
-
-            }
-        });
+        mListView.setOnItemClickListener(this);
         collapseMap();
 
         mMapFragment = MapFragment.newInstance();
@@ -131,7 +128,8 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(ms_gps.latitude, ms_gps.longitude))
                             .icon(bitmapDescriptorMarker)
-                            .title("Address: " + ms_gps.getAddress() + " at " + Utils.ConvertTimestampToDateFormat(ms_gps.getTimestamp())));
+                            .title("Monitoring GPS at " + Utils.ConvertTimestampToDateFormat(ms_gps.getTimestamp()))
+                            .snippet("Address " + ms_gps.getAddress()));
 
                 }
             }
@@ -185,5 +183,65 @@ public class ActivityMonitorSensorGPS extends Activity implements SlidingUpPanel
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        previowsSelectMarker = position - 1;
+        CameraUpdate update = getLastKnownLocation(monitoringGPSes.get(position - 1));
+        if (update != null) {
+            mMap.moveCamera(update);
+        }
+        //getLastKnownLocation(monitoringGPSes.get(position));
+        mSlidingUpPanelLayout.collapsePane();
+    }
+
+    public class MS_GPSListAdapter extends BaseAdapter {
+        ArrayList<MS_GPS> deviceList = new ArrayList<MS_GPS>();
+
+        public MS_GPSListAdapter(ArrayList<MS_GPS> results) {
+            deviceList = results;
+        }
+
+        @Override
+        public int getCount() {
+            return deviceList.size();
+        }
+
+        @Override
+        public MS_GPS getItem(int arg0) {
+            return deviceList.get(arg0);
+        }
+
+        @Override
+        public long getItemId(int arg0) {
+            return arg0;
+        }
+
+        @Override
+        public View getView(int arg0, View arg1, ViewGroup arg2) {
+
+            if (arg1 == null) {
+                LayoutInflater inflater = (LayoutInflater) Application.getmContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                arg1 = inflater.inflate(R.layout.list_item_entry, arg2, false);
+            }
+
+            RelativeLayout relativeLayout = (RelativeLayout) arg1.findViewById(R.id.relative_layout_entry);
+            relativeLayout.setBackgroundColor(Color.WHITE);
+
+            ImageView imageView = (ImageView) arg1.findViewById(R.id.icon);
+            TextView chapterName = (TextView) arg1.findViewById(R.id.deviceName);
+            TextView chapterDesc = (TextView) arg1.findViewById(R.id.deviceDescription);
+            MS_GPS ms_gpsRow = deviceList.get(arg0);
+
+            chapterName.setText(ms_gpsRow.getAddress());
+            chapterDesc.setText(Utils.ConvertTimestampToDateFormat(ms_gpsRow.getTimestamp()));
+            imageView.setImageDrawable(ms_gpsRow.getImage());
+            return arg1;
+        }
+
+        public MS_GPS getCodeLearnChapter(int position) {
+            return deviceList.get(position);
+        }
     }
 }

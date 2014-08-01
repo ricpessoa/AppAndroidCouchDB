@@ -111,10 +111,10 @@ public class MonitorSensor implements InterfaceItem {
     /**
      * this method show in listview/MAP the MS_GPS
      */
-    public static ArrayList<InterfaceItem> getSensorGPSByMacAddressAndSubtype(String macAddress, String subType, int limit) {
+    public static ArrayList<MS_GPS> getSensorGPSByMacAddressAndSubtype(String macAddress, String subType, int limit) {
         com.couchbase.lite.View view = Application.getmCouchDBinstance().viewGetMonitorSensor;
         Query query = view.createQuery();
-        ArrayList<InterfaceItem> arrayList = new ArrayList<InterfaceItem>();
+        ArrayList<MS_GPS> arrayList = new ArrayList<MS_GPS>();
 
         query.setStartKey(new Object[]{macAddress, subType, new HashMap()});
         query.setEndKey(new Object[]{macAddress, subType});

@@ -11,11 +11,11 @@ import com.couchbase.lite.QueryRow;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
-import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.utils.DeviceRow;
 
 /**
@@ -55,9 +55,10 @@ public class Device {
 
     /**
      * This method is to construct TabHost with devices
+     * LinkedHashMap preserve the inserting order (and is like HasMap)
      */
-    public static HashMap<String, String> getHashMapOfDevices() {
-        HashMap<String, String> deviceHaspMap = new HashMap<String, String>();
+    public static LinkedHashMap<String, String> getHashMapOfDevices() {
+        LinkedHashMap<String, String> deviceHaspMap = new LinkedHashMap<String, String>();
         deviceHaspMap.put("", "All Devices");
         com.couchbase.lite.View view = CouchDB.viewGetDevicesMonitoring;
         Query query = view.createQuery();
