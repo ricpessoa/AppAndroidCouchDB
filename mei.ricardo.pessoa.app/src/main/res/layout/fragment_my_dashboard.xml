@@ -8,15 +8,34 @@
     android:paddingTop="5dp"
     tools:context="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/str_do_not_have_devices_on_dashboard"
+        android:id="@+id/textViewNoDevices"
+        android:layout_weight="0"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:gravity="fill_vertical|center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textViewNoDevices">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+
 
             <TabWidget
                 android:id="@android:id/tabs"
@@ -39,4 +58,5 @@
 
         </LinearLayout>
     </TabHost>
+
 </RelativeLayout>

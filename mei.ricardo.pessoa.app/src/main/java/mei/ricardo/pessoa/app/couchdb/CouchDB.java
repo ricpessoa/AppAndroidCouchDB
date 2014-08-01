@@ -120,11 +120,15 @@ public class CouchDB implements Replication.ChangeListener {
             public void map(Map<String, Object> document, Emitter emitter) {
                 Object objDevice = document.get("type");
                 Object monitoring = document.get("monitoring");
-                if (objDevice != null && objDevice.equals("device") && monitoring != null && monitoring.equals(true)) {
+                Object objDeviceDeleted = document.get("deleted");
+                if (objDeviceDeleted == null) {
+                    objDeviceDeleted = false;
+                }
+                if (objDevice != null && objDevice.equals("device") && monitoring != null && monitoring.equals(true) && objDeviceDeleted.equals(false)) {
                     emitter.emit(objDevice.toString(), document);
                 }
             }
-        }, "2.0");
+        }, "3.0");
 
         String MonitoringSensor = "getMonitorSensorByKeys";
         viewGetMonitorSensor = database.getView(String.format("%s/%s", designDocName, MonitoringSensor));
@@ -143,7 +147,6 @@ public class CouchDB implements Replication.ChangeListener {
         }, "1.0");
 
         /**this views is to live querys*/
-
         String allDevicesViewName = "getAllDevices";
         viewGetDevices = database.getView(String.format("%s/%s", designDocName, allDevicesViewName));
         viewGetDevices.setMap(new Mapper() {
@@ -154,7 +157,7 @@ public class CouchDB implements Replication.ChangeListener {
                     emitter.emit(objDevice.toString(), document);
                 }
             }
-        }, "1.0");
+        }, "4.0");
 
         startLiveQuery(liveQueryDevice, viewGetDevices);
 

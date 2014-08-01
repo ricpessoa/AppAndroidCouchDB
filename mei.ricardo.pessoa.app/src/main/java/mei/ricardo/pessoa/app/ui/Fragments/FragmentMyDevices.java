@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,18 +19,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.couchbase.lite.CouchbaseLiteException;
-import com.couchbase.lite.Query;
-import com.couchbase.lite.QueryEnumerator;
-import com.couchbase.lite.QueryRow;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.couchdb.CouchDB;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.ui.Device.AddDevice;
 import mei.ricardo.pessoa.app.ui.MainActivity;
@@ -47,6 +38,8 @@ public class FragmentMyDevices extends Fragment {
     private static DeviceListAdapter deviceListAdapter;
 
     private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
+    private ArrayList<DeviceRow> deviceList;
+    private TextView textViewNoDevices;
 
     public FragmentMyDevices() {
     }
@@ -54,6 +47,8 @@ public class FragmentMyDevices extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        deviceList = Device.getAllDevicesNotDeleted();
+
     }
 
     @Override
@@ -65,7 +60,9 @@ public class FragmentMyDevices extends Fragment {
 
         listViewDevices = (ListView) rootView.findViewById(R.id.listview_device);
 
-        deviceListAdapter = new DeviceListAdapter();
+        textViewNoDevices = (TextView) rootView.findViewById(R.id.textViewNoDevices);
+
+        deviceListAdapter = new DeviceListAdapter(deviceList);
 
         listViewDevices.setAdapter(deviceListAdapter);
 
@@ -81,7 +78,9 @@ public class FragmentMyDevices extends Fragment {
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
-
+        if (deviceList != null && deviceList.size() == 0) {
+            listViewDevices.setEmptyView(textViewNoDevices);
+        }
         return rootView;
     }
 
@@ -126,12 +125,16 @@ public class FragmentMyDevices extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
-            deviceListAdapter.updateDeviceList(Device.getDevicesOnCouchDB());
+            deviceListAdapter.updateDeviceList(Device.getAllDevicesNotDeleted());
         }
     }
 
     public class DeviceListAdapter extends BaseAdapter {
-        List<DeviceRow> deviceList = Device.getDevicesOnCouchDB();
+        List<DeviceRow> deviceList;
+
+        public DeviceListAdapter(ArrayList<DeviceRow> deviceList) {
+            this.deviceList = deviceList;
+        }
 
         public void updateDeviceList(List<DeviceRow> results) {
             deviceList = results;
@@ -175,6 +178,14 @@ public class FragmentMyDevices extends Fragment {
 
         public DeviceRow getCodeLearnChapter(int position) {
             return deviceList.get(position);
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            if (deviceList.size() == 0) {
+                listViewDevices.setEmptyView(textViewNoDevices);
+            }
         }
     }
 

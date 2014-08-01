@@ -99,8 +99,8 @@ public class Device {
         return tempDevice;
     }
 
-    public static List<DeviceRow> getDevicesOnCouchDB() {
-        List<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
+    public static ArrayList<DeviceRow> getAllDevicesNotDeleted() {
+        ArrayList<DeviceRow> deviceRowsList = new ArrayList<DeviceRow>();
 
         com.couchbase.lite.View view = CouchDB.viewGetDevices;
         Query query = view.createQuery();
@@ -113,9 +113,11 @@ public class Device {
                 deviceRow.deviceID = row.getDocumentId();
                 String nameDevice = "";
                 HashMap<Object, Object> numbSensors = new HashMap<Object, Object>();
-
+                Document document = row.getDocument();
                 try {
-                    nameDevice = row.getDocument().getProperty("name_device").toString();
+                    nameDevice = document.getProperty("name_device").toString();
+                    if (document.getProperty("deleted").equals(true))
+                        continue; //this continue pass this document
                     numbSensors = (HashMap<Object, Object>) row.getDocument().getProperty("sensors");
                 } catch (NullPointerException ex) {
                     nameDevice = "Device " + row.getDocumentId();

@@ -1,7 +1,10 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,11 +33,16 @@ import mei.ricardo.pessoa.app.ui.MonitoringSensor.FragmentListNotificationOfMoni
 
 public class FragmentMyDashboard extends Fragment {
     private static String TAG = FragmentMyDashboard.class.getName();
+    public static final String notify = "mei.ricardo.pessoa.app.notify.devices";
+
+    private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
+
     private TabHost mTabHost;
     private ViewPager mViewPager;
     private TabsAdapter mTabsAdapter;
     public static int currentPagerPosition = 0;
     private HashMap<String, String> hasMapDevices;
+    private TextView textViewNoDevices;
 
     public FragmentMyDashboard() {
     }
@@ -44,14 +54,16 @@ public class FragmentMyDashboard extends Fragment {
         mTabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
         mTabHost.setup();
 
+        textViewNoDevices = (TextView) rootView.findViewById(R.id.textViewNoDevices);
+
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
         mTabsAdapter = new TabsAdapter(getActivity(), mTabHost, mViewPager);
 
         hasMapDevices = Device.getHashMapOfDevices();
         if (hasMapDevices.size() == 1) {
-            //TODO: DONT HAVE ANY DEVICE, PLEASE ADD A DEVICE
-            return rootView;
+            textViewNoDevices.setVisibility(View.VISIBLE);
         }
+
         for (Map.Entry<String, String> e : hasMapDevices.entrySet()) {
             String key = e.getKey();
             String value = e.getValue();
@@ -76,6 +88,15 @@ public class FragmentMyDashboard extends Fragment {
         if (hasMapDevices != null && hasMapDevices.size() >= currentPagerPosition) {
             mTabsAdapter.mViewPager.setCurrentItem(currentPagerPosition);
         }
+        deviceBroadcastReceiver = new DeviceBroadcastReceiver();
+        getActivity().registerReceiver(deviceBroadcastReceiver, new IntentFilter(notify));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (deviceBroadcastReceiver != null)
+            getActivity().unregisterReceiver(deviceBroadcastReceiver);
     }
 
     /**
@@ -181,4 +202,10 @@ public class FragmentMyDashboard extends Fragment {
         }
     }
 
+    private class DeviceBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

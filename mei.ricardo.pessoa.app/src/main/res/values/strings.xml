@@ -48,10 +48,12 @@
     <string name="str_title_panic_button_Notifications">Panic Button Notifications</string>
     <string name="str_title_GPS_Notifications">GPS Notifications</string>
     <string name="str_title_temperature_Notifications">Temperature Notifications</string>
+    <string name="str_do_not_have_devices_on_dashboard">Do not have devices to add go to "My Devices" in menu</string>
     <!-- strings My Devices -->
     <string name="title_activity_fragment_my_devices">My Devices</string>
     <string name="title_activity_add_device">Add Device</string>
     <string name="str_menu_item_add_device">Add Device</string>
+    <string name="str_do_not_have_devices">Do not have devices to add press "Add Device"</string>
 
     <!-- strings Add Device -->
     <string name="prompt_name_device">Name device</string>
