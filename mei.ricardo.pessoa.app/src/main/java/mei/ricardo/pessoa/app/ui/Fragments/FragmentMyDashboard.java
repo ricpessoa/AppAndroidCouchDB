@@ -60,7 +60,7 @@ public class FragmentMyDashboard extends Fragment {
         mTabsAdapter = new TabsAdapter(getActivity(), mTabHost, mViewPager);
 
         hasMapDevices = Device.getHashMapOfDevices();
-        if (hasMapDevices.size() == 1) {
+        if (hasMapDevices.size() == 0) {
             textViewNoDevices.setVisibility(View.VISIBLE);
         }
 

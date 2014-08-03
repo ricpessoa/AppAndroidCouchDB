@@ -57,6 +57,8 @@ public class ActivitySafezoneEditMap extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_safezone_edit_map);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             safezoneID = bundle.getString(ActivitySafezoneOptions.passVarIDSafezone);
@@ -117,7 +119,7 @@ public class ActivitySafezoneEditMap extends Activity {
     private void initilizeMap() {
         if (googleMap == null) {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
-                    R.id.map)).getMap();
+                    R.id.mapFragment)).getMap();
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             googleMap.setMyLocationEnabled(true); // false to disable
             googleMap.getUiSettings().setZoomControlsEnabled(false); // true to enable

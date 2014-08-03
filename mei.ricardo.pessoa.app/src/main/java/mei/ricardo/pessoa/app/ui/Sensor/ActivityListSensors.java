@@ -42,6 +42,7 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_sensors);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mSwitchMonitoringDevice = (Switch) findViewById(R.id.switchMonitoringDevice);
         mSwitchMonitoringDevice.setOnCheckedChangeListener(this);

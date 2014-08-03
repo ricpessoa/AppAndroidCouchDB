@@ -1,6 +1,7 @@
 package mei.ricardo.pessoa.app.ui.MonitoringSensor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,12 +15,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
+import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
+import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
 import mei.ricardo.pessoa.app.utils.InterfaceItem;
 import mei.ricardo.pessoa.app.utils.Utils;
 
@@ -37,6 +41,8 @@ public class ActivityListMonitorSensorPBTempBatt extends ActionBarActivity imple
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_monitor_sensor_pbtemp_batt);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         Bundle bundle = getIntent().getExtras();
 
         if (bundle == null)
@@ -44,7 +50,13 @@ public class ActivityListMonitorSensorPBTempBatt extends ActionBarActivity imple
 
         macAddressDevice = bundle.getString(passVariableIDOfDevice);
         typeDevice = bundle.getString(passVariableTypeSensor);
-
+        if(typeDevice.equals(Device.DEVICESTYPE.panic_button.toString())){
+            getActionBar().setTitle("List of "+Device.devicesTypesString[0]);
+        }else if(typeDevice.equals(Device.DEVICESTYPE.temperature.toString())){
+            getActionBar().setTitle("List of "+Device.devicesTypesString[2]);
+        }else if(typeDevice.equals(Device.DEVICESTYPE.battery.toString())){
+            getActionBar().setTitle("List of "+Device.devicesTypesString[3]);
+        }
         listViewOfMonitoringSensors = (ListView) findViewById(R.id.listOfMonitorSensor);
 
         arrayListMonitorSensor = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(macAddressDevice, typeDevice, 30);
@@ -57,7 +69,11 @@ public class ActivityListMonitorSensorPBTempBatt extends ActionBarActivity imple
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        Intent intent = new Intent(this, ActivityMonitorSensorDetail.class);
+        intent.putExtra(ActivityMonitorSensorDetail.passVariableMacAddress, macAddressDevice);
+        intent.putExtra(ActivityMonitorSensorDetail.passVariableSubtypeSensor, typeDevice);
+        intent.putExtra(ActivityMonitorSensorDetail.passVariableTimestamp, ((MonitorSensor) arrayListMonitorSensor.get(i)).getTimestamp());
+        startActivity(intent);
     }
 
     public class MonitorSensorListAdapter extends BaseAdapter {
@@ -89,9 +105,6 @@ public class ActivityListMonitorSensorPBTempBatt extends ActionBarActivity imple
                 LayoutInflater inflater = (LayoutInflater) Application.getmContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 arg1 = inflater.inflate(R.layout.list_item_entry, arg2, false);
             }
-
-            RelativeLayout relativeLayout = (RelativeLayout) arg1.findViewById(R.id.relative_layout_entry);
-            relativeLayout.setBackgroundColor(Color.WHITE);
 
             ImageView imageView = (ImageView) arg1.findViewById(R.id.icon);
             TextView rowTitle = (TextView) arg1.findViewById(R.id.deviceName);

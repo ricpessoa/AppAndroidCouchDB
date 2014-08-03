@@ -40,6 +40,7 @@ public class ActivityListSafezones extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_list_safezones);
 
         macAddress = getIntent().getExtras().getString(ActivityListSensors.varMacAddressOfDevice);

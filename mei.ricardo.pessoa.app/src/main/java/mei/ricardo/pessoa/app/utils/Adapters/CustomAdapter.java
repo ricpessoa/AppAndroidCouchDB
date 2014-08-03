@@ -21,7 +21,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorGPS;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityListMonitorSensorPBTempBatt;
-import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorPanicButton;
+import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorDetail;
 import mei.ricardo.pessoa.app.utils.InterfaceItem;
 import mei.ricardo.pessoa.app.utils.SectionItem;
 import mei.ricardo.pessoa.app.utils.Utils;
@@ -116,12 +116,13 @@ public class CustomAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     Toast.makeText(Application.getmContext(), "click on more:" + sectionItem.getTitle(), Toast.LENGTH_SHORT).show();
                     if (sectionItem.getType().equals(Device.DEVICESTYPE.GPS.toString())) {
-                        //show entire safezones
+                        //show Safezones
                         Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorGPS.class);
                         intent.putExtra(ActivityMonitorSensorGPS.passVariableIDOfDevice, sectionItem.getDeviceMacAddress());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Application.getmContext().startActivity(intent);
                     } else {
+                        //show List PB, Temperature, Battery
                         Intent intent = new Intent(Application.getmContext(), ActivityListMonitorSensorPBTempBatt.class);
                         intent.putExtra(ActivityListMonitorSensorPBTempBatt.passVariableIDOfDevice, sectionItem.getDeviceMacAddress());
                         intent.putExtra(ActivityListMonitorSensorPBTempBatt.passVariableTypeSensor, sectionItem.getType());
@@ -150,15 +151,13 @@ public class CustomAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (monitorSensor.getClass() == MS_PanicButton.class) {
-                        MS_PanicButton ms_panicButton = (MS_PanicButton) monitorSensor;
-                        Toast.makeText(Application.getmContext(), "You clicked " + monitorSensor.getTitle(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorPanicButton.class);
-                        intent.putExtra(ActivityMonitorSensorPanicButton.passVariableMacAddress, ms_panicButton.getMac_address());
-                        intent.putExtra(ActivityMonitorSensorPanicButton.passVariableTimestamp, ms_panicButton.getTimestamp());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Application.getmContext().startActivity(intent);
-                    }
+                    //send mac address, subtype and timestamp to show detail
+                    Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorDetail.class);
+                    intent.putExtra(ActivityMonitorSensorDetail.passVariableMacAddress, monitorSensor.getMac_address());
+                    intent.putExtra(ActivityMonitorSensorDetail.passVariableTimestamp, monitorSensor.getTimestamp());
+                    intent.putExtra(ActivityMonitorSensorDetail.passVariableSubtypeSensor, monitorSensor.getSubtype());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Application.getmContext().startActivity(intent);
                 }
             });
         }

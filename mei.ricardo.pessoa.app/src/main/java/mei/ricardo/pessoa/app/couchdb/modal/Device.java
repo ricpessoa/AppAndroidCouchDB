@@ -77,6 +77,11 @@ public class Device {
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
+
+        if(deviceHaspMap.size()<=2){ //if have only device not need show tab all devices
+            deviceHaspMap.remove("");
+        }
+
         return deviceHaspMap;
     }
 
