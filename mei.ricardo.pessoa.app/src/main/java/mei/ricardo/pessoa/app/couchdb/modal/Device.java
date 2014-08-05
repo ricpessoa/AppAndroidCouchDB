@@ -39,6 +39,7 @@ public class Device {
     private String timestamp;
 
     private boolean monitoring;
+    private boolean isDeleted;
     private boolean showPanicButton = false, showSafezone = false, showTemperature = false, showBattery = false;
     private ArrayList<Sensor> arrayListSensors = null;
 
@@ -78,7 +79,7 @@ public class Device {
             e.printStackTrace();
         }
 
-        if(deviceHaspMap.size()<=2){ //if have only device not need show tab all devices
+        if (deviceHaspMap.size() <= 2) { //if have only device not need show tab all devices
             deviceHaspMap.remove("");
         }
 
@@ -93,6 +94,7 @@ public class Device {
         Device tempDevice = new Device();
         tempDevice.mac_address = _id;
         tempDevice.name_device = document.getProperty("name_device").toString();
+        tempDevice.isDeleted = Boolean.parseBoolean(document.getProperty("deleted").toString());
         tempDevice.sensors = (HashMap<String, Object>) document.getProperty("sensors");
         tempDevice.timestamp = document.getProperty("timestamp").toString();
         try {
@@ -222,6 +224,7 @@ public class Device {
                 properties.put("sensors", sensors);
             properties.put("type", "device");
             properties.put("monitoring", monitoring);
+            properties.put("deleted", isDeleted());
 // getDocument if exist return document by id else create document with the parameter
             Document document = CouchDB.getmCouchDBinstance().getDatabase().getDocument(mac_address);
             properties.put("_rev", document.getCurrentRevisionId()); //get last rev document
@@ -297,5 +300,21 @@ public class Device {
 
     public String getMac_address() {
         return mac_address;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public String getName_device() {
+        return name_device;
+    }
+
+    public void setName_device(String name_device) {
+        this.name_device = name_device;
     }
 }

@@ -93,7 +93,7 @@ public class FragmentTestSamples extends Fragment {
         protected Boolean doInBackground(Void... params) {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(Application.hostUrl + Application.serviceAddDeviceUrl);
+            HttpPost httppost = new HttpPost(Application.hostUrl + Application.serviceAddMonitoringDeviceUrl);
 
             try {
                 // Add your data
@@ -162,11 +162,9 @@ public class FragmentTestSamples extends Fragment {
                 }
 
             } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
                 Log.e(TAG, "Error ClientProtocolException in POST");
                 return false;
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 Log.e(TAG, "Error IOException in POST");
                 return false;
             }

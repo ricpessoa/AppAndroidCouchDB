@@ -1,5 +1,8 @@
 package mei.ricardo.pessoa.app.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 
@@ -11,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
@@ -34,11 +38,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    //private String dbname;
+    /**
+     * to receive notification on Device change and refresh Dashboard/TabHost
+     */
+    public static final String notifyDevice = "mei.ricardo.pessoa.app.notifyDevice.devices";
+    private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
+    private boolean showTheDashboard = false;
 
-    //couch internals
-    //public static com.couchbase.lite.View viewGetDevices;
-    //private LiveQuery liveQuery;
 
     public void logoutTheUser(boolean logout) {
         if (logout == true) {
@@ -85,30 +91,37 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             case 0:
                 Log.d(TAG, "Show My Dashboard");
                 fragment = new FragmentMyDashboard();
+                showTheDashboard = true;
                 break;
             case 1:
                 Log.d(TAG, "Show My Devices");
                 fragment = new FragmentMyDevices();
+                showTheDashboard = false;
                 break;
             case 2:
                 Log.d(TAG, "Show My Profile");
                 fragment = new FragmentMyProfile();
+                showTheDashboard = false;
                 break;
             case 3:
                 Log.d(TAG, "Show Settings");
                 Intent intent = new Intent(this, SettingsActivity.class);
+                showTheDashboard = false;
                 startActivity(intent);
                 break;
             case 4:
                 Log.d(TAG, "Fragment Test Sample");
+                showTheDashboard = false;
                 fragment = new FragmentTestSamples();
                 break;
             case 5:
                 logoutTheUser(true); // logout
+                showTheDashboard = false;
                 break;
             default:
                 Log.d(TAG, "Undefined - show dashboard");
                 fragment = new FragmentMyDashboard();
+                showTheDashboard = true;
                 break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -181,5 +194,33 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_yes), getString(R.string.fire_no));
         dialogFragmentYesNoOk.setBackToPreviousActivity(true);
         dialogFragmentYesNoOk.show(getFragmentManager(), "");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        deviceBroadcastReceiver = new DeviceBroadcastReceiver();
+        registerReceiver(deviceBroadcastReceiver, new IntentFilter(notifyDevice));
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (deviceBroadcastReceiver != null)
+            unregisterReceiver(deviceBroadcastReceiver);
+    }
+
+    private class DeviceBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+            if (showTheDashboard) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment fragment = new FragmentMyDashboard();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment).commit();
+            }
+        }
     }
 }

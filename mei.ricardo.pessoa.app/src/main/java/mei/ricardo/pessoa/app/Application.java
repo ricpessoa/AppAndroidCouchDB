@@ -21,12 +21,14 @@ public class Application extends CouchbaseLiteApplication {
     private static String dbname;
     public static boolean isLogged = false;
 
-    //public static String hostUrl = "http://192.168.255.139"; //Centi url
-    public static String hostUrl = "http://192.168.0.101"; //casa url
-    public static String couchDBHostUrl = hostUrl + ":5984";
+    public static String hostUrl = "http://195.23.102.92:8080"; //Centi url
+    //public static String hostUrl = "http://192.168.0.101"; //casa url
+    public static String couchDBHostUrl = "http://195.23.102.92" + ":5984";
     public static String serviceLoginUrl = "/PhpProjectCouchDB/applogin";
     public static String serviceRegisterUrl = "/PhpProjectCouchDB/appregister";
-    public static String serviceAddDeviceUrl = "/PhpProjectCouchDB/devicepost";
+    public static String serviceAddAddNewDevice = "/PhpProjectCouchDB/appAddNewDevice";
+    public static String serviceAddMonitoringDeviceUrl = "/PhpProjectCouchDB/devicepost";
+
 
     @Override
     public void onCreate() {

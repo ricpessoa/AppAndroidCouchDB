@@ -8,9 +8,11 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +35,14 @@ import mei.ricardo.pessoa.app.ui.MonitoringSensor.FragmentListNotificationOfMoni
 
 public class FragmentMyDashboard extends Fragment {
     private static String TAG = FragmentMyDashboard.class.getName();
-    public static final String notify = "mei.ricardo.pessoa.app.notify.devices";
+    public static final String notifyMonitorSensor = "mei.ricardo.pessoa.app.notifyDevice.mydashboard";
+    public static String passVariableMacAddress = "passVariableMacAddress";
 
-    private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
-
+    private MonitorSensorBroadcastReceiver monitorSensorBroadcastReceiver = null;
     private TabHost mTabHost;
     private ViewPager mViewPager;
     private TabsAdapter mTabsAdapter;
-    public static int currentPagerPosition = 0;
+    static public int currentPagerPosition = 0;
     private HashMap<String, String> hasMapDevices;
     private TextView textViewNoDevices;
 
@@ -58,7 +60,11 @@ public class FragmentMyDashboard extends Fragment {
 
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
         mTabsAdapter = new TabsAdapter(getActivity(), mTabHost, mViewPager);
+        constructTabHost();
+        return rootView;
+    }
 
+    private void constructTabHost() {
         hasMapDevices = Device.getHashMapOfDevices();
         if (hasMapDevices.size() == 0) {
             textViewNoDevices.setVisibility(View.VISIBLE);
@@ -70,10 +76,15 @@ public class FragmentMyDashboard extends Fragment {
 
             Bundle b = new Bundle();
             b.putString(FragmentListNotificationOfMonitoring.passIDOfDevice, key);
-            mTabsAdapter.addTab(mTabHost.newTabSpec(value).setIndicator(value), FragmentListNotificationOfMonitoring.class, b);
+            mTabsAdapter.addTab(mTabHost.newTabSpec(key).setIndicator(value), FragmentListNotificationOfMonitoring.class, b);
         }
 
-        return rootView;
+        if (hasMapDevices != null && hasMapDevices.size() >= currentPagerPosition) {
+            mTabsAdapter.mTabHost.setCurrentTab(currentPagerPosition);
+        } else {
+            mTabsAdapter.mTabHost.setCurrentTab(0); // go to the first
+        }
+
     }
 
     @Override
@@ -85,18 +96,17 @@ public class FragmentMyDashboard extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (hasMapDevices != null && hasMapDevices.size() >= currentPagerPosition) {
-            mTabsAdapter.mViewPager.setCurrentItem(currentPagerPosition);
-        }
-        deviceBroadcastReceiver = new DeviceBroadcastReceiver();
-        getActivity().registerReceiver(deviceBroadcastReceiver, new IntentFilter(notify));
+
+        monitorSensorBroadcastReceiver = new MonitorSensorBroadcastReceiver();
+        getActivity().registerReceiver(monitorSensorBroadcastReceiver, new IntentFilter(notifyMonitorSensor));
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (deviceBroadcastReceiver != null)
-            getActivity().unregisterReceiver(deviceBroadcastReceiver);
+        if (monitorSensorBroadcastReceiver != null)
+            getActivity().unregisterReceiver(monitorSensorBroadcastReceiver);
     }
 
     /**
@@ -165,6 +175,7 @@ public class FragmentMyDashboard extends Fragment {
             notifyDataSetChanged();
         }
 
+
         @Override
         public int getCount() {
             return mTabs.size();
@@ -195,17 +206,36 @@ public class FragmentMyDashboard extends Fragment {
             widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
             mTabHost.setCurrentTab(position);
             widget.setDescendantFocusability(oldFocusability);
+
             currentPagerPosition = position;
+
         }
 
         public void onPageScrollStateChanged(int state) {
         }
     }
 
-    private class DeviceBroadcastReceiver extends BroadcastReceiver {
+
+    private class MonitorSensorBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+            String mac_address = intent.getExtras().getString(passVariableMacAddress);
+            Toast.makeText(context, "I Receive a broadcast of monitor sensor to update " + mac_address, Toast.LENGTH_SHORT).show();
+            showTabHostofMonitorSensorReceived(mac_address);
         }
     }
+
+    private void showTabHostofMonitorSensorReceived(String mac_address) {
+        mViewPager.setCurrentItem(0);
+        for (int i = 1; i < mTabsAdapter.mTabs.size(); i++) {
+            if (mac_address.equals(mTabsAdapter.mTabs.get(i).tag.toString())) {
+                int position = i;
+                Log.d(TAG, "found the the position of tab " + mac_address + " " + position);
+                mTabsAdapter.mTabHost.setCurrentTab(i);
+            }
+
+        }
+    }
+
+
 }

@@ -32,6 +32,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
+import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentNotification;
 import mei.ricardo.pessoa.app.ui.Sensor.Safezone.ActivityListSafezones;
@@ -256,6 +257,7 @@ public class CouchDB implements Replication.ChangeListener {
 
     private void sendNotificationOfMonitoringSensor(QueryEnumerator queryEnumerator) {
         List<MS_Notification> MSNotificationList = new ArrayList<MS_Notification>();
+        String monitorSensorMacAddress = "";
         MS_Notification MSNotification = new MS_Notification();
         int sensorCount = 0;
         String previousTimestamp = null; //this timestamp is to know if ms_monitoring is about the same
@@ -287,7 +289,7 @@ public class CouchDB implements Replication.ChangeListener {
                         previousTimestamp = actualTimestamp.toString();
                     }
                 }
-
+                monitorSensorMacAddress = objectMacAddress.toString();
                 if (objectSubType.equals(MonitorSensor.SUBTYPE.GPS.toString())) {
                     try {
                         MS_GPS ms_gps = new MS_GPS(document);
@@ -325,10 +327,11 @@ public class CouchDB implements Replication.ChangeListener {
             }
         }
 
-//        for (MS_Notification _MS_notification : MSNotificationList) {
-//            android.util.Log.d(TAG + "_teste", "MSNotification -> " + _MS_notification.toString());
-//        }
         MS_Notification.sendNotificationToUser(Application.getmContext(), MSNotificationList);
+        Intent intent = new Intent();
+        intent.setAction(FragmentMyDashboard.notifyMonitorSensor);
+        intent.putExtra(FragmentMyDashboard.passVariableMacAddress, monitorSensorMacAddress);
+        Application.getmContext().sendBroadcast(intent);
     }
 
     private void sendNotificationBasedInType(QueryEnumerator queryEnumerator) {

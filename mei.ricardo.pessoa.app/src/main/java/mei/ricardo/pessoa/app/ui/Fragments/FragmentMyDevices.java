@@ -31,7 +31,7 @@ import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 import mei.ricardo.pessoa.app.utils.DeviceRow;
 
 public class FragmentMyDevices extends Fragment {
-    public static final String notify = "mei.ricardo.pessoa.app.notify.devices";
+    public static final String notify = "mei.ricardo.pessoa.app.notifyDevice.devices";
     private static String TAG = FragmentMyDevices.class.getName();
 
     private static ListView listViewDevices;

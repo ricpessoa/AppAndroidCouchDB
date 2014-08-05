@@ -199,6 +199,6 @@ public class MS_Notification {
 //        NotificationManager mNotificationManager =
 //                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 //// mId allows you to update the notification later on.
-//        mNotificationManager.notify(notificationID, mBuilder.build());
+//        mNotificationManager.notifyDevice(notificationID, mBuilder.build());
 //    }
 }
