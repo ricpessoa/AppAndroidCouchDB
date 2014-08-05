@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
@@ -147,7 +148,7 @@ public class CouchDB implements Replication.ChangeListener {
             }
         }, "1.0");
 
-        /**this views is to live querys*/
+        /**this views is to live querys receiving changes on devices*/
         String allDevicesViewName = "getAllDevices";
         viewGetDevices = database.getView(String.format("%s/%s", designDocName, allDevicesViewName));
         viewGetDevices.setMap(new Mapper() {
@@ -158,10 +159,11 @@ public class CouchDB implements Replication.ChangeListener {
                     emitter.emit(objDevice.toString(), document);
                 }
             }
-        }, "4.0");
+        }, "1.0");
 
         startLiveQuery(liveQueryDevice, viewGetDevices);
 
+        /** this views is to receiving changes on safezones*/
         String allSafezonesViewName = "getAllSafezones";
         viewGetSafezones = database.getView(String.format("%s/%s", designDocName, allSafezonesViewName));
         viewGetSafezones.setMap(new Mapper() {
@@ -175,7 +177,7 @@ public class CouchDB implements Replication.ChangeListener {
         }, "1.0");
         startLiveQuery(liveQueryGetSafezones, viewGetSafezones);
 
-/** View get monitoring sensors from the previous day to now */
+        /** View get monitoring sensors from the previous day to now and not seen*/
         String getMonitorSensorsFromDay = "getMonitorSensorsFromDay";
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -187,12 +189,13 @@ public class CouchDB implements Replication.ChangeListener {
             public void map(Map<String, Object> document, Emitter emitter) {
                 Object objType = document.get("type");
                 Object objTimestamp = document.get("timestamp");
+                Object objectSeen = document.get("seen");
                 long timestamp = Long.parseLong(objTimestamp.toString());
-                if (objType != null && objType.equals("monitoring_sensor") && timestamp > actualTimestamp) {
+                if (objType != null && objType.equals("monitoring_sensor") && timestamp > actualTimestamp && (objectSeen == null || objectSeen.toString().equals(false))) {
                     emitter.emit(objTimestamp.toString(), document);
                 }
             }
-        }, "8.0");
+        }, "1.0");
 
         startLiveQueryMonitoringSensor(liveQueryMonitoringSensors, viewGetMonitoringSensorsFromLastDay);
     }
@@ -274,6 +277,7 @@ public class CouchDB implements Replication.ChangeListener {
             }
 
             if (objectSubType != null && objectMacAddress != null) {
+                MonitorSensor.setSeenToDocument(document);
                 if (actualDevice == null) {
                     actualDevice = Device.getDeviceByID(objectMacAddress.toString());
                 } else {
@@ -281,10 +285,13 @@ public class CouchDB implements Replication.ChangeListener {
                         actualDevice = Device.getDeviceByID(objectMacAddress.toString());
                         MSNotificationList.add(MSNotification);
                         MSNotification = new MS_Notification();
+                        sensorCount = 0;
                     }
-                    if (actualDevice.getArrayListSensors().size() == sensorCount || !actualTimestamp.toString().equals(previousTimestamp)) {
-                        MSNotificationList.add(MSNotification);
-                        MSNotification = new MS_Notification();
+                    if (!actualTimestamp.toString().equals(previousTimestamp)) {
+                        if (sensorCount > 0) {
+                            MSNotificationList.add(MSNotification);
+                            MSNotification = new MS_Notification();
+                        }
                         sensorCount = 0;
                         previousTimestamp = actualTimestamp.toString();
                     }
@@ -324,14 +331,25 @@ public class CouchDB implements Replication.ChangeListener {
                     }
 
                 }
+                if (actualDevice.getArrayListSensors().size() == sensorCount) {
+                    MSNotificationList.add(MSNotification);
+                    MSNotification = new MS_Notification();
+                    sensorCount = 0;
+                    previousTimestamp = actualTimestamp.toString();
+                }
+
             }
         }
 
-        MS_Notification.sendNotificationToUser(Application.getmContext(), MSNotificationList);
-        Intent intent = new Intent();
-        intent.setAction(FragmentMyDashboard.notifyMonitorSensor);
-        intent.putExtra(FragmentMyDashboard.passVariableMacAddress, monitorSensorMacAddress);
-        Application.getmContext().sendBroadcast(intent);
+        if (MSNotificationList.size() > 0) {
+            MS_Notification.sendNotificationToUser(Application.getmContext(), MSNotificationList); //send to class Notification
+
+            Intent intent = new Intent();
+            intent.setAction(FragmentMyDashboard.notifyMonitorSensor);
+            intent.putExtra(FragmentMyDashboard.passVariableMacAddress, monitorSensorMacAddress);
+            Application.getmContext().sendBroadcast(intent);
+        }
+
     }
 
     private void sendNotificationBasedInType(QueryEnumerator queryEnumerator) {

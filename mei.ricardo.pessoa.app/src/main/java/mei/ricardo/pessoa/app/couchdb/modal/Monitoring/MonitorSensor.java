@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
@@ -121,6 +122,31 @@ public class MonitorSensor implements InterfaceItem {
             return null;
         }
         return rowEnum;
+    }
+
+    public static void setSeenToDocument(Document doc) {
+        Map<String, Object> curProperties = doc.getProperties();
+
+        // make a copy of the document properties
+        Map<String, Object> newProperties = new HashMap<String, Object>();
+        newProperties.putAll(curProperties);
+        Object seenObject = newProperties.get("seen");
+        boolean seen = false;
+        if (seenObject != null) {
+            seen = Boolean.parseBoolean(seenObject.toString());
+            seen = true;
+        } else {
+            seen = true;
+        }
+
+        newProperties.put("seen", seen);
+        try {
+            doc.putProperties(newProperties);
+            Log.d(TAG, "update monitoring successful to " + seen);
+        } catch (CouchbaseLiteException e) {
+            Log.e(TAG, "Error updating database", e);
+            e.printStackTrace();
+        }
     }
 
 //    public static ArrayList<MonitorSensor> getSensorGPSByMacAddressAndSubtype(String macAddress, String subType, int limit) {
