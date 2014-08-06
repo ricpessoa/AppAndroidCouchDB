@@ -35,10 +35,8 @@ import mei.ricardo.pessoa.app.ui.MonitoringSensor.FragmentListNotificationOfMoni
 
 public class FragmentMyDashboard extends Fragment {
     private static String TAG = FragmentMyDashboard.class.getName();
-    public static final String notifyMonitorSensor = "mei.ricardo.pessoa.app.notifyDevice.mydashboard";
     public static String passVariableMacAddress = "passVariableMacAddress";
 
-    private MonitorSensorBroadcastReceiver monitorSensorBroadcastReceiver = null;
     private TabHost mTabHost;
     private ViewPager mViewPager;
     private TabsAdapter mTabsAdapter;
@@ -79,12 +77,18 @@ public class FragmentMyDashboard extends Fragment {
             mTabsAdapter.addTab(mTabHost.newTabSpec(key).setIndicator(value), FragmentListNotificationOfMonitoring.class, b);
         }
 
+
+        Bundle bundle = this.getArguments();
+        String macAddressReceived = "";
+        if (bundle != null) {
+            macAddressReceived = bundle.getString(passVariableMacAddress, "");
+            currentPagerPosition = getPositionOfTabBarOnMacAddress(macAddressReceived);
+        }
         if (hasMapDevices != null && hasMapDevices.size() >= currentPagerPosition) {
             mTabsAdapter.mTabHost.setCurrentTab(currentPagerPosition);
         } else {
             mTabsAdapter.mTabHost.setCurrentTab(0); // go to the first
         }
-
     }
 
     @Override
@@ -97,16 +101,13 @@ public class FragmentMyDashboard extends Fragment {
     public void onResume() {
         super.onResume();
 
-        monitorSensorBroadcastReceiver = new MonitorSensorBroadcastReceiver();
-        getActivity().registerReceiver(monitorSensorBroadcastReceiver, new IntentFilter(notifyMonitorSensor));
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (monitorSensorBroadcastReceiver != null)
-            getActivity().unregisterReceiver(monitorSensorBroadcastReceiver);
+
     }
 
     /**
@@ -216,26 +217,21 @@ public class FragmentMyDashboard extends Fragment {
     }
 
 
-    private class MonitorSensorBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String mac_address = intent.getExtras().getString(passVariableMacAddress);
-            Toast.makeText(context, "I Receive a broadcast of monitor sensor to update " + mac_address, Toast.LENGTH_SHORT).show();
-            showTabHostofMonitorSensorReceived(mac_address);
-        }
-    }
-
-    private void showTabHostofMonitorSensorReceived(String mac_address) {
-        mViewPager.setCurrentItem(0);
-        for (int i = 1; i < mTabsAdapter.mTabs.size(); i++) {
+    private int getPositionOfTabBarOnMacAddress(String mac_address) {
+        int position = 0;
+        for (int i = 0; i < mTabsAdapter.mTabs.size(); i++) {
             if (mac_address.equals(mTabsAdapter.mTabs.get(i).tag.toString())) {
-                int position = i;
+                position = i;
                 Log.d(TAG, "found the the position of tab " + mac_address + " " + position);
-                mTabsAdapter.mTabHost.setCurrentTab(i);
+                //mTabsAdapter.mTabs.get(i).notifyAll();
+                //mTabsAdapter.mTabHost.invalidate();
+                //mTabsAdapter.mTabHost.setCurrentTab(i);
+                //mTabsAdapter.mTabHost.getCurrentTabView().invalidate();
+                // mTabsAdapter.mTabHost.getTabContentView().invalidate();
             }
 
         }
+        return position;
     }
-
 
 }

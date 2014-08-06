@@ -36,6 +36,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentNotification;
+import mei.ricardo.pessoa.app.ui.MainActivity;
 import mei.ricardo.pessoa.app.ui.Sensor.Safezone.ActivityListSafezones;
 
 /**
@@ -345,7 +346,7 @@ public class CouchDB implements Replication.ChangeListener {
             MS_Notification.sendNotificationToUser(Application.getmContext(), MSNotificationList); //send to class Notification
 
             Intent intent = new Intent();
-            intent.setAction(FragmentMyDashboard.notifyMonitorSensor);
+            intent.setAction(MainActivity.notifyMonitorSensor);
             intent.putExtra(FragmentMyDashboard.passVariableMacAddress, monitorSensorMacAddress);
             Application.getmContext().sendBroadcast(intent);
         }

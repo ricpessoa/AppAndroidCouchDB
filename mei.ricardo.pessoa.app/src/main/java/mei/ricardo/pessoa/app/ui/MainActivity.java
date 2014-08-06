@@ -46,6 +46,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private boolean showTheDashboard = false;
 
 
+    public static final String notifyMonitorSensor = "mei.ricardo.pessoa.app.notifyDevice.mydashboard";
+    private MonitorSensorBroadcastReceiver monitorSensorBroadcastReceiver = null;
+
+
     public void logoutTheUser(boolean logout) {
         if (logout == true) {
             Log.d(TAG, "Logout the user session");
@@ -202,6 +206,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         deviceBroadcastReceiver = new DeviceBroadcastReceiver();
         registerReceiver(deviceBroadcastReceiver, new IntentFilter(notifyDevice));
 
+        monitorSensorBroadcastReceiver = new MonitorSensorBroadcastReceiver();
+        registerReceiver(monitorSensorBroadcastReceiver, new IntentFilter(notifyMonitorSensor));
     }
 
     @Override
@@ -209,6 +215,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         super.onPause();
         if (deviceBroadcastReceiver != null)
             unregisterReceiver(deviceBroadcastReceiver);
+        if (monitorSensorBroadcastReceiver != null)
+            unregisterReceiver(monitorSensorBroadcastReceiver);
     }
 
     private class DeviceBroadcastReceiver extends BroadcastReceiver {
@@ -218,6 +226,24 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             if (showTheDashboard) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment fragment = new FragmentMyDashboard();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment).commit();
+            }
+        }
+    }
+
+    private class MonitorSensorBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (showTheDashboard) {
+                String mac_address = intent.getExtras().getString(FragmentMyDashboard.passVariableMacAddress);
+                Toast.makeText(context, "I Receive a broadcast of monitor sensor to update " + mac_address, Toast.LENGTH_SHORT).show();
+                //showTabHostofMonitorSensorReceived(mac_address);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment fragment = new FragmentMyDashboard();
+                Bundle bundle = new Bundle();
+                bundle.putString(FragmentMyDashboard.passVariableMacAddress,mac_address);
+                fragment.setArguments(bundle);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment).commit();
             }

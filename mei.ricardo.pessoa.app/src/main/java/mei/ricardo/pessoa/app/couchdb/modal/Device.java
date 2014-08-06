@@ -40,6 +40,7 @@ public class Device {
 
     private boolean monitoring;
     private boolean isDeleted;
+    private String owner;
     private boolean showPanicButton = false, showSafezone = false, showTemperature = false, showBattery = false;
     private ArrayList<Sensor> arrayListSensors = null;
 
@@ -95,6 +96,7 @@ public class Device {
         tempDevice.mac_address = _id;
         tempDevice.name_device = document.getProperty("name_device").toString();
         tempDevice.isDeleted = Boolean.parseBoolean(document.getProperty("deleted").toString());
+        tempDevice.owner = document.getProperty("owner").toString();
         tempDevice.sensors = (HashMap<String, Object>) document.getProperty("sensors");
         tempDevice.timestamp = document.getProperty("timestamp").toString();
         try {

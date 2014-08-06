@@ -301,7 +301,11 @@ public class ActivitySafezoneEditMap extends Activity {
                 this.cancel(true);
             }
             if (addresses != null) {
-                return addresses.get(0);
+                try {
+                    return addresses.get(0);
+                } catch (IndexOutOfBoundsException ex) {
+                    return null;
+                }
             }
             return null;
         }
