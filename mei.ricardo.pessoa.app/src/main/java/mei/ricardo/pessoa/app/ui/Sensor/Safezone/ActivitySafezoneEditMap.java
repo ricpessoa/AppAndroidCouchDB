@@ -388,12 +388,12 @@ public class ActivitySafezoneEditMap extends Activity {
     }
 
     private void showDialogFragment() {
-        String msgNotification = "Error. An error occurred while processing your request. Please try again later.";
+        String msgNotification = getResources().getString(R.string.str_error_while_processing);
         if (!Utils.isNetworkAvailable(getApplicationContext())) {
-            msgNotification = "Please check your internet connection or try again later.";
+            msgNotification = getResources().getString(R.string.str_error_internet_connection);
         }
 
-        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), msgNotification);
+        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), getResources().getString(R.string.str_title_information_dialog), msgNotification);
         dialogFragmentYesNoOk.setType(1);
         dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_ok), "");
         dialogFragmentYesNoOk.setBackToPreviousActivity(true);

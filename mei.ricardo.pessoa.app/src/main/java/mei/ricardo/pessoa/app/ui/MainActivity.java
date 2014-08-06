@@ -193,7 +193,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public void onBackPressed() {
         // your code.
-        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(this, "Are you sure you want to exit the application?");
+        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(this, getResources().getString(R.string.str_title_information_dialog), getResources().getString(R.string.str_error_exit_application));
         dialogFragmentYesNoOk.setType(2);
         dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_yes), getString(R.string.fire_no));
         dialogFragmentYesNoOk.setBackToPreviousActivity(true);
@@ -242,7 +242,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment fragment = new FragmentMyDashboard();
                 Bundle bundle = new Bundle();
-                bundle.putString(FragmentMyDashboard.passVariableMacAddress,mac_address);
+                bundle.putString(FragmentMyDashboard.passVariableMacAddress, mac_address);
                 fragment.setArguments(bundle);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment).commit();

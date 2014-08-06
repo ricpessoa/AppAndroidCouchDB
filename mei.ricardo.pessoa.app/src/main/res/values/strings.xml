@@ -31,15 +31,23 @@
     <string-array name="notifications_drawer_items">
         <item>CHECK-IN</item>
         <item>CHECK-OUT</item>
-        <item>TEMPERATURE NORMAL</item>
-        <item>TEMPERATURE HIGH</item>
+        <item>LOW TEMPERATURE</item>
+        <item>REGULAR TEMPERATURE</item>
+        <item>HIGH TEMPERATURE</item>
+        <item>GOOD BATTERY</item>
+        <item>LOW BATTERY</item>
+        <item>CRITICAL BATTERY</item>
     </string-array>
 
     <array name="notifications_drawer_icons">
         <item>@drawable/check_in</item>
         <item>@drawable/check_out</item>
+        <item>@drawable/temp_blue</item>
         <item>@drawable/temp_green</item>
         <item>@drawable/temp_red</item>
+        <item>@drawable/bat_range</item>
+        <item>@drawable/bat_low</item>
+        <item>@drawable/bat_critical</item>
     </array>
 
     <!-- strings My DashBoard -->
@@ -58,11 +66,6 @@
     <!-- strings Add Device -->
     <string name="prompt_name_device">Name device</string>
     <string name="prompt_mac_address_device">MAC Address of Device</string>
-    <string name="str_checkbox_temperature">Temperature</string>
-    <string name="str_checkbox_gps">GPS</string>
-    <string name="str_checkbox_panicbutton">Panic Button</string>
-    <string name="str_checkbox_battery">Battery Level</string>
-    <string name="str_select_sensors">Select the following sensors in the device:</string>
     <string name="str_button_save_device">Save Device</string>
 
     <!-- strings Detail Device -->
@@ -82,6 +85,92 @@
     <string name="title_activity_fragment_my_profile">My Profile</string>
     <string name="title_activity_config_sensor">Configuration Sensor</string>
     <string name="title_activity_sensors">Sensors</string>
+
+
+    <!-- strings List Safezone Activity -->
+    <string name="title_activity_list_safezones">ListSafezones</string>
+    <string name="str_addSafezone">Add Safezone</string>
+
+    <!-- strings Safezone Activity -->
+    <string name="title_activity_safezone">Safezone</string>
+    <string name="str_button_editRadius">Edit Radius</string>
+    <string name="str_button_editNameSafezone">Edit Name</string>
+    <string name="str_button_editNotification">Edit Notification</string>
+    <string name="str_button_editSafezone">Edit Location</string>
+    <string name="str_button_deleteSafezone">Delete Safezone</string>
+
+    <!-- strings edit Safezone Activity -->
+    <string name="title_activity_activity_edit_name_safezone">ActivityEditNameSafezone</string>
+    <string name="str_editNameOfSafezone">Name Of Safezone:</string>
+    <string name="str_editNotificationOfSafezone">Notification of Safezone</string>
+    <string name="str_button_update">Update</string>
+    <string name="str_button_save">Save</string>
+
+    <!-- strings edit Safezone EDIT MAP Activity -->
+    <string name="title_activity_activity_safezone_edit_map">ActivitySafezoneEditMap</string>
+    <string name="str_search_adress">Search Address</string>
+    <string name="str_radius">Radius:</string>
+    <!-- strings Activity Monitor Sensor Detail -->
+    <string name="title_activity_monitor_sensor_panic_button">Monitor Sensor Details</string>
+    <string name="str_button_calcDirection">Go to this Direction</string>
+
+    <!-- strings Temperature Activity -->
+    <string name="title_activity_activity_temperature">Settings Temperature</string>
+    <string name="str_temperature_minimum">Minimum Temperature Notification</string>
+    <string name="str_temperature_maximum">Maximum Temperature Notification</string>
+
+    <!-- strings Battery Activity -->
+    <string name="title_activity_activity_battery">Settings Battery</string>
+    <string name="str_battery_low">Low Battery Level Notification</string>
+    <string name="str_battery_critical">Critical Battery Level Notification</string>
+
+    <string name="title_activity_monitor_sensor_safezones">List of GPS</string>
+    <string name="title_activity_activity_monitor_sensor_pbtemp_batt">ActivityMonitorSensorPBTempBatt</string>
+
+
+    <!-- String error to application -->
+    <string name="str_title_information_dialog">Information</string>
+    <string name="str_error_exit_application">Are you sure you want to exit the application?</string>
+    <string name="str_error_internet_connection">Please check your internet connection or try again later.</string>
+    <string name="str_error_while_processing">An error occurred while processing your request. Please try again later.</string>
+    <string name="str_error_battery_range">The battery range have an error, please set a valid range.</string>
+    <string name="str_error_temperature_range">The temperature range have an error, please set a valid range.</string>
+    <string name="str_error_insert_new_device">Some Error, when trying to insert new device, please try again later</string>
+    <string name="str_error_device_not_found">Device not found!</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- strings fragment_settings -->
     <string name="title_activity_fragment_settings">Settings</string>
@@ -129,44 +218,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="tab_words">Words</string>
     <string name="tab_numbers">Numbers</string>
-    <!-- strings List Safezone Activity -->
-    <string name="title_activity_list_safezones">ListSafezones</string>
-    <string name="str_addSafezone">Add Safezone</string>
-
-    <!-- strings Safezone Activity -->
-    <string name="title_activity_safezone">Safezone</string>
-    <string name="str_button_editRadius">Edit Radius</string>
-    <string name="str_button_editNameSafezone">Edit Name</string>
-    <string name="str_button_editNotification">Edit Notification</string>
-    <string name="str_button_editSafezone">Edit Location</string>
-    <string name="str_button_deleteSafezone">Delete Safezone</string>
-
-    <!-- strings edit Safezone Activity -->
-    <string name="title_activity_activity_edit_name_safezone">ActivityEditNameSafezone</string>
-    <string name="str_editNameOfSafezone">Name Of Safezone:</string>
-    <string name="str_editNotificationOfSafezone">Notification of Safezone</string>
-    <string name="str_button_update">Update</string>
-    <string name="str_button_save">Save</string>
-
-    <!-- strings edit Safezone EDIT MAP Activity -->
-    <string name="title_activity_activity_safezone_edit_map">ActivitySafezoneEditMap</string>
-    <string name="str_search_adress">Search Address</string>
-    <string name="str_radius">Radius:</string>
-    <!-- strings Activity Monitor Sensor Detail -->
-    <string name="title_activity_monitor_sensor_panic_button">Monitor Sensor Details</string>
-    <string name="str_button_calcDirection">Go to this Direction</string>
-
-    <!-- strings Temperature Activity -->
-    <string name="title_activity_activity_temperature">Settings Temperature</string>
-    <string name="str_temperature_minimum">Minimum Temperature Notification</string>
-    <string name="str_temperature_maximum">Maximum Temperature Notification</string>
-    <!-- strings Battery Activity -->
-
-    <string name="title_activity_activity_battery">Settings Battery</string>
-    <string name="str_battery_low">Low Battery Level Notification</string>
-    <string name="str_battery_critical">Critical Battery Level Notification</string>
-
-    <string name="title_activity_monitor_sensor_safezones">List of GPS</string>
-    <string name="title_activity_activity_monitor_sensor_pbtemp_batt">ActivityMonitorSensorPBTempBatt</string>
 
 </resources>

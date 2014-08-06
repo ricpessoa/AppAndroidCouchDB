@@ -76,7 +76,7 @@ public class ActivityTemperature extends ActionBarActivity {
     }
 
     private void showDialogFragment() {
-        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), "The temperature range have an error, please set a valid range.");
+        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), getResources().getString(R.string.str_error_temperature_range), getResources().getString(R.string.str_error_temperature_range));
         dialogFragmentYesNoOk.setType(1);
         dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_ok), "");
         dialogFragmentYesNoOk.setBackToPreviousActivity(true);

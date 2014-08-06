@@ -14,6 +14,7 @@ import android.widget.Toast;
 public class DialogFragmentYesNoOk extends DialogFragment {
     private static String TAG = DialogFragmentYesNoOk.class.getName();
     private Context mContext;
+    private String title;
     private String msg;
     private int type; //type 1 ok and type 2 = ok Cancel
     private String positive, negative;
@@ -23,8 +24,9 @@ public class DialogFragmentYesNoOk extends DialogFragment {
         this.mContext = mContext;
     }
 
-    public DialogFragmentYesNoOk(Context mContext, String msg) {
+    public DialogFragmentYesNoOk(Context mContext, String title, String msg) {
         this.mContext = mContext;
+        this.title = title;
         this.msg = msg;
     }
 
@@ -52,7 +54,7 @@ public class DialogFragmentYesNoOk extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (this.type == 2) {
             final boolean back = this.backToPreviousActivity;
-
+            builder.setTitle(this.title);
             builder.setMessage(this.msg)
                     .setPositiveButton(this.positive, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

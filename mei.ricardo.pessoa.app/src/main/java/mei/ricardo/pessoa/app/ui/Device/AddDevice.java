@@ -94,7 +94,7 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             } else if (validMacAddress) {
                 Toast.makeText(this, "No exist in db " + macAddress.getText().toString(), Toast.LENGTH_SHORT).show();
                 if (!Utils.isNetworkAvailable(getApplicationContext())) {
-                    showDialogFragment("Please check your internet connection or try again later.");
+                    showDialogFragment(getString(R.string.str_error_internet_connection));
                 } else {
                     //user have internet connection
                     Log.d(TAG, "Execute Task");
@@ -107,7 +107,7 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
     }
 
     private void showDialogFragment(String msgNotification) {
-        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), msgNotification);
+        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), getString(R.string.str_title_information_dialog), msgNotification);
         dialogFragmentYesNoOk.setType(1);
         dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_ok), "");
         dialogFragmentYesNoOk.setBackToPreviousActivity(true);
@@ -193,13 +193,13 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
                     finish();
                     break;
                 case -1:
-                    showDialogFragment("Device not found!");
+                    showDialogFragment(getString(R.string.str_error_device_not_found));
                     break;
                 case -2:
-                    showDialogFragment("Please check your internet connection or try again later.");
+                    showDialogFragment(getString(R.string.str_error_internet_connection));
                     break;
                 case -3:
-                    showDialogFragment("Some Error, when trying to insert new device, please try again later");
+                    showDialogFragment(getString(R.string.str_error_insert_new_device));
                     break;
             }
         }

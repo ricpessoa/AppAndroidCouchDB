@@ -76,7 +76,7 @@ public class ActivityBattery extends ActionBarActivity {
     }
 
     private void showDialogFragment() {
-        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), "The battery range have an error, please set a valid range.");
+        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), getResources().getString(R.string.str_title_information_dialog), getResources().getString(R.string.str_error_battery_range));
         dialogFragmentYesNoOk.setType(1);
         dialogFragmentYesNoOk.setPositiveAndNegative(getString(R.string.fire_ok), "");
         dialogFragmentYesNoOk.setBackToPreviousActivity(true);

@@ -1,8 +1,10 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,7 @@ import mei.ricardo.pessoa.app.ui.MainActivity;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 import mei.ricardo.pessoa.app.utils.DeviceRow;
+import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
 
 public class FragmentMyDevices extends Fragment {
     public static final String notify = "mei.ricardo.pessoa.app.notifyDevice.devices";
@@ -78,12 +81,46 @@ public class FragmentMyDevices extends Fragment {
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+
+        listViewDevices.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                removeItemFromList(i);
+                return true;
+            }
+        });
         if (deviceList != null && deviceList.size() == 0) {
             listViewDevices.setEmptyView(textViewNoDevices);
         }
         return rootView;
     }
 
+//    // method to remove list item
+//    protected void removeItemFromList(int position) {
+//        final int deletePosition = position;
+//        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getActivity(),getString(R.string.str_title_information_dialog),getString(R.string.str_))
+//
+//        AlertDialog.Builder alert = new AlertDialog.Builder(
+//                getActivity());
+//
+//        alert.setTitle("Delete");
+//        alert.setMessage("Do you want delete this item?");
+//        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // TOD O Auto-generated method stub
+//
+//                // main code on after clicking yes
+////                arr.remove(deletePosition);
+////                adapter.notifyDataSetChanged();
+////                adapter.notifyDataSetInvalidated();
+//
+//            }
+//
+//        });
+//        alert.show();
+//
+//    }
     @Override
     public void onResume() {
         super.onResume();
@@ -119,6 +156,7 @@ public class FragmentMyDevices extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private class DeviceBroadcastReceiver extends BroadcastReceiver {
 
@@ -175,6 +213,8 @@ public class FragmentMyDevices extends Fragment {
 
             return arg1;
         }
+
+
 
         public DeviceRow getCodeLearnChapter(int position) {
             return deviceList.get(position);
