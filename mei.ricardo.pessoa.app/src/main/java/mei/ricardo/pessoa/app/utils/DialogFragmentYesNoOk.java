@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import mei.ricardo.pessoa.app.R;
+
 /**
  * Created by rpessoa on 06/05/14.
  */
@@ -26,8 +28,25 @@ public class DialogFragmentYesNoOk extends DialogFragment {
 
     public DialogFragmentYesNoOk(Context mContext, String title, String msg) {
         this.mContext = mContext;
-        this.title = title;
+        this.setTitle(title);
         this.msg = msg;
+    }
+
+    public DialogFragmentYesNoOk(Context mContext, String title, String msg, String msgToButtonPositive) {
+        this.mContext = mContext;
+        this.setTitle(title);
+        this.msg = msg;
+        this.type = 1;
+        this.positive = msgToButtonPositive;
+    }
+
+    public DialogFragmentYesNoOk(Context mContext, String title, String msg, String msgToButtonPositive, String msgToButtonNegative) {
+        this.mContext = mContext;
+        this.setTitle(title);
+        this.msg = msg;
+        this.type = 2;
+        this.positive = msgToButtonPositive;
+        this.negative = msgToButtonNegative;
     }
 
     public void setMessage(String msg) {
@@ -36,6 +55,10 @@ public class DialogFragmentYesNoOk extends DialogFragment {
 
     public void setType(int ntype) {
         this.type = ntype;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setPositiveAndNegative(String positive, String negative) {
@@ -52,9 +75,9 @@ public class DialogFragmentYesNoOk extends DialogFragment {
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(this.title);
         if (this.type == 2) {
             final boolean back = this.backToPreviousActivity;
-            builder.setTitle(this.title);
             builder.setMessage(this.msg)
                     .setPositiveButton(this.positive, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -67,7 +90,6 @@ public class DialogFragmentYesNoOk extends DialogFragment {
                     .setNegativeButton(this.negative, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Toast.makeText(mContext, "Press negative", Toast.LENGTH_SHORT).show();
-
                         }
                     });
         } else {
@@ -81,4 +103,5 @@ public class DialogFragmentYesNoOk extends DialogFragment {
         // Create the AlertDialog object and return it
         return builder.create();
     }
+
 }

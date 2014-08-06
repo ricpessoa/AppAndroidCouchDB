@@ -57,11 +57,14 @@
     <string name="str_title_GPS_Notifications">GPS Notifications</string>
     <string name="str_title_temperature_Notifications">Temperature Notifications</string>
     <string name="str_do_not_have_devices_on_dashboard">Do not have devices to add go to "My Devices" in menu</string>
+
     <!-- strings My Devices -->
     <string name="title_activity_fragment_my_devices">My Devices</string>
     <string name="title_activity_add_device">Add Device</string>
     <string name="str_menu_item_add_device">Add Device</string>
     <string name="str_do_not_have_devices">Do not have devices to add press "Add Device"</string>
+
+    <string name="str_delete_device">Are you sure you want to permanently delete the Device?</string>
 
     <!-- strings Add Device -->
     <string name="prompt_name_device">Name device</string>
@@ -85,7 +88,6 @@
     <string name="title_activity_fragment_my_profile">My Profile</string>
     <string name="title_activity_config_sensor">Configuration Sensor</string>
     <string name="title_activity_sensors">Sensors</string>
-
 
     <!-- strings List Safezone Activity -->
     <string name="title_activity_list_safezones">ListSafezones</string>
@@ -130,6 +132,7 @@
 
     <!-- String error to application -->
     <string name="str_title_information_dialog">Information</string>
+    <string name="str_title_delete_dialog">Delete</string>
     <string name="str_error_exit_application">Are you sure you want to exit the application?</string>
     <string name="str_error_internet_connection">Please check your internet connection or try again later.</string>
     <string name="str_error_while_processing">An error occurred while processing your request. Please try again later.</string>
@@ -137,39 +140,6 @@
     <string name="str_error_temperature_range">The temperature range have an error, please set a valid range.</string>
     <string name="str_error_insert_new_device">Some Error, when trying to insert new device, please try again later</string>
     <string name="str_error_device_not_found">Device not found!</string>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- strings fragment_settings -->

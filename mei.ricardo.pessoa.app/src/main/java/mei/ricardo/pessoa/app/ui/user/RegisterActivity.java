@@ -283,32 +283,27 @@ public class RegisterActivity extends Activity {
             mRegisterTask = null;
             //showProgress(false);
             DialogFragmentYesNoOk newFragment = new DialogFragmentYesNoOk(getApplicationContext());
-
+            newFragment.setTitle(getString(R.string.str_title_information_dialog));
             if (success == 1) {
-                //Toast.makeText(getApplicationContext(),"Register successful",Toast.LENGTH_SHORT).show();
-                newFragment.setMessage("Register successful. Go to Login?");
+                newFragment.setMessage(getString(R.string.str_successful_register));
                 newFragment.setType(2);
                 newFragment.setPositiveAndNegative(getString(R.string.fire_yes), getString(R.string.fire_no));
                 newFragment.setBackToPreviousActivity(true);
             } else if (success == -1) {
-                //Toast.makeText(getApplicationContext(),"This email already exists",Toast.LENGTH_SHORT).show();
-                newFragment.setMessage("This email already exists");
+                newFragment.setMessage(getString(R.string.str_error_this_email_already_exist));
                 newFragment.setType(1);
                 newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
 
             } else if (success == -2) {
-                //Toast.makeText(getApplicationContext(),"A user with this username already exists",Toast.LENGTH_SHORT).show();
-                newFragment.setMessage("A user with this username already exists");
+                newFragment.setMessage(getString(R.string.str_error_this_username_already_exist));
                 newFragment.setType(1);
                 newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
             } else if (success == -3) {
-                //Toast.makeText(getApplicationContext(),"Verify you connection to internet",Toast.LENGTH_SHORT).show();
-                newFragment.setMessage("Internet connection error");
+                newFragment.setMessage(getString(R.string.str_error_internet_connection));
                 newFragment.setType(1);
                 newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
             } else if (success == -4) {
-                Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
-                newFragment.setMessage("Some error occur try again later");
+                newFragment.setMessage(getString(R.string.str_error_while_processing));
                 newFragment.setType(1);
                 newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
             }
@@ -319,7 +314,6 @@ public class RegisterActivity extends Activity {
         @Override
         protected void onCancelled() {
             mRegisterTask = null;
-            //showProgress(false);
         }
     }
 }

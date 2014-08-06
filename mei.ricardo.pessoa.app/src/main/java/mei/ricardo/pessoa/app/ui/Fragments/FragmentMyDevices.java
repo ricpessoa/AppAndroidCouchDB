@@ -95,32 +95,25 @@ public class FragmentMyDevices extends Fragment {
         return rootView;
     }
 
-//    // method to remove list item
-//    protected void removeItemFromList(int position) {
-//        final int deletePosition = position;
-//        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getActivity(),getString(R.string.str_title_information_dialog),getString(R.string.str_))
-//
-//        AlertDialog.Builder alert = new AlertDialog.Builder(
-//                getActivity());
-//
-//        alert.setTitle("Delete");
-//        alert.setMessage("Do you want delete this item?");
-//        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // TOD O Auto-generated method stub
-//
-//                // main code on after clicking yes
-////                arr.remove(deletePosition);
-////                adapter.notifyDataSetChanged();
-////                adapter.notifyDataSetInvalidated();
-//
-//            }
-//
-//        });
-//        alert.show();
-//
-//    }
+    // method to remove list item
+    protected void removeItemFromList(int position) {
+        final int deletePosition = position;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.str_title_delete_dialog));
+        builder.setMessage(getString(R.string.str_delete_device))
+                .setPositiveButton(getString(R.string.fire_yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(getActivity(), "delete device " + deletePosition, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(getString(R.string.fire_no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.show();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -213,7 +206,6 @@ public class FragmentMyDevices extends Fragment {
 
             return arg1;
         }
-
 
 
         public DeviceRow getCodeLearnChapter(int position) {

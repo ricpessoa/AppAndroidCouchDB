@@ -388,13 +388,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 mPasswordView.requestFocus();
             } else if (success == -3) {
                 //Toast.makeText(getApplicationContext(),"Verify you connection to internet",Toast.LENGTH_SHORT).show();
-                newFragment.setMessage("Internet connection error");
+                newFragment.setMessage(getString(R.string.str_error_internet_connection));
                 newFragment.setType(1);
                 newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
                 newFragment.show(getFragmentManager(), "test");
             } else if (success == -4) {
                 //Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
-                newFragment.setMessage("Some error occur try again later");
+                newFragment.setMessage(getString(R.string.str_error_while_processing));
                 newFragment.setType(1);
                 newFragment.setPositiveAndNegative(getString(R.string.fire_ok), "");
                 newFragment.show(getFragmentManager(), "test");

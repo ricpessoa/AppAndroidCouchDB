@@ -21,7 +21,9 @@
 
     <string name="error_name_invalid"></string>
 
-    <string name="dialog_fire_missiles">Tentar conectar novamente?</string>
+    <string name="str_successful_register">Register successful. Go to Login?</string>
+    <string name="str_error_this_email_already_exist">This email already exists</string>
+    <string name="str_error_this_username_already_exist">A user with this username already exists</string>
     <string name="fire_ok">Ok</string>
     <string name="fire_yes">Yes</string>
     <string name="fire_no">No</string>
