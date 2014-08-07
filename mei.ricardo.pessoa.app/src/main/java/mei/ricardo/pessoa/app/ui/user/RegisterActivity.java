@@ -247,11 +247,6 @@ public class RegisterActivity extends Activity {
                     JSONObject finalResult = new JSONObject(tokener);
                     if (finalResult != null) {
                         Log.d(TAG, "message?" + finalResult.getString("message") + " error?" + finalResult.getString("error") + " code?" + finalResult.getInt("code"));
-                        Boolean loginsuccessfull = !finalResult.getBoolean("error"); //WARNING NOT HAVE ERROR = FALSE
-                        //if (loginsuccessfull == false) {
-                        //    return finalResult.getInt("code");
-                        // }
-                        //return 1;
                         return finalResult.getInt("code");
                     }
                 } catch (JSONException e) {

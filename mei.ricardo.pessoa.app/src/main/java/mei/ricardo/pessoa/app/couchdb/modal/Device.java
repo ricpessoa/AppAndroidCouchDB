@@ -227,11 +227,24 @@ public class Device {
             properties.put("type", "device");
             properties.put("monitoring", monitoring);
             properties.put("deleted", isDeleted());
+            properties.put("owner", owner);
 // getDocument if exist return document by id else create document with the parameter
             Document document = CouchDB.getmCouchDBinstance().getDatabase().getDocument(mac_address);
             properties.put("_rev", document.getCurrentRevisionId()); //get last rev document
 // store the data in the document
             document.putProperties(properties);
+        }
+    }
+
+
+    public static void deleteDevice(String deviceID) {
+        Device device = getDeviceByID(deviceID);
+        device.setDeleted(true);
+        try {
+            device.saveDevice(false);
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+            Log.e(TAG, "error deleting device");
         }
     }
 

@@ -70,6 +70,8 @@
     <string name="prompt_name_device">Name device</string>
     <string name="prompt_mac_address_device">MAC Address of Device</string>
     <string name="str_button_save_device">Save Device</string>
+    <string name="str_successful_device_inserted">The device was successfully inserted</string>
+    <string name="str_error_device_already_yours">You already have this device in your list devices</string>
 
     <!-- strings Detail Device -->
     <string name="monitoring_device">Monitoring Device</string>

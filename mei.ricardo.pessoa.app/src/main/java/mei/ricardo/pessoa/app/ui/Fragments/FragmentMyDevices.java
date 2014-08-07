@@ -89,6 +89,7 @@ public class FragmentMyDevices extends Fragment {
                 return true;
             }
         });
+
         if (deviceList != null && deviceList.size() == 0) {
             listViewDevices.setEmptyView(textViewNoDevices);
         }
@@ -104,6 +105,8 @@ public class FragmentMyDevices extends Fragment {
                 .setPositiveButton(getString(R.string.fire_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getActivity(), "delete device " + deletePosition, Toast.LENGTH_SHORT).show();
+
+                        Device.deleteDevice(deviceList.get(deletePosition).deviceID);
                     }
                 })
                 .setNegativeButton(getString(R.string.fire_no), new DialogInterface.OnClickListener() {

@@ -69,7 +69,6 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             }
             Device device = Device.getDeviceByID(tmpMacDevice);
 
-
             if (device != null && validNameDevice) {
                 device.setName_device(tmpNameDevice);
                 saveDevice = true;
@@ -80,26 +79,29 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
                     if (device.isDeleted()) {
                         device.setDeleted(false);
                         saveDevice = true;
+                    } else {
+                        DialogFragmentYesNoOk dialogFragmentYesNoOk = new DialogFragmentYesNoOk(getApplicationContext(), getString(R.string.str_title_information_dialog), getString(R.string.str_error_device_already_yours), getString(R.string.fire_ok));
+                        dialogFragmentYesNoOk.show(getFragmentManager(), "dialog_device6f_already_exist");
                     }
                 }
-
                 if (device != null && saveDevice) {
                     try {
                         device.saveDevice(false);
-                        //finish();
+                        Toast.makeText(Application.getmContext(), getString(R.string.str_successful_device_inserted), Toast.LENGTH_SHORT).show();
+                        finish();
                     } catch (CouchbaseLiteException e) {
                         e.printStackTrace();
                     }
                 }
-            } else if (validMacAddress) {
-                Toast.makeText(this, "No exist in db " + macAddress.getText().toString(), Toast.LENGTH_SHORT).show();
+            } else if (device == null && validMacAddress) {
+                Log.d(TAG, "No exist in db " + macAddress.getText().toString());
                 if (!Utils.isNetworkAvailable(getApplicationContext())) {
                     showDialogFragment(getString(R.string.str_error_internet_connection));
                 } else {
                     //user have internet connection
                     Log.d(TAG, "Execute Task");
                     mRegisterTask = new TaskAddNewDevice(Application.getDbname(), tmpMacDevice, tmpNameDevice); /*mac address*/
-                    mRegisterTask.execute((Void) null);
+                    mRegisterTask.execute();
                 }
             }
 
@@ -154,13 +156,8 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
                 try {
                     JSONObject finalResult = new JSONObject(tokener);
                     if (finalResult != null) {
-                        Log.d(TAG, "message?" + finalResult.getString("message") + " error?" + finalResult.getString("error"));
-                        Boolean insertsuccessfull = !finalResult.getBoolean("error"); //WARNING NOT HAVE ERROR = FALSE
-                        if (insertsuccessfull)
-                            return 1;
-                        else
-                            return -1;
-
+                        Log.d(TAG, "message?" + finalResult.getString("message") + " error?" + finalResult.getString("error") + " code:" + finalResult.getInt("code"));
+                        return finalResult.getInt("code");
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "Error JSONException in POST");
@@ -189,7 +186,7 @@ public class AddDevice extends ActionBarActivity implements View.OnClickListener
             mRegisterTask = null;
             switch (success) {
                 case 1:
-                    Toast.makeText(Application.getmContext(), "Add new device successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Application.getmContext(), getString(R.string.str_successful_device_inserted), Toast.LENGTH_SHORT).show();
                     finish();
                     break;
                 case -1:
