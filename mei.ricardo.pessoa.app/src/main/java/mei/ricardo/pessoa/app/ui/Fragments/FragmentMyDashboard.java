@@ -79,7 +79,7 @@ public class FragmentMyDashboard extends Fragment {
 
 
         Bundle bundle = this.getArguments();
-        String macAddressReceived = "";
+        String macAddressReceived;
         if (bundle != null) {
             macAddressReceived = bundle.getString(passVariableMacAddress, "");
             currentPagerPosition = getPositionOfTabBarOnMacAddress(macAddressReceived);

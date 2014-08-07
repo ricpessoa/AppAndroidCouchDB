@@ -83,6 +83,13 @@ public class CouchDB implements Replication.ChangeListener {
         return database;
     }
 
+    /**When logout user need delete instance*/
+    public void setCouchDBToNull(){
+        mCouchDBinstance = null;
+        mCouchManager = null;
+        database = null;
+    }
+
     protected void startCBLite() throws Exception {
 
         mCouchManager = new Manager(Application.getmContext().getFilesDir(), Manager.DEFAULT_OPTIONS);

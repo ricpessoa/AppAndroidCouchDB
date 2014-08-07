@@ -61,7 +61,6 @@ public class Device {
      */
     public static LinkedHashMap<String, String> getHashMapOfDevices() {
         LinkedHashMap<String, String> deviceHaspMap = new LinkedHashMap<String, String>();
-        deviceHaspMap.put("", "All Devices");
         com.couchbase.lite.View view = CouchDB.viewGetDevicesMonitoring;
         Query query = view.createQuery();
         try {
@@ -79,11 +78,6 @@ public class Device {
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
-
-        if (deviceHaspMap.size() <= 2) { //if have only device not need show tab all devices
-            deviceHaspMap.remove("");
-        }
-
         return deviceHaspMap;
     }
 

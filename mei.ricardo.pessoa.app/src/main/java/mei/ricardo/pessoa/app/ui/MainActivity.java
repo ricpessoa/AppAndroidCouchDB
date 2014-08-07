@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.couchbase.lite.CouchbaseLiteException;
+
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
@@ -45,16 +47,23 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
     private boolean showTheDashboard = false;
 
-
     public static final String notifyMonitorSensor = "mei.ricardo.pessoa.app.notifyDevice.mydashboard";
     private MonitorSensorBroadcastReceiver monitorSensorBroadcastReceiver = null;
 
+    /**  */
+    static final int valueOnActivityResultCodeLogout = 1;
 
     public void logoutTheUser(boolean logout) {
         if (logout == true) {
             Log.d(TAG, "Logout the user session");
             Application.saveInSharePreferenceDataOfApplication(null);
             Application.isLogged = false;
+            try {
+                Application.getmCouchDBinstance().getDatabase().delete(); //delete local database
+                Application.getmCouchDBinstance().setCouchDBToNull(); // pass null the instance of CouchDB
+            } catch (CouchbaseLiteException e) {
+                e.printStackTrace();
+            }
         } else {
             Log.d(TAG, "The user remember is null - need authentication");
         }
@@ -83,7 +92,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         CouchDB.getmCouchDBinstance();
-
     }
 
     /*THIS METHOD WHERE ADD THE FRAGMENTS OR ACTIVITIES TO NAVIGATE WHEN SELECTED*/
@@ -111,17 +119,17 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 Log.d(TAG, "Show Settings");
                 Intent intent = new Intent(this, SettingsActivity.class);
                 showTheDashboard = false;
-                startActivity(intent);
+                startActivityForResult(intent, valueOnActivityResultCodeLogout);
                 break;
             case 4:
                 Log.d(TAG, "Fragment Test Sample");
                 showTheDashboard = false;
                 fragment = new FragmentTestSamples();
                 break;
-            case 5:
-                logoutTheUser(true); // logout
-                showTheDashboard = false;
-                break;
+//            case 5:
+//                logoutTheUser(true); // logout
+//                showTheDashboard = false;
+//                break;
             default:
                 Log.d(TAG, "Undefined - show dashboard");
                 fragment = new FragmentMyDashboard();
@@ -134,6 +142,15 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment).commit();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == valueOnActivityResultCodeLogout && resultCode == RESULT_OK) {
+            //need logout
+            logoutTheUser(true);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /*THIS METHOD IS TO SHOW THE TITLE OF VIEW OR FRAGMENT*/
