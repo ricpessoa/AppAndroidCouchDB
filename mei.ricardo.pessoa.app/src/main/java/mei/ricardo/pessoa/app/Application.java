@@ -7,6 +7,7 @@ import android.util.Log;
 import com.couchbase.lite.support.CouchbaseLiteApplication;
 
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.couchdb.modal.Settings;
 
 /**
  * Created by rpessoa on 29/04/14.
@@ -28,7 +29,6 @@ public class Application extends CouchbaseLiteApplication {
     public static String serviceRegisterUrl = "/PhpProjectCouchDB/appregister";
     public static String serviceAddAddNewDevice = "/PhpProjectCouchDB/appAddNewDevice";
     public static String serviceAddMonitoringDeviceUrl = "/PhpProjectCouchDB/devicepost";
-
 
     @Override
     public void onCreate() {
@@ -70,8 +70,12 @@ public class Application extends CouchbaseLiteApplication {
         return dbname;
     }
 
+    /** this method create a singleton instance of couchDB
+     * - object CouchDBManager
+     * - object dataBase*/
     public static CouchDB getmCouchDBinstance() {
         return CouchDB.getmCouchDBinstance();
     }
 
+    public static Settings getmSettingsinstance(){ return Settings.getmSettingsinstance();}
 }

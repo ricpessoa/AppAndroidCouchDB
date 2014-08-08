@@ -24,6 +24,7 @@ import mei.ricardo.pessoa.app.utils.InterfaceItem;
  */
 public class MonitorSensor implements InterfaceItem {
     private static String TAG = MonitorSensor.class.getName();
+    public static String type = "monitoring_sensor";
 
     public enum SUBTYPE {panic_button, GPS, temperature, battery}
 

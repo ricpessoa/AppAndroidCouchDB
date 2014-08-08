@@ -33,11 +33,14 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
+import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
+import mei.ricardo.pessoa.app.couchdb.modal.Settings;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentNotification;
 import mei.ricardo.pessoa.app.ui.MainActivity;
 import mei.ricardo.pessoa.app.ui.Sensor.Safezone.ActivityListSafezones;
+import mei.ricardo.pessoa.app.ui.SettingsActivity;
 
 /**
  * Created by rpessoa on 12/05/14.
@@ -56,9 +59,11 @@ public class CouchDB implements Replication.ChangeListener {
     public static View viewGetMonitoringSensorsFromLastDay;
     public static View viewGetDevicesMonitoring;
     public static View viewGetMonitorSensor;
+    public static View viewGetSettingApplication;
     private LiveQuery liveQueryDevice;
     private LiveQuery liveQueryGetSafezones;
     private LiveQuery liveQueryMonitoringSensors;
+    private LiveQuery liveQuerySettings;
 
     private CouchDB() {
         try {
@@ -83,8 +88,10 @@ public class CouchDB implements Replication.ChangeListener {
         return database;
     }
 
-    /**When logout user need delete instance*/
-    public void setCouchDBToNull(){
+    /**
+     * When logout user need delete instance
+     */
+    public void setCouchDBToNull() {
         mCouchDBinstance = null;
         mCouchManager = null;
         database = null;
@@ -206,6 +213,21 @@ public class CouchDB implements Replication.ChangeListener {
         }, "1.0");
 
         startLiveQueryMonitoringSensor(liveQueryMonitoringSensors, viewGetMonitoringSensorsFromLastDay);
+
+        String getSettingsOfApp = "getSettingsOfApp";
+        viewGetSettingApplication = database.getView(String.format("%s/%s", designDocName, getSettingsOfApp));
+        viewGetSettingApplication.setMap(new Mapper() {
+            @Override
+            public void map(Map<String, Object> document, Emitter emitter) {
+                Object objType = document.get("type");
+                if (objType != null && objType.equals("settings")) {
+                    emitter.emit(objType.toString(), document);
+                }
+            }
+        }, "1.0");
+        startLiveQuery(liveQuerySettings, viewGetSettingApplication);
+
+
     }
 
     private void startSync() {
@@ -367,25 +389,28 @@ public class CouchDB implements Replication.ChangeListener {
         boolean notifyDevices = false;
         boolean notifySafezones = false;
         boolean notifyMonitorSensors = false;
+        boolean notifySettings = false;
 
         for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
             QueryRow row = it.next();
 
-            if (row.getKey().toString().equals("monitoring_sensor")) {
+            if (row.getKey().toString().equals(MonitorSensor.type)) {
                 notifyMonitorSensors = true;
                 break;
-            } else if (row.getKey().toString().equals("device")) {
+            } else if (row.getKey().toString().equals(Device.type)) {
                 notifyDevices = true;
                 break;
-            } else if (row.getKey().toString().equals("safezone")) {
+            } else if (row.getKey().toString().equals(Safezone.type)) {
                 notifySafezones = true;
+                break;
+            } else if (row.getKey().toString().equals(Settings.type)) {
+                notifySettings = true;
                 break;
             }
         }
 
         if (notifyDevices) {
             intent.setAction(FragmentMyDevices.notify);
-            //intent.putExtra(TemperatureActivity.VAR_NAME, finalX);
             Application.getmContext().sendBroadcast(intent);
             android.util.Log.d(TAG, "_Notify -> " + FragmentMyDevices.class.getCanonicalName());
         } else if (notifySafezones) {
@@ -395,6 +420,10 @@ public class CouchDB implements Replication.ChangeListener {
         } else if (notifyMonitorSensors) {
             Log.d(TAG, "_Notify -> Monitoring ");
             intent.setAction(FragmentNotification.notify);
+            Application.getmContext().sendBroadcast(intent);
+        } else if (notifySettings) {
+            Log.d(TAG, "_Notify -> Settings ");
+            intent.setAction(SettingsActivity.notify);
             Application.getmContext().sendBroadcast(intent);
         }
     }

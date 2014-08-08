@@ -1,25 +1,37 @@
 package mei.ricardo.pessoa.app.ui;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.awt.font.TextAttribute;
+
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
+import mei.ricardo.pessoa.app.couchdb.modal.Settings;
 import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
 
 /**
  * Created by rpessoa on 22/05/14.
  */
 public class SettingsActivity extends PreferenceActivity {
+    private static String TAG = SettingsActivity.class.getCanonicalName();
+
+    public static final String notify = "mei.ricardo.pessoa.app.ui.Settings";
+    private SettingsBroadcastReceiver deviceBroadcastReceiver = null;
 
     CheckBoxPreference checkBoxPreferenceNotifications;
     CheckBoxPreference checkBoxPreferenceSound;
@@ -30,9 +42,25 @@ public class SettingsActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
+        Settings settingsOfApp = Settings.getmSettingsinstance();
+        Log.d(TAG, settingsOfApp.toString());
+        setupPreferences();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        deviceBroadcastReceiver = new SettingsBroadcastReceiver();
+        registerReceiver(deviceBroadcastReceiver, new IntentFilter(notify));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (deviceBroadcastReceiver != null)
+            unregisterReceiver(deviceBroadcastReceiver);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -41,7 +69,28 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private void setupPreferences() {
-        //checkBoxPreferenceNotifications = (CheckBoxPreference)  find
+
+        checkBoxPreferenceNotifications = (CheckBoxPreference)  findPreference("checkbox_preference_notifications");
+        checkBoxPreferenceSound = (CheckBoxPreference)  findPreference("checkbox_preference_sound");
+
+        checkBoxPreferenceNotifications.setChecked(Settings.getmSettingsinstance().isMonitoring());
+        checkBoxPreferenceSound.setChecked(Settings.getmSettingsinstance().isSounds());
+
+
+        checkBoxPreferenceNotifications.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                return false;
+            }
+        });
+
+        checkBoxPreferenceSound.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                return false;
+            }
+        });
     }
 
 
@@ -66,5 +115,14 @@ public class SettingsActivity extends PreferenceActivity {
             builder.show();
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+
+    private class SettingsBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "I Receive a broadcast of Settings ", Toast.LENGTH_SHORT).show();
+            setupPreferences();
+        }
     }
 }

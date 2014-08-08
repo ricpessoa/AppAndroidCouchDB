@@ -23,7 +23,7 @@ import mei.ricardo.pessoa.app.utils.DeviceRow;
  */
 public class Device {
     private static String TAG = Device.class.getName();
-
+    public static String type = "device";
     public enum DEVICESTYPE {
         panic_button,
         GPS,

@@ -17,9 +17,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
+import com.couchbase.lite.replicator.Replication;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.couchdb.modal.Settings;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile;
@@ -92,6 +94,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         CouchDB.getmCouchDBinstance();
+        Settings.getmSettingsinstance();
     }
 
     /*THIS METHOD WHERE ADD THE FRAGMENTS OR ACTIVITIES TO NAVIGATE WHEN SELECTED*/

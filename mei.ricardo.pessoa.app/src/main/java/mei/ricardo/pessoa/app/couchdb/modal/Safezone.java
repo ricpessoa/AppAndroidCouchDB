@@ -22,6 +22,8 @@ import mei.ricardo.pessoa.app.couchdb.CouchDB;
  */
 public class Safezone {
     private static String TAG = Safezone.class.getCanonicalName();
+    public static String type = "safezone";
+
     public static String[] typeNotifications = {"NONE", "CHECK_INS_ONLY", "CHECK_OUTS_ONLY", "ALL"};
 
     private String _id;
