@@ -1,7 +1,10 @@
 package mei.ricardo.pessoa.app.utils.Adapters;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +14,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_NotHave;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorGPS;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityListMonitorSensorPBTempBatt;
 import mei.ricardo.pessoa.app.ui.MonitoringSensor.ActivityMonitorSensorDetail;
+import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.utils.InterfaceItem;
 import mei.ricardo.pessoa.app.utils.SectionItem;
 import mei.ricardo.pessoa.app.utils.Utils;
@@ -108,35 +114,42 @@ public class CustomAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (mData.get(position).isSection()) {
+        if (mData.get(position).isSection()) { //section
             final SectionItem sectionItem = (SectionItem) mData.get(position);
             holder.imageButton = (ImageButton) convertView.findViewById(R.id.buttonMore);
-            holder.imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(Application.getmContext(), "click on more:" + sectionItem.getTitle(), Toast.LENGTH_SHORT).show();
-                    if (sectionItem.getType().equals(Device.DEVICESTYPE.GPS.toString())) {
-                        //show Safezones
-                        Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorGPS.class);
-                        intent.putExtra(ActivityMonitorSensorGPS.passVariableIDOfDevice, sectionItem.getDeviceMacAddress());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Application.getmContext().startActivity(intent);
-                    } else {
-                        //show List PB, Temperature, Battery
-                        Intent intent = new Intent(Application.getmContext(), ActivityListMonitorSensorPBTempBatt.class);
-                        intent.putExtra(ActivityListMonitorSensorPBTempBatt.passVariableIDOfDevice, sectionItem.getDeviceMacAddress());
-                        intent.putExtra(ActivityListMonitorSensorPBTempBatt.passVariableTypeSensor, sectionItem.getType());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Application.getmContext().startActivity(intent);
+            if (sectionItem.getNumberOFEntriesInThisSection() > 0) {
+                holder.imageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(Application.getmContext(), "click on more:" + sectionItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        Context mContext = Application.getmContext();
+                        if (sectionItem.getType().equals(Device.DEVICESTYPE.GPS.toString())) {
+                            //show Safezones
+                            Intent intent = new Intent(mContext, ActivityMonitorSensorGPS.class);
+                            intent.putExtra(ActivityMonitorSensorGPS.passVariableIDOfDevice, sectionItem.getDeviceMacAddress());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(intent);
+                        } else {
+                            //show List PB, Temperature, Battery
+                            Intent intent = new Intent(mContext, ActivityListMonitorSensorPBTempBatt.class);
+                            intent.putExtra(ActivityListMonitorSensorPBTempBatt.passVariableIDOfDevice, sectionItem.getDeviceMacAddress());
+                            intent.putExtra(ActivityListMonitorSensorPBTempBatt.passVariableTypeSensor, sectionItem.getType());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(intent);
+                        }
+
                     }
-                }
-            });
+                });
+            } else {
+                // Toast.makeText(mContext,"Not yet received",Toast.LENGTH_LONG).show();
+                holder.imageButton.setVisibility(View.INVISIBLE);
+            }
             convertView.setOnClickListener(null);
             convertView.setOnLongClickListener(null);
             convertView.setLongClickable(false);
             holder.textViewTitle = (TextView) convertView.findViewById(R.id.list_item_section_text);
             holder.textViewTitle.setText(sectionItem.getTitle());
-        } else {
+        } else { //entry
             holder.imageView = (ImageView) convertView.findViewById(R.id.icon);
             holder.textViewTitle = (TextView) convertView.findViewById(R.id.deviceName);
             holder.textViewDetail = (TextView) convertView.findViewById(R.id.deviceDescription);
@@ -148,18 +161,22 @@ public class CustomAdapter extends BaseAdapter {
                 holder.textViewTitle.setText(monitorSensor.getTitle());
             if (holder.textViewDetail != null)
                 holder.textViewDetail.setText(Utils.ConvertTimestampToDateFormat(monitorSensor.getTimestamp()));
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //send mac address, subtype and timestamp to show detail
-                    Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorDetail.class);
-                    intent.putExtra(ActivityMonitorSensorDetail.passVariableMacAddress, monitorSensor.getMac_address());
-                    intent.putExtra(ActivityMonitorSensorDetail.passVariableTimestamp, monitorSensor.getTimestamp());
-                    intent.putExtra(ActivityMonitorSensorDetail.passVariableSubtypeSensor, monitorSensor.getSubtype());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Application.getmContext().startActivity(intent);
-                }
-            });
+            if (!monitorSensor.getClass().isAssignableFrom(MS_NotHave.class)) {
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //send mac address, subtype and timestamp to show detail
+                        Intent intent = new Intent(Application.getmContext(), ActivityMonitorSensorDetail.class);
+                        intent.putExtra(ActivityMonitorSensorDetail.passVariableMacAddress, monitorSensor.getMac_address());
+                        intent.putExtra(ActivityMonitorSensorDetail.passVariableTimestamp, monitorSensor.getTimestamp());
+                        intent.putExtra(ActivityMonitorSensorDetail.passVariableSubtypeSensor, monitorSensor.getSubtype());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Application.getmContext().startActivity(intent);
+                    }
+                });
+            }else{
+                holder.imageView.setVisibility(View.GONE);
+            }
         }
         return convertView;
     }

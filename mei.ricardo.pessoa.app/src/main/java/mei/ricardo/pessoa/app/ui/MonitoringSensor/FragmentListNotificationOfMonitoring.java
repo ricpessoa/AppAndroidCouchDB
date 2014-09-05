@@ -104,28 +104,28 @@ public class FragmentListNotificationOfMonitoring extends ListFragment {
             if (tempDevice.isShowPanicButton()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "panic_button", 1);
                 if (arrayList.size() > 0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0], Device.DEVICESTYPE.panic_button.toString(), deviceID));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[0], Device.DEVICESTYPE.panic_button.toString(), deviceID, arrayList));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
             if (tempDevice.isShowSafezone()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 4);
                 if (arrayList.size() > 0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1], Device.DEVICESTYPE.GPS.toString(), deviceID));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[1], Device.DEVICESTYPE.GPS.toString(), deviceID, arrayList));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
             if (tempDevice.isShowTemperature()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "temperature", 4);
                 if (arrayList.size() > 0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2], Device.DEVICESTYPE.temperature.toString(), deviceID));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[2], Device.DEVICESTYPE.temperature.toString(), deviceID, arrayList));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
             if (tempDevice.isShowBattery()) {
-                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "battery", 4);
+                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "battery", 1);
                 if (arrayList.size() > 0) {
-                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[3], Device.DEVICESTYPE.battery.toString(), deviceID));
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[3], Device.DEVICESTYPE.battery.toString(), deviceID, arrayList));
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }

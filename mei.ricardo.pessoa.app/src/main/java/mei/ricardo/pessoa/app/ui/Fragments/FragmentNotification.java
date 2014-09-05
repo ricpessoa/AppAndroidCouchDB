@@ -20,6 +20,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 
 /**
  * Created by rpessoa on 14/05/14.
+ * this class is only to show the notification on navigation drawer (last)
  */
 public class FragmentNotification extends Fragment {
     private static String TAG = FragmentNotification.class.getCanonicalName();

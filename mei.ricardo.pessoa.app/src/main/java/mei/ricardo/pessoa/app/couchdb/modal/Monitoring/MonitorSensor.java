@@ -33,8 +33,23 @@ public class MonitorSensor implements InterfaceItem {
     public String timestamp;
     public String mac_address;
 
+    /**
+     * This method is only when find MS_NotHave
+     */
     public MonitorSensor(String subtype) {
-        this.subtype = subtype;
+        String sensorType;
+        if (SUBTYPE.panic_button.toString().equals(subtype)) {
+            sensorType = subtypeSections[0];
+        } else if (SUBTYPE.GPS.toString().equals(subtype)) {
+            sensorType = subtypeSections[1];
+        } else if (SUBTYPE.battery.toString().equals(subtype)) {
+            sensorType = subtypeSections[2];
+        } else if (SUBTYPE.temperature.toString().equals(subtype)) {
+            sensorType = subtypeSections[3];
+        } else {
+            sensorType = "Sensor unknown";
+        }
+        this.subtype = sensorType;
     }
 
     //faster constructor only to show in list

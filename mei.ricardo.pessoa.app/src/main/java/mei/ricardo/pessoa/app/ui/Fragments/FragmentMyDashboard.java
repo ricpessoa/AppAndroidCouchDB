@@ -223,11 +223,6 @@ public class FragmentMyDashboard extends Fragment {
             if (mac_address.equals(mTabsAdapter.mTabs.get(i).tag.toString())) {
                 position = i;
                 Log.d(TAG, "found the the position of tab " + mac_address + " " + position);
-                //mTabsAdapter.mTabs.get(i).notifyAll();
-                //mTabsAdapter.mTabHost.invalidate();
-                //mTabsAdapter.mTabHost.setCurrentTab(i);
-                //mTabsAdapter.mTabHost.getCurrentTabView().invalidate();
-                // mTabsAdapter.mTabHost.getTabContentView().invalidate();
             }
 
         }
