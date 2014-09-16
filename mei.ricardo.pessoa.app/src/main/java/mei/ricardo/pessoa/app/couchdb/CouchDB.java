@@ -1,6 +1,10 @@
 package mei.ricardo.pessoa.app.couchdb;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
+import android.os.IBinder;
 import android.widget.Toast;
 
 import com.couchbase.lite.Database;
@@ -26,6 +30,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.MS_Notification;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
@@ -45,8 +50,10 @@ import mei.ricardo.pessoa.app.ui.SettingsActivity;
 /**
  * Created by rpessoa on 12/05/14.
  */
-public class CouchDB implements Replication.ChangeListener {
+public class CouchDB extends Service implements Replication.ChangeListener {
     private static String TAG = CouchDB.class.getName();
+    private static final int NOTIFICATION_ID = 12743;
+
     private static CouchDB mCouchDBinstance = null;
 
     private static Database database = null;
@@ -65,7 +72,7 @@ public class CouchDB implements Replication.ChangeListener {
     private LiveQuery liveQueryMonitoringSensors;
     private LiveQuery liveQuerySettings;
 
-    private CouchDB() {
+    public CouchDB() {
         try {
             startCBLite();
         } catch (Exception e) {
@@ -73,6 +80,32 @@ public class CouchDB implements Replication.ChangeListener {
             Log.e(TAG, "Error initializing CBLite", e);
         }
 
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        android.util.Log.d(TAG, "onCreate");
+
+        Notification notification = new Notification(R.drawable.ic_launcher, "Service GPS status", System.currentTimeMillis());
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP), 0);
+
+        notification.setLatestEventInfo(this, getString(R.string.str_service_on_running_title), getString(R.string.str_service_on_running_description), contentIntent);
+
+        startForeground(NOTIFICATION_ID, notification);
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return Service.START_NOT_STICKY;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     public static CouchDB getmCouchDBinstance() {
@@ -206,8 +239,12 @@ public class CouchDB implements Replication.ChangeListener {
                 Object objTimestamp = document.get("timestamp");
                 Object objectSeen = document.get("seen");
                 long timestamp = Long.parseLong(objTimestamp.toString());
-                if (objType != null && objType.equals("monitoring_sensor") && timestamp > actualTimestamp && (objectSeen == null || objectSeen.toString().equals(false))) {
-                    emitter.emit(objTimestamp.toString(), document);
+                if (objType != null && objType.equals("monitoring_sensor")) {
+                    if (timestamp > actualTimestamp) {
+                        if (objectSeen == null) {
+                            emitter.emit(objTimestamp.toString(), document);
+                        }
+                    }
                 }
             }
         }, "1.0");
@@ -288,11 +325,26 @@ public class CouchDB implements Replication.ChangeListener {
 
     private Device actualDevice = null;
 
+//    private void sendNotificationOfMonitoringSensor(QueryEnumerator queryEnumerator) {
+//        List<MS_Notification> MSNotificationList = new ArrayList<MS_Notification>();
+//
+//        for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
+//            QueryRow row = it.next();
+//
+//            Document document = row.getDocument();
+//            Object objectSubType = document.getProperty("subtype");
+//            Object objectMacAddress = document.getProperty("mac_address");
+//            Object actualTimestamp = document.getProperty("timestamp");
+//        }
+//    }
+
+
     private void sendNotificationOfMonitoringSensor(QueryEnumerator queryEnumerator) {
         List<MS_Notification> MSNotificationList = new ArrayList<MS_Notification>();
         String monitorSensorMacAddress = "";
         MS_Notification MSNotification = new MS_Notification();
         int sensorCount = 0;
+        android.util.Log.e(TAG,"WTF?? "+MSNotificationList.size());
         String previousTimestamp = null; //this timestamp is to know if ms_monitoring is about the same
         for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
             QueryRow row = it.next();
@@ -307,9 +359,10 @@ public class CouchDB implements Replication.ChangeListener {
             }
 
             if (objectSubType != null && objectMacAddress != null) {
-                MonitorSensor.setSeenToDocument(document);
+                MonitorSensor.setSeenToDocument(document); // to update monitoring seen
                 if (actualDevice == null) {
                     actualDevice = Device.getDeviceByID(objectMacAddress.toString());
+                    actualDevice.getArrayListSensors();
                 } else {
                     if (!actualDevice.getMac_address().equals(objectMacAddress)) {
                         actualDevice = Device.getDeviceByID(objectMacAddress.toString());
@@ -362,6 +415,11 @@ public class CouchDB implements Replication.ChangeListener {
 
                 }
                 if (actualDevice.getArrayListSensors().size() == sensorCount) {
+                    MSNotificationList.add(MSNotification);
+                    MSNotification = new MS_Notification();
+                    sensorCount = 0;
+                    previousTimestamp = actualTimestamp.toString();
+                } else if(!it.hasNext()){
                     MSNotificationList.add(MSNotification);
                     MSNotification = new MS_Notification();
                     sensorCount = 0;

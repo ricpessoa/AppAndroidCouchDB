@@ -179,6 +179,9 @@ public class Device {
         }
     }
 
+
+//    public boolean decideIfNeedNotification()
+
     public static Device getSensorsToSearch(String id) {
         Document document = CouchDB.getmCouchDBinstance().getDatabase().getExistingDocument(id);
         if (document == null)

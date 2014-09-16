@@ -37,7 +37,7 @@
         <!-- Goolge API Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyD0CwdodkZnz-18--hdsQinhhS6wC8vTtw" />
+            android:value="AIzaSyBj1szVpHVR_0xhbjd-m3FB5P7Z2CVL6lQ" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -173,6 +173,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.Fragments.FragmentMyDashboard" />
         </activity>
+        <service android:enabled="true" android:name=".utils.service.MyService" />
+
     </application>
 
 </manifest>

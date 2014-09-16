@@ -82,6 +82,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             logoutTheUser(false); // need authentication
         }
 
+        CouchDB.getmCouchDBinstance();
+        Settings.getmSettingsinstance();
+        //startService(new Intent(this, CouchDB.class));
+
         Log.d(TAG, "read db from " + Application.getDbname());
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -93,8 +97,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        CouchDB.getmCouchDBinstance();
-        Settings.getmSettingsinstance();
     }
 
     /*THIS METHOD WHERE ADD THE FRAGMENTS OR ACTIVITIES TO NAVIGATE WHEN SELECTED*/

@@ -48,6 +48,10 @@
         <item>@drawable/bat_critical</item>
     </array>
 
+    <!-- string Service -->
+    <string name="str_service_on_running_title">ChildSafe</string>
+    <string name="str_service_on_running_description">Service running monitoring</string>
+
     <!-- strings My DashBoard -->
     <string name="str_title_my_dashboard">My DashBoard</string>
     <string name="title_activity_fragment_my_dashboard">My Dashboard</string>
