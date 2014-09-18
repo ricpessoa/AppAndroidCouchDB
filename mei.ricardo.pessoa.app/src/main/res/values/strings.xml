@@ -88,13 +88,20 @@
 
     <!-- strings My Profile -->
     <string name="str_title_my_profile">My Profile</string>
+    <string name="str_title_username">Username:</string>
+    <string name="str_title_name">Name:</string>
+    <string name="str_title_email">Email address:</string>
+    <string name="str_title_mobile">Mobile Phone:</string>
+    <string name="str_title_county">Country:</string>
+    <string name="str_title_number_of_device">Number of Devices:</string>
+
     <string name="str_title_logout">Logout</string>
     <string name="title_activity_fragment_my_profile">My Profile</string>
     <string name="title_activity_config_sensor">Configuration Sensor</string>
-    <string name="title_activity_sensors">Sensors</string>
+    <string name="title_activity_sensors">List of Sensors</string>
 
     <!-- strings List Safezone Activity -->
-    <string name="title_activity_list_safezones">ListSafezones</string>
+    <string name="title_activity_list_safezones">List of Safezones</string>
     <string name="str_addSafezone">Add Safezone</string>
 
     <!-- strings Safezone Activity -->

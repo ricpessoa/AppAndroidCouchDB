@@ -27,7 +27,6 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
@@ -344,22 +343,23 @@ public class CouchDB extends Service implements Replication.ChangeListener {
         String monitorSensorMacAddress = "";
         MS_Notification MSNotification = new MS_Notification();
         int sensorCount = 0;
-        android.util.Log.e(TAG,"WTF?? "+MSNotificationList.size());
         String previousTimestamp = null; //this timestamp is to know if ms_monitoring is about the same
         for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
             QueryRow row = it.next();
 
             Document document = row.getDocument();
-            Object objectSubType = document.getProperty("subtype");
-            Object objectMacAddress = document.getProperty("mac_address");
-            Object actualTimestamp = document.getProperty("timestamp");
+            Object objectSubType = document.getProperty(MonitorSensor.doc_subtype);
+            Object objectMacAddress = document.getProperty(MonitorSensor.doc_mac_adress);
+            Object actualTimestamp = document.getProperty(MonitorSensor.doc_timestamp);
+            //Object actualNotification = document.getProperty(MonitorSensor.doc_notification);
 
             if (previousTimestamp == null) {
                 previousTimestamp = actualTimestamp.toString();
             }
 
             if (objectSubType != null && objectMacAddress != null) {
-                MonitorSensor.setSeenToDocument(document); // to update monitoring seen
+                //actualDevice.testeDecideIfNeedNotification(objectSubType.toString());
+                MonitorSensor.setSeenToDocument(document); // to update monitoring seen = true
                 if (actualDevice == null) {
                     actualDevice = Device.getDeviceByID(objectMacAddress.toString());
                     actualDevice.getArrayListSensors();
@@ -399,7 +399,9 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                 } else if (objectSubType.equals(MonitorSensor.SUBTYPE.battery.toString())) {
                     try {
                         MS_Battery ms_battery = new MS_Battery(document);
-                        MSNotification.setBatteryNotification(ms_battery);
+                        if(ms_battery.isNecessaryNotify()) {
+                            MSNotification.setBatteryNotification(ms_battery);
+                        }
                         sensorCount++;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -407,7 +409,9 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                 } else if (objectSubType.equals(MonitorSensor.SUBTYPE.temperature.toString())) {
                     try {
                         MS_Temperature ms_temperature = new MS_Temperature(document);
-                        MSNotification.setTemperatureNotification(ms_temperature);
+                        if (ms_temperature.isNecessaryNotify()) {
+                            MSNotification.setTemperatureNotification(ms_temperature);
+                        }
                         sensorCount++;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -419,7 +423,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                     MSNotification = new MS_Notification();
                     sensorCount = 0;
                     previousTimestamp = actualTimestamp.toString();
-                } else if(!it.hasNext()){
+                } else if(!it.hasNext()){ //case device dont send all sensors
                     MSNotificationList.add(MSNotification);
                     MSNotification = new MS_Notification();
                     sensorCount = 0;

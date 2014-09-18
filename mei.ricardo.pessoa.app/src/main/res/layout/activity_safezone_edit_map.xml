@@ -30,14 +30,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewBatteryValue"
-            android:layout_toLeftOf="@+id/textView2"
-            android:layout_toStartOf="@+id/textView2"
+            android:layout_toLeftOf="@+id/textViewName"
+            android:layout_toStartOf="@+id/textViewName"
             android:max="4500"
             android:progress="500"
             android:secondaryProgress="0" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

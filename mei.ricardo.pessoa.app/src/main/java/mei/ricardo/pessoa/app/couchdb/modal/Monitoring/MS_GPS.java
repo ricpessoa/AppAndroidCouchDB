@@ -16,7 +16,6 @@ import java.util.Iterator;
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
-import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
 
 /**
  * Created by rpessoa on 05/06/14.
@@ -71,9 +70,9 @@ public class MS_GPS extends MonitorSensor {
 
     public Drawable getImage() {
         if (notification.equals(NOTIFICATIONTYPE[0])) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.check_in_small);
+            return Application.getmContext().getResources().getDrawable(R.drawable.check_in);
         } else {
-            return Application.getmContext().getResources().getDrawable(R.drawable.check_out_small);
+            return Application.getmContext().getResources().getDrawable(R.drawable.check_out);
         }
     }
 

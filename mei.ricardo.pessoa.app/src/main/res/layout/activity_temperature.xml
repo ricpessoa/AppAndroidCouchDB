@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/str_temperature_maximum"
-        android:id="@+id/textView2"
+        android:id="@+id/textViewName"
         android:layout_below="@+id/editTextNumberLow"/>
 
     <EditText
@@ -42,7 +42,7 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/editTextNumberCritical"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/textViewName"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"

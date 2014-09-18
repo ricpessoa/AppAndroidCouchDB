@@ -34,6 +34,18 @@ public class MonitorSensor implements InterfaceItem {
     public String mac_address;
 
     /**
+    *
+    this script is only for access variables of document
+    * */
+    public static String doc_mac_adress = "mac_address";
+    public static String doc_notification = "notification";
+    public static String doc_seen = "seen";
+    public static String doc_subtype = "subtype";
+    public static String doc_timestamp= "timestamp";
+    public static String doc_type = "type";
+    public static String doc_value = "value";
+
+    /**
      * This method is only when find MS_NotHave
      */
     public MonitorSensor(String subtype) {

@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Lat:"
-        android:id="@+id/textView3"
+        android:id="@+id/textView2"
         android:layout_below="@+id/checkBoxGPS"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -62,9 +62,9 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editTextLat"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_toRightOf="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"
         android:layout_toLeftOf="@+id/textViewBatteryValue"
         android:layout_toStartOf="@+id/textViewBatteryValue" />
 
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:text="Temperature"
         android:id="@+id/checkBoxTemperature"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:checked="false" />
@@ -105,7 +105,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Value(cº)"
-        android:id="@+id/textView2"
+        android:id="@+id/textViewName"
         android:layout_below="@+id/checkBoxTemperature"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -116,10 +116,10 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editTextValueTemperature"
-        android:layout_toEndOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textViewName"
         android:layout_toStartOf="@+id/textViewBatteryValue"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
+        android:layout_alignBottom="@+id/textViewName"
+        android:layout_toRightOf="@+id/textViewName"
         android:layout_alignRight="@+id/editTextLng"
         android:layout_alignEnd="@+id/editTextLng" />
 
@@ -129,7 +129,7 @@
         android:text="Battery:"
         android:id="@+id/checkBoxBattery"
         android:checked="false"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/textViewName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -149,7 +149,7 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editTextValueBattery"
-        android:layout_toEndOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textViewName"
         android:layout_toStartOf="@+id/textViewBatteryValue"
         android:layout_alignBottom="@+id/textView5"
         android:layout_alignLeft="@+id/editTextValueTemperature"

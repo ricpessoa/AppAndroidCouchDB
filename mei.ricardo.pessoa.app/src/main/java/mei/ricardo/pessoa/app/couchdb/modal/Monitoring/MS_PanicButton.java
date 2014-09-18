@@ -3,14 +3,9 @@ package mei.ricardo.pessoa.app.couchdb.modal.Monitoring;
 import android.graphics.drawable.Drawable;
 
 import com.couchbase.lite.Document;
-import com.couchbase.lite.QueryEnumerator;
-import com.couchbase.lite.QueryRow;
-
-import java.util.Iterator;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
-import mei.ricardo.pessoa.app.couchdb.modal.Device;
 
 /**
  * Created by rpessoa on 05/06/14.
@@ -34,7 +29,7 @@ public class MS_PanicButton extends MonitorSensor {
 
     public Drawable getImage() {
         if (pressed) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.panic_button_small);
+            return Application.getmContext().getResources().getDrawable(R.drawable.panic_button);
         }
         return null;
     }

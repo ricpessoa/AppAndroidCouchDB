@@ -180,7 +180,21 @@ public class Device {
     }
 
 
-//    public boolean decideIfNeedNotification()
+    public void testeDecideIfNeedNotification(String typeSensorToCompare){
+        for (Sensor s : arrayListSensors){
+            if(s.getType().equals(typeSensorToCompare)){
+                Log.d(TAG,"Sensor: "+s.getName_sensor()+" enable? "+s.isEnable()+" ");
+                if (s instanceof SensorBattery){
+                    SensorBattery sb = (SensorBattery) s;
+                    Log.d(TAG,"Battery: critical"+sb.getCritical_battery()+" low"+sb.getLow_battery()+" ");
+                }else if(s instanceof  SensorTemperature){
+                    SensorTemperature st = (SensorTemperature)s;
+                    Log.d(TAG,"temperature: low"+st.getMin_temperature()+" max"+st.getMax_temperature()+" ");
+                }
+                //TODO: verify SensorGPS notification standard notify always
+            }
+        }
+    }
 
     public static Device getSensorsToSearch(String id) {
         Document document = CouchDB.getmCouchDBinstance().getDatabase().getExistingDocument(id);

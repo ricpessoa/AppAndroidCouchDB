@@ -1,22 +1,28 @@
 package mei.ricardo.pessoa.app.ui.Sensor;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
+import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Sensor;
@@ -33,6 +39,8 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
     private static Device mDevice;
     private Switch mSwitchMonitoringDevice;
     private ListView mListViewSensors;
+    private TextView textViewDeviceName;
+    private SensorListAdapter adapterSensor;
 
     static final int valueOnActivityResultCodeTemperature = 1;
     static final int valueOnActivityResultCodeBattery = 2;
@@ -46,8 +54,19 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
 
         mSwitchMonitoringDevice = (Switch) findViewById(R.id.switchMonitoringDevice);
         mSwitchMonitoringDevice.setOnCheckedChangeListener(this);
+        textViewDeviceName = (TextView) findViewById(R.id.textViewNameDevice);
 
         mListViewSensors = (ListView) findViewById(R.id.listViewSensors);
+
+        Bundle bundle = getIntent().getExtras();
+        String ID = bundle.getString(var_pass_id_sensor);
+        Toast.makeText(this, "received id document " + ID, Toast.LENGTH_SHORT).show();
+        mDevice = Device.getDeviceByID(ID);
+        textViewDeviceName.setText(mDevice.getName_device());
+
+        adapterSensor = new SensorListAdapter(mDevice.getArrayListSensors());
+        mListViewSensors.setAdapter(adapterSensor);
+
         mListViewSensors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -78,26 +97,7 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
 
             }
         });
-
-        Bundle bundle = getIntent().getExtras();
-        String ID = bundle.getString(var_pass_id_sensor);
-        Toast.makeText(this, "received id document " + ID, Toast.LENGTH_SHORT).show();
-        mDevice = Device.getDeviceByID(ID);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, mDevice.getSensorsToShowInArrayString());
-        // Assign adapter to ListView
-        mListViewSensors.setAdapter(adapter);
         mSwitchMonitoringDevice.setChecked(mDevice.isMonitoring());
-
-
-//        Log.d(TAG, "o que vou fazer??? " + mDevice.getSensors());
-//        HashMap<Integer, Object> hashMap = mDevice.getSensors();
-//        for (Integer key : hashMap.keySet()) {
-//            //Capturamos o valor a partir da chave
-//            Object sensor = (Object) hashMap.get(key);
-//            System.out.println(key + " = " + sensor);
-//        }
-
     }
 
     @Override
@@ -152,7 +152,6 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
                     Toast.makeText(this, "Receive something from battery " + lowBattery + " " + criticalBattery, Toast.LENGTH_SHORT).show();
                 }
             }
-
             try {
                 //mDevice.setArrayListSensors(arrayList);
                 mDevice.saveDevice(true);
@@ -160,6 +159,53 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
                 Log.d(TAG, "device: " + mDevice.getMac_address() + " error trying save");
                 e.printStackTrace();
             }
+        }
+    }
+
+    public class SensorListAdapter extends BaseAdapter {
+        List<Sensor> sensor;
+
+        public SensorListAdapter(ArrayList<Sensor> deviceList) {
+            this.sensor = deviceList;
+        }
+
+        public void updateDeviceList(List<Sensor> results) {
+            sensor = results;
+            //Triggers the list update
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return sensor.size();
+        }
+
+        @Override
+        public Sensor getItem(int arg0) {
+            return sensor.get(arg0);
+        }
+
+        @Override
+        public long getItemId(int arg0) {
+            return arg0;
+        }
+
+        @Override
+        public View getView(int arg0, View arg1, ViewGroup arg2) {
+
+            if (arg1 == null) {
+                LayoutInflater inflater = (LayoutInflater) Application.getmContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                arg1 = inflater.inflate(R.layout.list_item_entry, arg2, false);
+            }
+
+            TextView chapterName = (TextView) arg1.findViewById(R.id.deviceName);
+            ImageView imageView = (ImageView) arg1.findViewById(R.id.icon);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_sensor));
+            Sensor sensorRow = sensor.get(arg0);
+
+            chapterName.setText(sensorRow.getName_sensor());
+
+            return arg1;
         }
     }
 }

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,6 @@ import mei.ricardo.pessoa.app.ui.MainActivity;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.ui.Sensor.ActivityListSensors;
 import mei.ricardo.pessoa.app.utils.DeviceRow;
-import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
 
 public class FragmentMyDevices extends Fragment {
     public static final String notify = "mei.ricardo.pessoa.app.notifyDevice.devices";
@@ -201,11 +201,13 @@ public class FragmentMyDevices extends Fragment {
 
             TextView chapterName = (TextView) arg1.findViewById(R.id.deviceName);
             TextView chapterDesc = (TextView) arg1.findViewById(R.id.deviceDescription);
-
+            ImageView imageView = (ImageView) arg1.findViewById(R.id.icon);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_device));
             DeviceRow deviceRow = deviceList.get(arg0);
 
             chapterName.setText(deviceRow.deviceName);
             chapterDesc.setText(deviceRow.deviceDescription);
+
 
             return arg1;
         }

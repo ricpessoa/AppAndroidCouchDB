@@ -131,7 +131,7 @@ public class ActivityListSafezones extends ActionBarActivity {
                     final TextView title = (TextView) v.findViewById(R.id.deviceName);
                     final TextView subtitle = (TextView) v.findViewById(R.id.deviceDescription);
                     if (imageView != null) {
-                        imageView.setImageDrawable(null);
+                        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_img_not_found));
                         new DownloadImageTask(imageView)
                                 .execute("https://cbks0.google.com/cbk?output=thumbnail&w=120&h=120&ll=" + safezone.getLatitude() + "," + safezone.getLongitude() + "&thumb=0");
                     }

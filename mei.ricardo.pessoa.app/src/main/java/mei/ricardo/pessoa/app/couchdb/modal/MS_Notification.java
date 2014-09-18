@@ -74,9 +74,9 @@ public class MS_Notification {
         if (getGpsNotification() != null)
             show += "gpsNotification = " + gpsNotification.notification;
         if (getBatteryNotification() != null)
-            show += "batteryNotification = " + batteryNotification.getNotifification() + " - " + batteryNotification.getValue();
+            show += "batteryNotification = " + batteryNotification.getNotification() + " - " + batteryNotification.getValue();
         if (getTemperatureNotification() != null)
-            show += "temperatureNotification = " + temperatureNotification.getNotifification() + " - " + temperatureNotification.getValue();
+            show += "temperatureNotification = " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue();
 
         return show;
     }
@@ -89,16 +89,16 @@ public class MS_Notification {
             if (getGpsNotification() != null)
                 notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
             if (getTemperatureNotification() != null)
-                notificationString.add("Temperature: " + temperatureNotification.getNotifification() + " - " + temperatureNotification.getValue());
+                notificationString.add("Temperature: " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue());
             if (getBatteryNotification() != null)
-                notificationString.add("Battery: " + batteryNotification.getNotifification() + " - " + batteryNotification.getValue());
+                notificationString.add("Battery: " + batteryNotification.getNotification() + " - " + batteryNotification.getValue());
         } else {
             if (getGpsNotification() != null)
                 notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
-            if (getTemperatureNotification() != null && !getTemperatureNotification().getNotifification().equals(MS_Temperature.NOTIFICATIONTYPE.RANGE.toString()))
-                notificationString.add("Temperature: " + temperatureNotification.getNotifification() + " - " + temperatureNotification.getValue());
-            if (getBatteryNotification() != null && !getBatteryNotification().getNotifification().equals(MS_Battery.NOTIFICATIONTYPE.RANGE.toString()))
-                notificationString.add("Battery: " + batteryNotification.getNotifification() + " - " + batteryNotification.getValue());
+            if (getTemperatureNotification() != null && !getTemperatureNotification().getNotification().equals(MS_Temperature.NOTIFICATIONTYPE.RANGE.toString()))
+                notificationString.add("Temperature: " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue());
+            if (getBatteryNotification() != null && !getBatteryNotification().getNotification().equals(MS_Battery.NOTIFICATIONTYPE.RANGE.toString()))
+                notificationString.add("Battery: " + batteryNotification.getNotification() + " - " + batteryNotification.getValue());
         }
         return notificationString.toArray(new String[notificationString.size()]);
     }
@@ -121,7 +121,7 @@ public class MS_Notification {
         mBuilder.setContentTitle("New Notification");
         mBuilder.setContentText("You've received new notification.");
         mBuilder.setTicker("New Notification Alert!");
-        mBuilder.setSmallIcon(R.drawable.panic_button_small);
+        mBuilder.setSmallIcon(R.drawable.panic_button);
 
       /* Increase notification number every time a new notification arrives */
         //mBuilder.setNumber(++numMessages);
@@ -175,7 +175,7 @@ public class MS_Notification {
 //    private static void notificationSmall(Context mContext, int notificationID, MS_Notification ms_notification) {
 //        NotificationCompat.Builder mBuilder =
 //                new NotificationCompat.Builder(mContext)
-//                        .setSmallIcon(R.drawable.panic_button_small)
+//                        .setSmallIcon(R.drawable.panic_button)
 //                        .setContentTitle("My notification")
 //                        .setContentText("Hello World!");
 //// Creates an explicit intent for an Activity in your app

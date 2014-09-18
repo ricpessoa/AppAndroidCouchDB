@@ -18,40 +18,39 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
  */
 public class MS_Battery extends MonitorSensor {
     public enum NOTIFICATIONTYPE {CRITICAL, LOW, RANGE}
-
     private float value;
-    private String notifification;
+    private String notification;
 
     public MS_Battery(String value, String notification, String mac_address, String subtype, String timestamp) {
         super(mac_address, subtype, timestamp);
         this.value = Float.parseFloat(value);
-        this.notifification = notification;
+        this.notification = notification;
     }
 
     public MS_Battery(Document document) throws Exception {
         super(document.getProperty("mac_address").toString(), document.getProperty("subtype").toString(), document.getProperty("timestamp").toString());
         this.value = Float.parseFloat(document.getProperty("value").toString());
-        this.notifification = document.getProperty("notification").toString();
+        this.notification = document.getProperty("notification").toString();
     }
 
     public float getValue() {
         return value;
     }
 
-    public String getNotifification() {
-        return notifification;
+    public String getNotification() {
+        return notification;
     }
 
     public Drawable getImage() {
-        if (notifification == null)
-            return Application.getmContext().getResources().getDrawable(R.drawable.bat_critical_small);
+        if (notification == null)
+            return Application.getmContext().getResources().getDrawable(R.drawable.bat_critical);
 
-        if (notifification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.bat_range_small);
-        } else if (notifification.equals(NOTIFICATIONTYPE.CRITICAL.toString())) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.bat_critical_small);
+        if (notification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
+            return Application.getmContext().getResources().getDrawable(R.drawable.bat_range);
+        } else if (notification.equals(NOTIFICATIONTYPE.CRITICAL.toString())) {
+            return Application.getmContext().getResources().getDrawable(R.drawable.bat_critical);
         } else {
-            return Application.getmContext().getResources().getDrawable(R.drawable.bat_low_small);
+            return Application.getmContext().getResources().getDrawable(R.drawable.bat_low);
         }
     }
 
@@ -71,4 +70,10 @@ public class MS_Battery extends MonitorSensor {
         }
         return ms_batteryArrayList;
     }
+    public boolean isNecessaryNotify() {
+        if(this.notification.equals(NOTIFICATIONTYPE.RANGE.toString()))
+            return false;
+        return true;
+    }
+
 }

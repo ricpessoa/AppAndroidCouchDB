@@ -91,7 +91,7 @@ public class ActivitySafezoneEditMap extends Activity {
 
         SeekBar seekBarRadius = (SeekBar) findViewById(R.id.seek_bar_radius);
         seekBarRadius.setProgress(safezone.getRadius() - 500);
-        final TextView textViewRadius = (TextView) findViewById(R.id.textView2);
+        final TextView textViewRadius = (TextView) findViewById(R.id.textViewName);
         textViewRadius.setText(safezone.getRadius() + " m");
         seekBarRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

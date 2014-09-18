@@ -22,38 +22,38 @@ public class MS_Temperature extends MonitorSensor {
 
     ;
     private float value;
-    private String notifification;
+    private String notification;
 
     public MS_Temperature(String value, String notification, String mac_address, String subType, String timestamp) throws Exception {
         super(mac_address, subType, timestamp);
         this.value = Float.parseFloat(value);
-        this.notifification = notification;
+        this.notification = notification;
     }
 
     public MS_Temperature(Document document) throws Exception {
         super(document.getProperty("mac_address").toString(), document.getProperty("subtype").toString(), document.getProperty("timestamp").toString());
         this.value = Float.parseFloat(document.getProperty("value").toString());
-        this.notifification = document.getProperty("notification").toString();
+        this.notification = document.getProperty("notification").toString();
     }
 
     public float getValue() {
         return value;
     }
 
-    public String getNotifification() {
-        return notifification;
+    public String getNotification() {
+        return notification;
     }
 
     public Drawable getImage() {
-        if (notifification == null)
-            return Application.getmContext().getResources().getDrawable(R.drawable.temp_red_small);
+        if (notification == null)
+            return Application.getmContext().getResources().getDrawable(R.drawable.temp_red);
 
-        if (notifification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.temp_green_small);
-        } else if (notifification.equals(NOTIFICATIONTYPE.LOW.toString())) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.temp_blue_small);
+        if (notification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
+            return Application.getmContext().getResources().getDrawable(R.drawable.temp_green);
+        } else if (notification.equals(NOTIFICATIONTYPE.LOW.toString())) {
+            return Application.getmContext().getResources().getDrawable(R.drawable.temp_blue);
         } else {
-            return Application.getmContext().getResources().getDrawable(R.drawable.temp_red_small);
+            return Application.getmContext().getResources().getDrawable(R.drawable.temp_red);
 
         }
     }
@@ -75,4 +75,9 @@ public class MS_Temperature extends MonitorSensor {
         return ms_temperatureArrayList;
     }
 
+    public boolean isNecessaryNotify() {
+        if (this.notification.equals(MS_Battery.NOTIFICATIONTYPE.RANGE.toString()))
+            return false;
+        return true;
+    }
 }

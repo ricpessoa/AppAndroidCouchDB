@@ -70,7 +70,7 @@ public class ActivityEditNameSafezone extends ActionBarActivity {
             Log.d(TAG, "Select Spinner" + spinnerNotifications.getSelectedItemPosition());
         } else {
             spinnerNotifications.setVisibility(View.GONE);
-            ((TextView) findViewById(R.id.textView2)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.textViewName)).setVisibility(View.GONE);
         }
     }
 
