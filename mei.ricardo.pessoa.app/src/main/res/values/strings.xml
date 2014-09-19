@@ -48,6 +48,8 @@
         <item>@drawable/bat_critical</item>
     </array>
 
+    <string name="str_notifications_no_notification">No notifications to show</string>
+
     <!-- string Service -->
     <string name="str_service_on_running_title">ChildSafe</string>
     <string name="str_service_on_running_description">Service running monitoring</string>

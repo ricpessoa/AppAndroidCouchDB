@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/notificationLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:name="mei.ricardo.pessoa.app.ui.Fragments.FragmentNotification" />
+        android:layout_height="120dp"
+        android:name="mei.ricardo.pessoa.app.ui.Fragments.FragmentNotification"/>
 
     <ListView
         android:id="@+id/menu_list"

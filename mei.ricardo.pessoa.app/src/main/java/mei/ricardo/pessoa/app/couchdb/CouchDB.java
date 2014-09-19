@@ -84,8 +84,6 @@ public class CouchDB extends Service implements Replication.ChangeListener {
     @Override
     public void onCreate() {
         super.onCreate();
-        android.util.Log.d(TAG, "onCreate");
-
         Notification notification = new Notification(R.drawable.ic_launcher, "Service GPS status", System.currentTimeMillis());
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
@@ -240,13 +238,13 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                 long timestamp = Long.parseLong(objTimestamp.toString());
                 if (objType != null && objType.equals("monitoring_sensor")) {
                     if (timestamp > actualTimestamp) {
-                        if (objectSeen == null) {
+                        if (objectSeen != null && objectSeen.equals(false)) {
                             emitter.emit(objTimestamp.toString(), document);
                         }
                     }
                 }
             }
-        }, "1.0");
+        }, "5.0");
 
         startLiveQueryMonitoringSensor(liveQueryMonitoringSensors, viewGetMonitoringSensorsFromLastDay);
 
@@ -323,20 +321,6 @@ public class CouchDB extends Service implements Replication.ChangeListener {
     }
 
     private Device actualDevice = null;
-
-//    private void sendNotificationOfMonitoringSensor(QueryEnumerator queryEnumerator) {
-//        List<MS_Notification> MSNotificationList = new ArrayList<MS_Notification>();
-//
-//        for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
-//            QueryRow row = it.next();
-//
-//            Document document = row.getDocument();
-//            Object objectSubType = document.getProperty("subtype");
-//            Object objectMacAddress = document.getProperty("mac_address");
-//            Object actualTimestamp = document.getProperty("timestamp");
-//        }
-//    }
-
 
     private void sendNotificationOfMonitoringSensor(QueryEnumerator queryEnumerator) {
         List<MS_Notification> MSNotificationList = new ArrayList<MS_Notification>();
@@ -435,11 +419,13 @@ public class CouchDB extends Service implements Replication.ChangeListener {
 
         if (MSNotificationList.size() > 0) {
             MS_Notification.sendNotificationToUser(Application.getmContext(), MSNotificationList); //send to class Notification
-
             Intent intent = new Intent();
             intent.setAction(MainActivity.notifyMonitorSensor);
             intent.putExtra(FragmentMyDashboard.passVariableMacAddress, monitorSensorMacAddress);
             Application.getmContext().sendBroadcast(intent);
+
+            FragmentNotification.getFragmentNotification().addNotificationToShowToUser(MSNotificationList);
+
         }
 
     }

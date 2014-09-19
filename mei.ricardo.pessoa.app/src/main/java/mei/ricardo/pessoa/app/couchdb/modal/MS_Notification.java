@@ -18,6 +18,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.MainActivity;
 
 /**
@@ -64,6 +65,20 @@ public class MS_Notification {
 
     public void setTemperatureNotification(MS_Temperature temperatureNotification) {
         this.temperatureNotification = temperatureNotification;
+    }
+
+    public ArrayList<MonitorSensor> getAllMonitorSensors() {
+        ArrayList<MonitorSensor> monitorSensorArrayList = new ArrayList<MonitorSensor>();
+        if (getPanicButtonNotification() != null)
+            monitorSensorArrayList.add(getPanicButtonNotification());
+        if (getGpsNotification() != null)
+            monitorSensorArrayList.add(getGpsNotification());
+        if (getTemperatureNotification() != null)
+            monitorSensorArrayList.add(getTemperatureNotification());
+        if (getBatteryNotification() != null) {
+            monitorSensorArrayList.add(getBatteryNotification());
+        }
+        return monitorSensorArrayList;
     }
 
     @Override

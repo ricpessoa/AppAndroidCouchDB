@@ -343,4 +343,12 @@ public class Device {
     public void setName_device(String name_device) {
         this.name_device = name_device;
     }
+
+    public String getNameOrMacAdress(){
+        if(this.getName_device()!=null && !this.getName_device().trim().equals("")){
+            return name_device;
+        }else{
+            return mac_address;
+        }
+    }
 }
