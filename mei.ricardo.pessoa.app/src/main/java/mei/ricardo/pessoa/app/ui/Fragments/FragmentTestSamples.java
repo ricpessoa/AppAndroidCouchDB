@@ -40,7 +40,7 @@ public class FragmentTestSamples extends Fragment {
 
     private static String TAG = FragmentTestSamples.class.getName();
     private TesteDeviceRegisterTask mRegisterTask = null;
-    CheckBox checkBoxBattery, checkBoxGPS, checkBoxPanicButton, checkBoxTemperature;
+    CheckBox checkBoxBattery, checkBoxGPS, checkBoxShoe,checkBoxPanicButton, checkBoxTemperature;
     EditText editTextMacAddress, editTextLat, editTextLng, editTextValueBattery, editTextValueTemperature;
 
     public FragmentTestSamples() {
@@ -59,6 +59,7 @@ public class FragmentTestSamples extends Fragment {
             }
         });
         checkBoxPanicButton = (CheckBox) rootView.findViewById(R.id.checkBoxPanicButton);
+        checkBoxShoe = (CheckBox) rootView.findViewById(R.id.checkBoxShoe);
         checkBoxGPS = (CheckBox) rootView.findViewById(R.id.checkBoxGPS);
         checkBoxBattery = (CheckBox) rootView.findViewById(R.id.checkBoxBattery);
         checkBoxTemperature = (CheckBox) rootView.findViewById(R.id.checkBoxTemperature);
@@ -122,19 +123,22 @@ public class FragmentTestSamples extends Fragment {
 
                 // Add your data
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("mac", editTextMacAddress.getText().toString()));
+                nameValuePairs.add(new BasicNameValuePair("m", editTextMacAddress.getText().toString()));
                 if (checkBoxPanicButton.isChecked()) {
-                    nameValuePairs.add(new BasicNameValuePair("press", "true"));
+                    nameValuePairs.add(new BasicNameValuePair("p", "1"));
+                }
+                if(checkBoxShoe.isChecked()){
+                    nameValuePairs.add(new BasicNameValuePair("s", "1"));
                 }
                 if (checkBoxBattery.isChecked()) {
-                    nameValuePairs.add(new BasicNameValuePair("batt", editTextValueBattery.getText().toString()));
+                    nameValuePairs.add(new BasicNameValuePair("b", editTextValueBattery.getText().toString()));
                 }
                 if (checkBoxGPS.isChecked()) {
-                    nameValuePairs.add(new BasicNameValuePair("latfrom", editTextLat.getText().toString()));
-                    nameValuePairs.add(new BasicNameValuePair("lngfrom", editTextLng.getText().toString()));
+                    nameValuePairs.add(new BasicNameValuePair("la", editTextLat.getText().toString()));
+                    nameValuePairs.add(new BasicNameValuePair("ln", editTextLng.getText().toString()));
                 }
                 if (checkBoxTemperature.isChecked()) {
-                    nameValuePairs.add(new BasicNameValuePair("temp", editTextValueTemperature.getText().toString()));
+                    nameValuePairs.add(new BasicNameValuePair("t", editTextValueTemperature.getText().toString()));
                 }
                 nameValuePairs.add(new BasicNameValuePair("timestamp", "" + Utils.getTimestamp()));
 

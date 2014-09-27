@@ -7,9 +7,12 @@ import android.util.Log;
 
 import com.couchbase.lite.support.CouchbaseLiteApplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.couchdb.modal.MS_Notification;
 import mei.ricardo.pessoa.app.couchdb.modal.Settings;
-import mei.ricardo.pessoa.app.utils.service.MyService;
 
 /**
  * Created by rpessoa on 29/04/14.
@@ -31,7 +34,9 @@ public class Application extends CouchbaseLiteApplication {
     public static String serviceRegisterUrl = "/PhpProjectCouchDB/appregister";
     public static String serviceAddAddNewDevice = "/PhpProjectCouchDB/appAddNewDevice";
     public static String serviceAddMonitoringDeviceUrl = "/PhpProjectCouchDB/devicepost";
-    public static MyService myService = new MyService();
+
+    private static ArrayList<MS_Notification> ms_notificationArrayList = new ArrayList<MS_Notification>();
+
 
     @Override
     public void onCreate() {
@@ -85,4 +90,20 @@ public class Application extends CouchbaseLiteApplication {
     public static Settings getmSettingsinstance() {
         return Settings.getmSettingsinstance();
     }
+
+    public static void addNotificationToShowToUser(List<MS_Notification> arrayListMonitoring) {
+        Application app = (Application) mContext;
+        app.ms_notificationArrayList.addAll(arrayListMonitoring);
+
+        if (app.ms_notificationArrayList.size() > 5) {
+            do {
+                app.ms_notificationArrayList.remove(0);
+            } while (app.ms_notificationArrayList.size() < 5);
+        }
+    }
+
+    public static ArrayList<MS_Notification> getMs_notificationArrayList() {
+        return ms_notificationArrayList;
+    }
+
 }

@@ -175,7 +175,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                     emitter.emit(objDevice.toString(), document);
                 }
             }
-        }, "3.0");
+        }, "1.0");
 
         String MonitoringSensor = "getMonitorSensorByKeys";
         viewGetMonitorSensor = database.getView(String.format("%s/%s", designDocName, MonitoringSensor));
@@ -233,10 +233,10 @@ public class CouchDB extends Service implements Replication.ChangeListener {
             @Override
             public void map(Map<String, Object> document, Emitter emitter) {
                 Object objType = document.get("type");
-                Object objTimestamp = document.get("timestamp");
-                Object objectSeen = document.get("seen");
-                long timestamp = Long.parseLong(objTimestamp.toString());
                 if (objType != null && objType.equals("monitoring_sensor")) {
+                    Object objTimestamp = document.get("timestamp");
+                    Object objectSeen = document.get("seen");
+                    long timestamp = Long.parseLong(objTimestamp.toString());
                     if (timestamp > actualTimestamp) {
                         if (objectSeen != null && objectSeen.equals(false)) {
                             emitter.emit(objTimestamp.toString(), document);
@@ -244,7 +244,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                     }
                 }
             }
-        }, "5.0");
+        }, "2.0");
 
         startLiveQueryMonitoringSensor(liveQueryMonitoringSensors, viewGetMonitoringSensorsFromLastDay);
 
@@ -383,7 +383,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                 } else if (objectSubType.equals(MonitorSensor.SUBTYPE.battery.toString())) {
                     try {
                         MS_Battery ms_battery = new MS_Battery(document);
-                        if(ms_battery.isNecessaryNotify()) {
+                        if (ms_battery.isNecessaryNotify()) {
                             MSNotification.setBatteryNotification(ms_battery);
                         }
                         sensorCount++;
@@ -407,7 +407,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                     MSNotification = new MS_Notification();
                     sensorCount = 0;
                     previousTimestamp = actualTimestamp.toString();
-                } else if(!it.hasNext()){ //case device dont send all sensors
+                } else if (!it.hasNext()) { //case device dont send all sensors
                     MSNotificationList.add(MSNotification);
                     MSNotification = new MS_Notification();
                     sensorCount = 0;
@@ -423,9 +423,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
             intent.setAction(MainActivity.notifyMonitorSensor);
             intent.putExtra(FragmentMyDashboard.passVariableMacAddress, monitorSensorMacAddress);
             Application.getmContext().sendBroadcast(intent);
-
-            FragmentNotification.getFragmentNotification().addNotificationToShowToUser(MSNotificationList);
-
+            Application.addNotificationToShowToUser(MSNotificationList);
         }
 
     }
@@ -467,7 +465,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
             Application.getmContext().sendBroadcast(intent);
         } else if (notifyMonitorSensors) {
             Log.d(TAG, "_Notify -> Monitoring ");
-            intent.setAction(FragmentNotification.notify);
+            //intent.setAction(FragmentNotification.notify);
             Application.getmContext().sendBroadcast(intent);
         } else if (notifySettings) {
             Log.d(TAG, "_Notify -> Settings ");

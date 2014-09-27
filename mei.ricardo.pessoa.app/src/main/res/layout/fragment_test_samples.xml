@@ -2,173 +2,178 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard">
 
     <TextView
-        android:text="Mac Adress:"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="10dp"
-        android:id="@+id/textViewTitle"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:text="Mac Adress:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
+        android:id="@+id/buttonEditSafezoneName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="POST"
-        android:id="@+id/buttonEditSafezoneName"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/editTextValueBattery"
+        android:layout_centerHorizontal="true"
+        android:text="POST" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Lat:"
         android:id="@+id/textView2"
-        android:layout_below="@+id/checkBoxGPS"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PanicButton"
-        android:id="@+id/checkBoxPanicButton"
-        android:layout_below="@+id/textViewTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GPS"
-        android:id="@+id/checkBoxGPS"
-        android:layout_below="@+id/checkBoxPanicButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        />
+        android:layout_below="@+id/checkBoxGPS"
+        android:text="Lat:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
+    <CheckBox
+        android:id="@+id/checkBoxPanicButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewTitle"
+        android:text="PanicButton" />
+    <CheckBox
+        android:id="@+id/checkBoxShoe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/checkBoxPanicButton"
+        android:text="Shoe" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/checkBoxShoe"
+        android:text="GPS" />
+
+    <EditText
         android:id="@+id/editTextLat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2"
         android:layout_toLeftOf="@+id/textViewBatteryValue"
-        android:layout_toStartOf="@+id/textViewBatteryValue" />
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toStartOf="@+id/textViewBatteryValue"
+        android:ems="10"
+        android:inputType="numberDecimal" />
 
     <TextView
+        android:id="@+id/textViewBatteryValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Lng:"
-        android:id="@+id/textViewBatteryValue"
         android:layout_below="@+id/checkBoxGPS"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="Lng:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
+        android:id="@+id/editTextLng"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editTextLng"
-        android:layout_toEndOf="@+id/textViewBatteryValue"
-        android:layout_toStartOf="@+id/textViewBatteryValue"
         android:layout_alignBottom="@+id/textViewBatteryValue"
-        android:layout_toRightOf="@+id/textViewBatteryValue"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toEndOf="@+id/textViewBatteryValue"
+        android:layout_toRightOf="@+id/textViewBatteryValue"
+        android:layout_toStartOf="@+id/textViewBatteryValue"
+        android:ems="10"
+        android:inputType="numberDecimal" />
 
     <CheckBox
+        android:id="@+id/checkBoxTemperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Temperature"
-        android:id="@+id/checkBoxTemperature"
-        android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:checked="false" />
+        android:layout_below="@+id/textView2"
+        android:checked="false"
+        android:text="Temperature" />
 
     <TextView
+        android:id="@+id/textViewName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Value(cº)"
-        android:id="@+id/textViewName"
-        android:layout_below="@+id/checkBoxTemperature"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/checkBoxTemperature"
+        android:text="Value(cº)"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
+        android:id="@+id/editTextValueTemperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editTextValueTemperature"
-        android:layout_toEndOf="@+id/textViewName"
-        android:layout_toStartOf="@+id/textViewBatteryValue"
         android:layout_alignBottom="@+id/textViewName"
-        android:layout_toRightOf="@+id/textViewName"
+        android:layout_alignEnd="@+id/editTextLng"
         android:layout_alignRight="@+id/editTextLng"
-        android:layout_alignEnd="@+id/editTextLng" />
+        android:layout_toEndOf="@+id/textViewName"
+        android:layout_toRightOf="@+id/textViewName"
+        android:layout_toStartOf="@+id/textViewBatteryValue"
+        android:ems="10"
+        android:inputType="numberDecimal" />
 
     <CheckBox
+        android:id="@+id/checkBoxBattery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Battery:"
-        android:id="@+id/checkBoxBattery"
-        android:checked="false"
-        android:layout_below="@+id/textViewName"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewName"
+        android:checked="false"
+        android:text="Battery:" />
 
     <TextView
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Value(%)"
-        android:id="@+id/textView5"
-        android:layout_below="@+id/checkBoxBattery"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/checkBoxBattery"
+        android:text="Value(%)"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
+        android:id="@+id/editTextValueBattery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editTextValueBattery"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_alignEnd="@+id/editTextLng"
+        android:layout_alignLeft="@+id/editTextValueTemperature"
+        android:layout_alignRight="@+id/editTextLng"
+        android:layout_alignStart="@+id/editTextValueTemperature"
         android:layout_toEndOf="@+id/textViewName"
         android:layout_toStartOf="@+id/textViewBatteryValue"
-        android:layout_alignBottom="@+id/textView5"
-        android:layout_alignLeft="@+id/editTextValueTemperature"
-        android:layout_alignStart="@+id/editTextValueTemperature"
-        android:layout_alignRight="@+id/editTextLng"
-        android:layout_alignEnd="@+id/editTextLng" />
+        android:ems="10"
+        android:inputType="numberDecimal" />
 
     <EditText
+        android:id="@+id/editTextMacAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editTextMacAddress"
+        android:layout_alignBottom="@+id/textViewTitle"
+        android:layout_alignEnd="@+id/editTextValueTemperature"
+        android:layout_alignRight="@+id/editTextValueTemperature"
         android:layout_toEndOf="@+id/textViewTitle"
         android:layout_toStartOf="@+id/textViewBatteryValue"
-        android:text="az"
-        android:layout_alignBottom="@+id/textViewTitle"
-        android:layout_alignRight="@+id/editTextValueTemperature"
-        android:layout_alignEnd="@+id/editTextValueTemperature" />
+        android:text="az" />
 
 
 </RelativeLayout>

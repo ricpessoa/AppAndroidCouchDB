@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
-import com.couchbase.lite.replicator.Replication;
 
 import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
@@ -30,6 +29,7 @@ import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.ui.Navigation.NavigationDrawerFragment;
 import mei.ricardo.pessoa.app.ui.user.LoginActivity;
 import mei.ricardo.pessoa.app.R;
+import mei.ricardo.pessoa.app.utils.service.AppService;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private static String TAG = MainActivity.class.getName();
@@ -85,6 +85,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         CouchDB.getmCouchDBinstance();
         Settings.getmSettingsinstance();
         //startService(new Intent(this, CouchDB.class));
+        startService(new Intent(this, AppService.class));
 
         Log.d(TAG, "read db from " + Application.getDbname());
 
