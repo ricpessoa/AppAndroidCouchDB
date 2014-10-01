@@ -35,6 +35,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.MS_Notification;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Shoe;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
@@ -376,6 +377,14 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                     try {
                         MS_PanicButton ms_panicButton = new MS_PanicButton(document);
                         MSNotification.setPanicButtonNotification(ms_panicButton);
+                        sensorCount++;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else if (objectSubType.equals(MonitorSensor.SUBTYPE.shoe.toString())) {
+                    try {
+                        MS_Shoe ms_shoe = new MS_Shoe(document);
+                        MSNotification.setShoeNotification(ms_shoe);
                         sensorCount++;
                     } catch (Exception e) {
                         e.printStackTrace();

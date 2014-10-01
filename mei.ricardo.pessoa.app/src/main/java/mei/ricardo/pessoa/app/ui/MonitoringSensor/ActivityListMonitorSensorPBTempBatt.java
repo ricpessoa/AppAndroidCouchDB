@@ -56,6 +56,8 @@ public class ActivityListMonitorSensorPBTempBatt extends ActionBarActivity imple
             getActionBar().setTitle("List of "+Device.devicesTypesString[2]);
         }else if(typeDevice.equals(Device.DEVICESTYPE.battery.toString())){
             getActionBar().setTitle("List of "+Device.devicesTypesString[3]);
+        }else if(typeDevice.equals(Device.DEVICESTYPE.shoe.toString())){
+            getActionBar().setTitle("List of "+Device.devicesTypesString[4]);
         }
         listViewOfMonitoringSensors = (ListView) findViewById(R.id.listOfMonitorSensor);
 

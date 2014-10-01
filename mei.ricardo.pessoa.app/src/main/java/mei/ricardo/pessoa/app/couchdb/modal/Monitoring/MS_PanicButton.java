@@ -35,13 +35,4 @@ public class MS_PanicButton extends MonitorSensor {
         return null;
     }
 
-    /**Don't need already know that button panic was pressed and the time*/
-//    public static void getSensorPanicButtonByMacAddressAndSubtype(String macAddress, String timestamp, int numberResults) {
-//        QueryEnumerator rowEnum = MonitorSensor.getMonitorSensorByMacAddressSubtypeTimestamp(macAddress, Device.DEVICESTYPE.panic_button.toString(), timestamp, numberResults);
-//        for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
-//                QueryRow row = it.next();
-//                    Document document = row.getDocument();
-//                    MS_PanicButton ms_panicButton = new MS_PanicButton(String pressed,String mac_address, String subType, String timestamp);
-//            }
-//    }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mei.ricardo.pessoa.app">
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- Required to show current location -->
@@ -133,6 +134,7 @@
             android:name=".ui.Sensor.Safezone.ActivitySafezoneEditMap"
             android:label="@string/title_activity_activity_safezone_edit_map"
             android:launchMode="singleTop"> <!-- singleTop to not open a new activity -->
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -140,10 +142,6 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.Fragments.FragmentMyDevices" />
         </activity>
         <activity
             android:name=".ui.Sensor.Temperature.ActivityTemperature"
@@ -169,6 +167,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.Fragments.FragmentMyDashboard" />
         </activity>
+
         <receiver android:name=".utils.service.BootCompletedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

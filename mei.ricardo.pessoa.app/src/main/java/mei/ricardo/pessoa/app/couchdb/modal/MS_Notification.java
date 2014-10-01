@@ -17,6 +17,7 @@ import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_PanicButton;
+import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Shoe;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.MainActivity;
@@ -30,6 +31,8 @@ public class MS_Notification {
     private MS_Battery batteryNotification;
     private MS_Temperature temperatureNotification;
     private boolean panicButtonPressed;
+    private MS_Shoe shoeNotification;
+    private boolean shoeRemoved;
 
     public MS_Notification() {
     }
@@ -41,6 +44,15 @@ public class MS_Notification {
     public void setPanicButtonNotification(MS_PanicButton panicButtonNotification) {
         this.panicButtonNotification = panicButtonNotification;
         this.panicButtonPressed = true;
+    }
+
+    public void setShoeNotification(MS_Shoe shoeNotification) {
+        this.shoeNotification = shoeNotification;
+        this.shoeRemoved = true;
+    }
+
+    public MS_Shoe getShoeNotification() {
+        return shoeNotification;
     }
 
     public MS_GPS getGpsNotification() {
@@ -71,6 +83,8 @@ public class MS_Notification {
         ArrayList<MonitorSensor> monitorSensorArrayList = new ArrayList<MonitorSensor>();
         if (getPanicButtonNotification() != null)
             monitorSensorArrayList.add(getPanicButtonNotification());
+        if (getShoeNotification() != null)
+            monitorSensorArrayList.add(getShoeNotification());
         if (getGpsNotification() != null)
             monitorSensorArrayList.add(getGpsNotification());
         if (getTemperatureNotification() != null)
@@ -86,6 +100,8 @@ public class MS_Notification {
         String show = "MS_Notification \n";
         if (getPanicButtonNotification() != null)
             show += "panicButtonNotification pressed";
+        if (getShoeNotification() != null)
+            show += "shoeNotification removed";
         if (getGpsNotification() != null)
             show += "gpsNotification = " + gpsNotification.notification;
         if (getBatteryNotification() != null)
@@ -96,11 +112,20 @@ public class MS_Notification {
         return show;
     }
 
-    private String[] fillNotificationStriongArray() {
+    private String[] fillNotificationStringArray() {
         ArrayList<String> notificationString = new ArrayList<String>();
         if (panicButtonPressed) {
             if (getPanicButtonNotification() != null)
                 notificationString.add("Button Panic Button was pressed");
+            if (getGpsNotification() != null)
+                notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
+            if (getTemperatureNotification() != null)
+                notificationString.add("Temperature: " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue());
+            if (getBatteryNotification() != null)
+                notificationString.add("Battery: " + batteryNotification.getNotification() + " - " + batteryNotification.getValue());
+        } else if (shoeRemoved) {
+            if (getShoeNotification() != null)
+                notificationString.add("The Shoe was removed");
             if (getGpsNotification() != null)
                 notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
             if (getTemperatureNotification() != null)
@@ -149,10 +174,10 @@ public class MS_Notification {
 
         String[] events = new String[6];
         //for (int i = 0; i < MSNotificationList.size(); i++) {
-        //    events = MSNotificationList.get(i).fillNotificationStriongArray();
+        //    events = MSNotificationList.get(i).fillNotificationStringArray();
         // }
 
-        events = MSNotificationList.get(0).fillNotificationStriongArray();
+        events = MSNotificationList.get(0).fillNotificationStringArray();
 
 
         // Sets a title for the Inbox style big view

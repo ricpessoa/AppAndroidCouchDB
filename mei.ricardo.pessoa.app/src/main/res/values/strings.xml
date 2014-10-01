@@ -102,11 +102,13 @@
     <string name="title_activity_config_sensor">Configuration Sensor</string>
     <string name="title_activity_sensors">List of Sensors</string>
 
-    <!-- strings List Safezone Activity -->
+    <!-- strings List DeviceRow Activity -->
     <string name="title_activity_list_safezones">List of Safezones</string>
     <string name="str_addSafezone">Add Safezone</string>
+    <string name="str_do_not_have_safezones">Do not have safezones to add press "Add Safezone"</string>
 
-    <!-- strings Safezone Activity -->
+
+    <!-- strings DeviceRow Activity -->
     <string name="title_activity_safezone">Safezone</string>
     <string name="str_button_editRadius">Edit Radius</string>
     <string name="str_button_editNameSafezone">Edit Name</string>
@@ -114,14 +116,14 @@
     <string name="str_button_editSafezone">Edit Location</string>
     <string name="str_button_deleteSafezone">Delete Safezone</string>
 
-    <!-- strings edit Safezone Activity -->
+    <!-- strings edit DeviceRow Activity -->
     <string name="title_activity_activity_edit_name_safezone">ActivityEditNameSafezone</string>
     <string name="str_editNameOfSafezone">Name Of Safezone:</string>
     <string name="str_editNotificationOfSafezone">Notification of Safezone</string>
     <string name="str_button_update">Update</string>
     <string name="str_button_save">Save</string>
 
-    <!-- strings edit Safezone EDIT MAP Activity -->
+    <!-- strings edit DeviceRow EDIT MAP Activity -->
     <string name="title_activity_activity_safezone_edit_map">ActivitySafezoneEditMap</string>
     <string name="str_search_adress">Search Address</string>
     <string name="str_radius">Radius:</string>

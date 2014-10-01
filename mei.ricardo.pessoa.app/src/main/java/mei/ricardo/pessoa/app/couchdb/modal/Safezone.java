@@ -159,7 +159,7 @@ public class Safezone {
                     Safezone safezone = new Safezone(document.getId(), document.getProperty("address").toString(), document.getProperty("name").toString(), document.getProperty("latitude").toString(), document.getProperty("longitude").toString(), document.getProperty("radius").toString(), document.getProperty("notification").toString(), document.getProperty("timestamp").toString(), document.getProperty("device").toString());
                     arrayListSafezones.add(safezone);
                 } catch (Exception ex) {
-                    Log.e(TAG, "Safezone error parse");
+                    Log.e(TAG, "DeviceRow error parse");
                 }
 
             }

@@ -71,9 +71,11 @@ public class MS_GPS extends MonitorSensor {
     public Drawable getImage() {
         if (notification.equals(NOTIFICATIONTYPE[0])) {
             return Application.getmContext().getResources().getDrawable(R.drawable.check_in);
-        } else {
+        } else if(notification.equals(NOTIFICATIONTYPE[1])){
             return Application.getmContext().getResources().getDrawable(R.drawable.check_out);
-        }
+        }else
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_location);
+
     }
 
     public static ArrayList<MS_GPS> getSensorGPSByMacAddressTimestamp(String macAddress, String timestamp, int numberResults) {

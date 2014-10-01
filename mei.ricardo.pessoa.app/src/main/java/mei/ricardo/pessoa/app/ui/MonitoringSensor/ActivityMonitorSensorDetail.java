@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,6 +38,8 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
     private String subtype;
 
     boolean ms_panicButton;
+    boolean ms_shoe;
+
     MS_GPS ms_gps;
     MS_Temperature ms_temperature;
     MS_Battery ms_battery;
@@ -66,10 +69,10 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
         if (subtype != null && subtype.equals(MonitorSensor.SUBTYPE.panic_button.toString())) {
             //show all information
             ms_panicButton = true;
-            ms_gps = MS_GPS.getSensorGPSByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
-            ms_temperature = MS_Temperature.getSensorTemperatureByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
-            ms_battery = MS_Battery.getSensorBatteryByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
-
+            getAllTypeOfMonitoringToShow();
+        } else if (subtype != null && subtype.equals(MonitorSensor.SUBTYPE.shoe.toString())) {
+            ms_shoe = true;
+            getAllTypeOfMonitoringToShow();
         } else if (subtype != null && subtype.equals(MonitorSensor.SUBTYPE.GPS.toString())) {
             //show onlyGPS
             ms_gps = MS_GPS.getSensorGPSByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
@@ -79,9 +82,25 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
             //Battery
             ms_battery = MS_Battery.getSensorBatteryByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
         }
-
         initView();
+    }
 
+    private void getAllTypeOfMonitoringToShow() {
+        try {
+            ms_gps = MS_GPS.getSensorGPSByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
+        } catch (IndexOutOfBoundsException ex) {
+            Log.d(TAG, "not exit any sensor GPS");
+        }
+        try {
+            ms_temperature = MS_Temperature.getSensorTemperatureByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
+        } catch (IndexOutOfBoundsException ex) {
+            Log.d(TAG, "not exit any sensor Temperature");
+        }
+        try {
+            ms_battery = MS_Battery.getSensorBatteryByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
+        } catch (IndexOutOfBoundsException ex) {
+            Log.d(TAG, "not exit any sensor Battery");
+        }
     }
 
     private void initView() {
@@ -89,6 +108,9 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
         imageView_ms_monitor_sensor = (ImageView) findViewById(R.id.imageView_ms_monitor_sensor);
         if (ms_panicButton) {
             textViewTitle.setText(Device.devicesTypesString[0] + " Details");
+            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.panic_button));
+        } else if (ms_shoe) {
+            textViewTitle.setText(Device.devicesTypesString[4] + " Details");
             imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.panic_button));
         } else if (ms_gps != null) {
             textViewTitle.setText(Device.devicesTypesString[1] + " Details");

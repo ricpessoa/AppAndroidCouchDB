@@ -9,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -68,9 +69,9 @@ public class ActivitySafezoneEditMap extends Activity {
         }
 
         if (safezoneID != null && safezone != null) {
-            Log.d(TAG, "Safezone to edit");
+            Log.d(TAG, "DeviceRow to edit");
         } else {
-            Log.d(TAG, "Safezone to insert");
+            Log.d(TAG, "DeviceRow to insert");
             insertNewSafezone = true;
         }
         try {
@@ -221,7 +222,12 @@ public class ActivitySafezoneEditMap extends Activity {
             }
 
             return true;
+        } else if (id == android.R.id.home) {
+            //NavUtils.navigateUpFromSameTask(this);
+            finish();
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -260,7 +266,7 @@ public class ActivitySafezoneEditMap extends Activity {
         @Override
         protected void onPostExecute(List<Address> adds) { // runs on the UI thread
             if (adds == null || adds.size() == 0) {
-                Log.d(TAG, "address Safezone not find");
+                Log.d(TAG, "address DeviceRow not find");
                 return;
             }
             if (!this.isCancelled()) {
@@ -269,7 +275,7 @@ public class ActivitySafezoneEditMap extends Activity {
                 safezone.setAddress(newAddress);
                 safezone.setLatitude(latLng.latitude);
                 safezone.setLongitude(latLng.longitude);
-                //Log.d(TAG, "Safezone address updated to: " + newAddress);
+                //Log.d(TAG, "DeviceRow address updated to: " + newAddress);
                 marker.setTitle(newAddress);
 
                 if (marker.isInfoWindowShown()) {

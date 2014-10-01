@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
@@ -24,14 +23,16 @@ import mei.ricardo.pessoa.app.utils.DeviceRow;
 public class Device {
     private static String TAG = Device.class.getName();
     public static String type = "device";
+
     public enum DEVICESTYPE {
         panic_button,
         GPS,
         temperature,
-        battery
+        battery,
+        shoe,
     }
 
-    public static String[] devicesTypesString = {"Panic Button", "GPS", "Temperature", "Battery"};
+    public static String[] devicesTypesString = {"Panic Button", "GPS", "Temperature", "Battery", "Shoe"};
 
     private String mac_address;
     private String name_device;
@@ -41,7 +42,7 @@ public class Device {
     private boolean monitoring;
     private boolean isDeleted;
     private String owner;
-    private boolean showPanicButton = false, showSafezone = false, showTemperature = false, showBattery = false;
+    private boolean showPanicButton = false, showSafezone = false, showTemperature = false, showBattery = false, showShoe = false;
     private ArrayList<Sensor> arrayListSensors = null;
 
     public Device() {
@@ -63,6 +64,7 @@ public class Device {
         LinkedHashMap<String, String> deviceHaspMap = new LinkedHashMap<String, String>();
         com.couchbase.lite.View view = CouchDB.viewGetDevicesMonitoring;
         Query query = view.createQuery();
+        query.setDescending(true);
         try {
             QueryEnumerator rowEnum = query.run();
             for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
@@ -107,6 +109,7 @@ public class Device {
 
         com.couchbase.lite.View view = CouchDB.viewGetDevices;
         Query query = view.createQuery();
+        query.setDescending(true);
         try {
             QueryEnumerator rowEnum = query.run();
             for (Iterator<QueryRow> it = rowEnum; it.hasNext(); ) {
@@ -175,23 +178,27 @@ public class Device {
                 SensorBattery sensorBattery = new SensorBattery(isEnable);
                 sensorBattery.parseSensorBattery(value);
                 arrayListSensors.add(sensorBattery);
+            } else if (type.equals(DEVICESTYPE.shoe.toString())) {
+                showShoe = true;
+                SensorShoe sensorShoe = new SensorShoe(isEnable);
+                arrayListSensors.add(sensorShoe);
             }
         }
     }
 
 
-    public void testeDecideIfNeedNotification(String typeSensorToCompare){
-        for (Sensor s : arrayListSensors){
-            if(s.getType().equals(typeSensorToCompare)){
-                Log.d(TAG,"Sensor: "+s.getName_sensor()+" enable? "+s.isEnable()+" ");
-                if (s instanceof SensorBattery){
+    //TODO: need verify is to notify on GPS if Check in or check out
+    public void testeDecideIfNeedNotification(String typeSensorToCompare) {
+        for (Sensor s : arrayListSensors) {
+            if (s.getType().equals(typeSensorToCompare)) {
+                Log.d(TAG, "Sensor: " + s.getName_sensor() + " enable? " + s.isEnable() + " ");
+                if (s instanceof SensorBattery) {
                     SensorBattery sb = (SensorBattery) s;
-                    Log.d(TAG,"Battery: critical"+sb.getCritical_battery()+" low"+sb.getLow_battery()+" ");
-                }else if(s instanceof  SensorTemperature){
-                    SensorTemperature st = (SensorTemperature)s;
-                    Log.d(TAG,"temperature: low"+st.getMin_temperature()+" max"+st.getMax_temperature()+" ");
+                    Log.d(TAG, "Battery: critical" + sb.getCritical_battery() + " low" + sb.getLow_battery() + " ");
+                } else if (s instanceof SensorTemperature) {
+                    SensorTemperature st = (SensorTemperature) s;
+                    Log.d(TAG, "temperature: low" + st.getMin_temperature() + " max" + st.getMax_temperature() + " ");
                 }
-                //TODO: verify SensorGPS notification standard notify always
             }
         }
     }
@@ -279,8 +286,8 @@ public class Device {
         }
         return sensors;
     }
-
-    public String[] getSensorsToShowInArrayString() {
+    //TODO: delete
+    /*public String[] getSensorsToShowInArrayString() {
         ArrayList<String> arrayListSensors = new ArrayList<String>();
         if (showPanicButton)
             arrayListSensors.add(devicesTypesString[0]);
@@ -290,11 +297,13 @@ public class Device {
             arrayListSensors.add(devicesTypesString[2]);
         if (showBattery)
             arrayListSensors.add(devicesTypesString[3]);
+        if (showShoe)
+            arrayListSensors.add(devicesTypesString[4]);
 
         String[] sensors = new String[arrayListSensors.size()];
         sensors = arrayListSensors.toArray(sensors);
         return sensors;
-    }
+    }*/
 
     public boolean isMonitoring() {
         return monitoring;
@@ -318,6 +327,10 @@ public class Device {
 
     public boolean isShowBattery() {
         return showBattery;
+    }
+
+    public boolean isShowShoe() {
+        return showShoe;
     }
 
     public ArrayList<Sensor> getArrayListSensors() {
@@ -344,10 +357,10 @@ public class Device {
         this.name_device = name_device;
     }
 
-    public String getNameOrMacAdress(){
-        if(this.getName_device()!=null && !this.getName_device().trim().equals("")){
+    public String getNameOrMacAdress() {
+        if (this.getName_device() != null && !this.getName_device().trim().equals("")) {
             return name_device;
-        }else{
+        } else {
             return mac_address;
         }
     }

@@ -36,7 +36,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
     private String IDSafezone;
     private Safezone safezone;
 
-    public static final String notify = "mei.ricardo.pessoa.app.ui.Sensor.Safezone";
+    public static final String notify = "mei.ricardo.pessoa.app.ui.Sensor.DeviceRow";
     private DeviceBroadcastReceiver deviceBroadcastReceiver = null;
 
     @Override
@@ -152,7 +152,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast of Safezone ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "I Receive a broadcast of DeviceRow ", Toast.LENGTH_SHORT).show();
             refreshActivity();
         }
     }

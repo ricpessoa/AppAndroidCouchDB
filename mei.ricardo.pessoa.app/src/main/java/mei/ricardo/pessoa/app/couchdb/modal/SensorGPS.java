@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class SensorGPS extends Sensor {
     private static String TAG = SensorGPS.class.getCanonicalName();
-    //private ArrayList<Safezone> safezoneArrayList = new ArrayList<Safezone>();
+    //private ArrayList<DeviceRow> safezoneArrayList = new ArrayList<DeviceRow>();
 
     public SensorGPS() {
         super("Sensor GPS", Device.DEVICESTYPE.GPS.toString());
@@ -18,17 +18,17 @@ public class SensorGPS extends Sensor {
     }
 
 
-//    public ArrayList<Safezone> getSafezoneArrayList() {
+//    public ArrayList<DeviceRow> getSafezoneArrayList() {
 //        return safezoneArrayList;
 //    }
 //
-//    public void setSafezoneArrayList(ArrayList<Safezone> safezoneArrayList) {
+//    public void setSafezoneArrayList(ArrayList<DeviceRow> safezoneArrayList) {
 //        this.safezoneArrayList = safezoneArrayList;
 //    }
 //
 //    public static void getSafezone(int Device_ID, Sensor sensorGPS) {
 //        //get safezones Array
-//        ArrayList<Safezone> arrayListOfSafezones = new ArrayList<Safezone>();
+//        ArrayList<DeviceRow> arrayListOfSafezones = new ArrayList<DeviceRow>();
 //
 //    }
 }

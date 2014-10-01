@@ -28,9 +28,9 @@ public class MonitorSensor implements InterfaceItem {
     private static String TAG = MonitorSensor.class.getName();
     public static String type = "monitoring_sensor";
 
-    public enum SUBTYPE {panic_button, GPS, temperature, battery}
+    public enum SUBTYPE {panic_button, GPS, temperature, battery, shoe}
 
-    public static String[] subtypeSections = {"Sensor Panic Button", "Sensor GPS", "Sensor Temperature", "Battery Level"};
+    public static String[] subtypeSections = {"Sensor Panic Button", "Sensor GPS", "Sensor Temperature", "Battery Level", "Shoe Removed"};
     public String subtype;
     public String timestamp;
     public String mac_address;
@@ -116,6 +116,13 @@ public class MonitorSensor implements InterfaceItem {
                     } catch (Exception ex) {
                         Log.e(TAG, "Error Panic Button parse error value or other some reason");
                     }
+                } else if (subType.equals(SUBTYPE.shoe.toString())) {
+                    try {
+                        MS_Shoe ms_shoe = new MS_Shoe(document.getProperty("removed").toString(), macAddress, subType, document.getProperty("timestamp").toString());
+                        arrayList.add(ms_shoe);
+                    } catch (Exception ex) {
+                        Log.e(TAG, "Error Shoe parse error value or other some reason");
+                    }
                 } else if (subType.equals(SUBTYPE.battery.toString())) {
                     try {
                         MS_Battery ms_battery = new MS_Battery(document.getProperty("value").toString(), document.getProperty("notification").toString(), macAddress, subType, document.getProperty("timestamp").toString());
@@ -186,11 +193,19 @@ public class MonitorSensor implements InterfaceItem {
             MS_Battery ms_battery = (MS_Battery) this;
             return "Battery Level " + ms_battery.getValue() + "%";
         } else if (this.getClass() == MS_PanicButton.class) {
-            MS_PanicButton ms_panicButton = (MS_PanicButton) this;
+            //MS_PanicButton ms_panicButton = (MS_PanicButton) this;
             return "Panic Button pressed";
+        }else if (this.getClass() == MS_Shoe.class) {
+            //MS_Shoe ms_Shoe = (MS_Shoe) this;
+            return "The shoe was removed";
         }
-        MS_NotHave ms_notHave = (MS_NotHave) this;
-        return "Not yet received any information from " + ms_notHave.getSubtype() + " sensor!";
+        try {
+            MS_NotHave ms_notHave = (MS_NotHave) this;
+            return "Not yet received any information from " + ms_notHave.getSubtype() + " sensor!";
+        } catch (ClassCastException ex) {
+            Log.e(TAG, "Error class exception. a new type of sensor???");
+        }
+        return null;
     }
 
     public String getTextToShowInFragmentNotification() {
@@ -216,6 +231,10 @@ public class MonitorSensor implements InterfaceItem {
             MS_PanicButton ms_panicButton = (MS_PanicButton) this;
             str_construct += " in " + Utils.ConvertTimestampToDateFormat(ms_panicButton.getTimestamp()) + "\n";
             return str_construct + "Panic Button pressed";
+        }else if (this.getClass() == MS_Shoe.class) {
+            MS_Shoe ms_shoe = (MS_Shoe) this;
+            str_construct += " in " + Utils.ConvertTimestampToDateFormat(ms_shoe.getTimestamp()) + "\n";
+            return str_construct + "Shoe was removed";
         }
         return null;
     }

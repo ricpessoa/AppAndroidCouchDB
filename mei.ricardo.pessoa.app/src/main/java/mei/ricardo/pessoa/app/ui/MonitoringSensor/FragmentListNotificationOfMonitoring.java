@@ -108,6 +108,13 @@ public class FragmentListNotificationOfMonitoring extends ListFragment {
                     arrayOfMonitoring.addAll(arrayList);
                 }
             }
+            if (tempDevice.isShowShoe()) {
+                arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "shoe", 1);
+                if (arrayList.size() > 0) {
+                    arrayOfMonitoring.add(new SectionItem(MonitorSensor.subtypeSections[4], Device.DEVICESTYPE.shoe.toString(), deviceID, arrayList));
+                    arrayOfMonitoring.addAll(arrayList);
+                }
+            }
             if (tempDevice.isShowSafezone()) {
                 arrayList = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(deviceID, "GPS", 4);
                 if (arrayList.size() > 0) {
@@ -155,8 +162,5 @@ public class FragmentListNotificationOfMonitoring extends ListFragment {
 
             }
         }
-
-
     }
-
 }
