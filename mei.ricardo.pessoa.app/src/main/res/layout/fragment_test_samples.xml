@@ -28,7 +28,7 @@
         android:text="POST" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -67,10 +67,10 @@
         android:id="@+id/editTextLat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
+        android:layout_alignBottom="@+id/textViewTN"
+        android:layout_toEndOf="@+id/textViewTN"
         android:layout_toLeftOf="@+id/textViewBatteryValue"
-        android:layout_toRightOf="@+id/textView2"
+        android:layout_toRightOf="@+id/textViewTN"
         android:layout_toStartOf="@+id/textViewBatteryValue"
         android:ems="10"
         android:inputType="numberDecimal" />
@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/textViewTN"
         android:checked="false"
         android:text="Temperature" />
 
@@ -141,7 +141,7 @@
         android:text="Battery:" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textViewTC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -154,7 +154,7 @@
         android:id="@+id/editTextValueBattery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView5"
+        android:layout_alignBottom="@+id/textViewTC"
         android:layout_alignEnd="@+id/editTextLng"
         android:layout_alignLeft="@+id/editTextValueTemperature"
         android:layout_alignRight="@+id/editTextLng"

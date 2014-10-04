@@ -47,6 +47,9 @@ dependencies {
     // hack to add .so objects
     compile fileTree(dir: 'libs', include: 'td_collator_so.jar')
     compile fileTree(dir: 'libs', include: 'nineoldandroids-2.4.0.jar')
+    //https://github.com/tkeunebr/gravatar-android
+    compile fileTree(dir: 'libs', include: 'gravatar-android-1.0.jar')
+
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     //http://docs.couchbase.com/couchbase-lite/cbl-android/cbl-android-1.0b2/
     //exist one new api couchdb base lite

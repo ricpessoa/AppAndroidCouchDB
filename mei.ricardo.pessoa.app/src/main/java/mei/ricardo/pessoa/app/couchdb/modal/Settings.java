@@ -1,6 +1,7 @@
 package mei.ricardo.pessoa.app.couchdb.modal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.couchbase.lite.CouchbaseLiteException;
@@ -11,7 +12,9 @@ import org.apache.http.auth.NTUserPrincipal;
 import java.util.HashMap;
 import java.util.Map;
 
+import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
+import mei.ricardo.pessoa.app.utils.service.AppService;
 
 /**
  * Created by rpessoa on 07/08/14.
@@ -20,10 +23,9 @@ public class Settings {
     private static String TAG = Settings.class.getCanonicalName();
     public static String type = "settings";
 
-    private static Settings mSettingsintance = null;
+    private static Settings mSettingsinstance = null;
     private boolean monitoring;
     private boolean sounds;
-    private static Settings mSettingsinstance;
 
     /**
      * this constructor is used when app not have settings
@@ -39,7 +41,7 @@ public class Settings {
     }
 
     public static Settings getmSettingsinstance() {
-        if (mSettingsintance != null)
+        if (mSettingsinstance != null)
             return mSettingsinstance;
         else {
             //for the first time try get from db
@@ -91,6 +93,19 @@ public class Settings {
 
     public void setMonitoring(boolean monitoring) {
         this.monitoring = monitoring;
+        if (monitoring == false) {
+            Log.d(TAG,"monitoring false");
+            if (AppService.appService != null) {
+                Log.d(TAG,"stopping service");
+                AppService.appService.stopSelf();
+            }
+        } else {
+            Log.d(TAG,"monitoring true");
+            if (AppService.appService != null) {
+                Log.d(TAG,"start service");
+                Application.getmContext().startService(new Intent(Application.getmContext(), AppService.class));
+            }
+        }
     }
 
     public boolean isSounds() {

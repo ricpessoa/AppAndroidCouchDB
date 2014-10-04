@@ -20,6 +20,7 @@ public class Profile {
     private final String doc_mobile_phone = "mobile_phone";
 
     private String name, email, full_name, country, mobile_phone;
+    private Integer numberOfDevice;
 
     private Profile() {
     }
@@ -43,7 +44,7 @@ public class Profile {
         tempProfile.full_name = document.getProperty(tempProfile.doc_full_name).toString();
         tempProfile.country = document.getProperty(tempProfile.doc_country).toString();
         tempProfile.mobile_phone = document.getProperty(tempProfile.doc_mobile_phone).toString();
-
+        tempProfile.numberOfDevice = Device.getAllDevicesNotDeleted().size();
         return tempProfile;
     }
 
@@ -85,5 +86,9 @@ public class Profile {
 
     public void setMobile_phone(String mobile_phone) {
         this.mobile_phone = mobile_phone;
+    }
+
+    public Integer getNumberOfDevice() {
+        return numberOfDevice;
     }
 }

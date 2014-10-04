@@ -37,13 +37,14 @@ public class SettingsActivity extends PreferenceActivity {
     CheckBoxPreference checkBoxPreferenceSound;
     Preference preferenceLogout;
 
+    Settings settingsOfAppM;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        Settings settingsOfApp = Settings.getmSettingsinstance();
-        Log.d(TAG, settingsOfApp.toString());
+        settingsOfAppM = Settings.getmSettingsinstance();
         setupPreferences();
     }
 
@@ -70,8 +71,8 @@ public class SettingsActivity extends PreferenceActivity {
 
     private void setupPreferences() {
 
-        checkBoxPreferenceNotifications = (CheckBoxPreference)  findPreference("checkbox_preference_notifications");
-        checkBoxPreferenceSound = (CheckBoxPreference)  findPreference("checkbox_preference_sound");
+        checkBoxPreferenceNotifications = (CheckBoxPreference) findPreference("checkbox_preference_notifications");
+        checkBoxPreferenceSound = (CheckBoxPreference) findPreference("checkbox_preference_sound");
 
         checkBoxPreferenceNotifications.setChecked(Settings.getmSettingsinstance().isMonitoring());
         checkBoxPreferenceSound.setChecked(Settings.getmSettingsinstance().isSounds());
@@ -80,7 +81,7 @@ public class SettingsActivity extends PreferenceActivity {
         checkBoxPreferenceNotifications.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-
+                settingsOfAppM.setMonitoring(!settingsOfAppM.isMonitoring());
                 return false;
             }
         });
@@ -88,6 +89,7 @@ public class SettingsActivity extends PreferenceActivity {
         checkBoxPreferenceSound.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                settingsOfAppM.setSounds(!settingsOfAppM.isSounds());
                 return false;
             }
         });

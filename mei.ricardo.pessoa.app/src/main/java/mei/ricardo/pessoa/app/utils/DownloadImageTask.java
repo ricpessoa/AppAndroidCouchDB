@@ -8,6 +8,9 @@ import android.widget.ImageView;
 
 import java.io.InputStream;
 
+import mei.ricardo.pessoa.app.Application;
+import mei.ricardo.pessoa.app.R;
+
 /**
  * Created by rpessoa on 14/07/14.
  */
@@ -33,6 +36,10 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected void onPostExecute(Bitmap result) {
+        if (result == null) {
+            bmImage.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.ic_img_not_found));
+            return;
+        }
         bmImage.setImageBitmap(result);
     }
 }

@@ -1,239 +1,171 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:id="@+id/imageViewDevice"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/ic_img_not_found" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_username"
-        android:id="@+id/textView1"
-        android:layout_alignTop="@+id/imageViewDevice"
-        android:layout_toRightOf="@+id/imageViewDevice"
-        android:layout_toEndOf="@+id/imageViewDevice"
-        android:layout_marginLeft="10dp" />
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="username"
-        android:id="@+id/textViewUsername"
-        android:layout_below="@+id/textView1"
-        android:layout_toRightOf="@+id/imageViewDevice"
-        android:layout_toEndOf="@+id/imageViewDevice"
-        android:layout_marginLeft="10dp" />
+        <ImageView
+            android:id="@+id/imageViewUser"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_img_not_found"
+            android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_name"
-        android:id="@+id/textView2"
-        android:textIsSelectable="false"
-        android:layout_below="@+id/imageViewDevice"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
+        <TextView
+            android:id="@+id/textViewTU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageViewUser"
+            android:layout_marginTop="15dp"
+            android:text="@string/str_title_username"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textViewName"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
-        android:layout_marginLeft="15dp" />
+        <TextView
+            android:id="@+id/textViewUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textViewTU"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/textViewTU"
+            android:layout_toRightOf="@+id/textViewTU"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <TextView
+            android:id="@+id/textViewTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewUsername"
+            android:layout_marginTop="15dp"
+            android:text="@string/str_title_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_email"
-        android:id="@+id/textView3"
-        android:textIsSelectable="false"
-        android:layout_below="@+id/textViewName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textViewEmail"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_toRightOf="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3"
-        android:layout_marginLeft="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_mobile"
-        android:id="@+id/textView4"
-        android:textIsSelectable="false"
-        android:layout_below="@+id/textViewEmail"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textViewMobilePhone"
-        android:layout_alignTop="@+id/textView4"
-        android:layout_toRightOf="@+id/textView4"
-        android:layout_toEndOf="@+id/textView4"
-        android:layout_marginLeft="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_county"
-        android:id="@+id/textView5"
-        android:textIsSelectable="false"
-        android:layout_below="@+id/textViewMobilePhone"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textViewCountry"
-        android:layout_alignTop="@+id/textView5"
-        android:layout_toRightOf="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5"
-        android:layout_marginLeft="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_number_of_device"
-        android:id="@+id/textView6"
-        android:textIsSelectable="false"
-        android:layout_below="@+id/textViewCountry"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textViewNumberOfDevices"
-        android:layout_alignTop="@+id/textView6"
-        android:layout_toRightOf="@+id/textView6"
-        android:layout_toEndOf="@+id/textView6"
-        android:layout_marginLeft="15dp" />
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewTN"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
-    <!--
+        <TextView
+            android:id="@+id/textViewTE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewName"
+            android:layout_marginTop="15dp"
+            android:text="@string/str_title_email"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewTE"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textViewTMP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewEmail"
+            android:layout_marginTop="15dp"
+            android:text="@string/str_title_mobile"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewMobilePhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textViewTMP"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/textViewTMP"
+            android:layout_toRightOf="@+id/textViewTMP"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textViewTC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewMobilePhone"
+            android:layout_marginTop="15dp"
+            android:text="@string/str_title_county"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textViewTC"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/textViewTC"
+            android:layout_toRightOf="@+id/textViewTC"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textViewTND"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewCountry"
+            android:layout_marginTop="15dp"
+            android:text="@string/str_title_number_of_device"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewNumberOfDevices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textViewTND"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/textViewTND"
+            android:layout_toRightOf="@+id/textViewTND"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_mobile"
-        android:id="@+id/textView6"
-        android:layout_toEndOf="@+id/imageViewDevice"
-        android:textIsSelectable="false"
-        android:layout_below="@+id/textViewEmail"
-        android:layout_toRightOf="@+id/imageViewDevice"
-        android:layout_marginLeft="15dip"
-
-        android:layout_marginTop="15dip"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textViewMobilePhone"
-        android:layout_below="@+id/textView6"
-        android:layout_toRightOf="@+id/imageViewDevice"
-        android:layout_marginLeft="15dip"
-
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_county"
-        android:id="@+id/textView7"
-        android:layout_toEndOf="@+id/imageViewDevice"
-        android:textIsSelectable="false"
-        android:layout_below="@+id/textViewMobilePhone"
-        android:layout_toRightOf="@+id/imageViewDevice"
-        android:layout_marginLeft="15dip"
-        android:layout_marginTop="15dip" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textViewCountry"
-        android:layout_below="@+id/textView7"
-        android:layout_toRightOf="@+id/imageViewDevice"
-        android:layout_marginLeft="15dip" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_county"
-        android:id="@+id/textViewNumberOfDevices"
-        android:layout_toEndOf="@+id/textView4"
-        android:textIsSelectable="false"
-        android:layout_alignTop="@+id/textView4"
-        android:layout_toRightOf="@+id/textView4"
-        android:layout_marginLeft="15dip" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/str_title_number_of_device"
-        android:id="@+id/textView4"
-        android:layout_below="@+id/textViewCountry"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dip" />
-
-
-    -->
-
-
-</RelativeLayout>
+    </LinearLayout>
+</ScrollView>

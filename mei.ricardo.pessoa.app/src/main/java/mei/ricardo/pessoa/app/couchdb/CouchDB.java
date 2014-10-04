@@ -133,7 +133,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
         mCouchManager = new Manager(Application.getmContext().getFilesDir(), Manager.DEFAULT_OPTIONS);
 
         //install a view definition needed by the application
-        database = mCouchManager.getDatabase(Application.getDbname());
+         database = mCouchManager.getDatabase(Application.getDbname());
 
         startViewsQueryLives(); //add views necessaries to queries and live queries
 

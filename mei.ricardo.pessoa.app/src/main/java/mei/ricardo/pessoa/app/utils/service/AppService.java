@@ -14,6 +14,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
  */
 public class AppService extends Service {
     private static String TAG = AppService.class.getCanonicalName();
+    public static AppService appService;
     /**
      * Class for clients to access.  Because we know this service always
      * runs in the same process as its clients, we don't need to deal with
@@ -28,6 +29,7 @@ public class AppService extends Service {
     @Override
     public void onCreate() {
         CouchDB.getmCouchDBinstance();
+        appService = this;
     }
 
     @Override

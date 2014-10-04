@@ -1,6 +1,7 @@
 package mei.ricardo.pessoa.app.ui.Fragments;
 
 import mei.ricardo.pessoa.app.Application;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -78,7 +79,7 @@ public class FragmentNotification extends Fragment {
             mTextViewNotification.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         }
 
-        if (app.getMs_notificationArrayList()!= null && app.getMs_notificationArrayList().size() > 0) {
+        if (app.getMs_notificationArrayList() != null && app.getMs_notificationArrayList().size() > 0) {
             //Log.d(TAG, "size:" + app.ms_notificationArrayList.size() + " - " + indexOfNotificationArrayList + " - " + indexAtualMonitoring);
 
             mImageViewNotification.setVisibility(View.VISIBLE);
@@ -92,12 +93,17 @@ public class FragmentNotification extends Fragment {
                     indexOfNotificationArrayList = 0;
                 }
             }
+            try {
+                MonitorSensor monitorSensor = ms_notification.getAllMonitorSensors().get(indexAtualMonitoring);
+                mTextViewNotification.setText(monitorSensor.getTextToShowInFragmentNotification());
+                mImageViewNotification.setImageDrawable(monitorSensor.getImage());
+                indexAtualMonitoring++;
+            } catch (IndexOutOfBoundsException ex) {
+                Log.d(TAG, "Error on indexAtualMonitoring");
+                indexAtualMonitoring = 0;
+            }
 
-            MonitorSensor monitorSensor = ms_notification.getAllMonitorSensors().get(indexAtualMonitoring);
 
-            mTextViewNotification.setText(monitorSensor.getTextToShowInFragmentNotification());
-            mImageViewNotification.setImageDrawable(monitorSensor.getImage());
-            indexAtualMonitoring++;
         }
     }
 
