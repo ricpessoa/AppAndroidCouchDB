@@ -32,7 +32,7 @@ public class MS_Shoe extends MonitorSensor {
 
     public Drawable getImage() {
         if (removed) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.panic_button);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_notification_danger);
         }
         return null;
     }

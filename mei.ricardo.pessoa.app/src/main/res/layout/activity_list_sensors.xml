@@ -21,28 +21,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageViewUser"
-            android:src="@drawable/ic_device"
-            android:layout_below="@+id/switchMonitoringDevice"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/textViewNameDevice"
-            android:layout_toEndOf="@+id/imageViewUser"
-            android:layout_alignBottom="@+id/imageViewUser"
-            android:layout_toRightOf="@+id/imageViewUser"
-            android:layout_alignRight="@+id/switchMonitoringDevice"
-            android:layout_alignEnd="@+id/switchMonitoringDevice"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="10dip" />
     </RelativeLayout>
 
     <ListView

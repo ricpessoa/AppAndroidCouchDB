@@ -16,7 +16,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_dont_match_password">Passwords do not match</string>
-    <string name="title_activity_register">Register Activity</string>
+    <string name="title_activity_register">ChildSafe Register</string>
     <string name="str_register_name">Name</string>
 
     <string name="error_name_invalid"></string>

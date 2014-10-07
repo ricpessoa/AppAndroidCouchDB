@@ -70,11 +70,11 @@ public class MS_GPS extends MonitorSensor {
 
     public Drawable getImage() {
         if (notification.equals(NOTIFICATIONTYPE[0])) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.check_in);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_gps_check_in);
         } else if(notification.equals(NOTIFICATIONTYPE[1])){
-            return Application.getmContext().getResources().getDrawable(R.drawable.check_out);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_gps_check_out);
         }else
-            return Application.getmContext().getResources().getDrawable(R.drawable.ic_location);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_gps_location);
 
     }
 

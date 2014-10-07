@@ -108,10 +108,10 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
         imageView_ms_monitor_sensor = (ImageView) findViewById(R.id.imageView_ms_monitor_sensor);
         if (ms_panicButton) {
             textViewTitle.setText(Device.devicesTypesString[0] + " Details");
-            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.panic_button));
+            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.ic_notification_danger));
         } else if (ms_shoe) {
             textViewTitle.setText(Device.devicesTypesString[4] + " Details");
-            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.panic_button));
+            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.ic_notification_danger));
         } else if (ms_gps != null) {
             textViewTitle.setText(Device.devicesTypesString[1] + " Details");
             imageView_ms_monitor_sensor.setImageDrawable(ms_gps.getImage());

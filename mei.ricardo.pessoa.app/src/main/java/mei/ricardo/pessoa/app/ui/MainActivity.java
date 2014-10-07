@@ -24,7 +24,6 @@ import mei.ricardo.pessoa.app.couchdb.modal.Settings;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyProfile;
-import mei.ricardo.pessoa.app.ui.Fragments.FragmentTestSamples;
 import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
 import mei.ricardo.pessoa.app.ui.Navigation.NavigationDrawerFragment;
 import mei.ricardo.pessoa.app.ui.user.LoginActivity;
@@ -60,6 +59,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             Log.d(TAG, "Logout the user session");
             Application.saveInSharePreferenceDataOfApplication(null);
             Application.isLogged = false;
+            Application.setDbname(null);//logout
             try {
                 Application.getmCouchDBinstance().getDatabase().delete(); //delete local database
                 Application.getmCouchDBinstance().setCouchDBToNull(); // pass null the instance of CouchDB
@@ -84,7 +84,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         CouchDB.getmCouchDBinstance();
         Settings.getmSettingsinstance();
-        //startService(new Intent(this, CouchDB.class));
         startService(new Intent(this, AppService.class));
 
         Log.d(TAG, "read db from " + Application.getDbname());
@@ -127,15 +126,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 showTheDashboard = false;
                 startActivityForResult(intent, valueOnActivityResultCodeLogout);
                 break;
-            case 4:
-                Log.d(TAG, "Fragment Test Sample");
-                showTheDashboard = false;
-                fragment = new FragmentTestSamples();
-                break;
-//            case 5:
-//                logoutTheUser(true); // logout
-//                showTheDashboard = false;
-//                break;
             default:
                 Log.d(TAG, "Undefined - show dashboard");
                 fragment = new FragmentMyDashboard();

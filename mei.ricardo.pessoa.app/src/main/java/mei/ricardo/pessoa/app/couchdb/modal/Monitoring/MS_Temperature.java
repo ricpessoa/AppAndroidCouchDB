@@ -46,14 +46,14 @@ public class MS_Temperature extends MonitorSensor {
 
     public Drawable getImage() {
         if (notification == null)
-            return Application.getmContext().getResources().getDrawable(R.drawable.temp_red);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_temp_low);
 
         if (notification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.temp_green);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_temp_range);
         } else if (notification.equals(NOTIFICATIONTYPE.LOW.toString())) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.temp_blue);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_temp_low);
         } else {
-            return Application.getmContext().getResources().getDrawable(R.drawable.temp_red);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_temp_high);
 
         }
     }

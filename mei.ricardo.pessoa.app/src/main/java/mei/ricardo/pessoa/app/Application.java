@@ -77,6 +77,10 @@ public class Application extends CouchbaseLiteApplication {
         return dbname;
     }
 
+    public static void setDbname(String dbname) {
+        Application.dbname = dbname;
+    }
+
     /**
      * this method create a singleton instance of couchDB
      * - object CouchDBManager

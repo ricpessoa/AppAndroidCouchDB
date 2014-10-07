@@ -39,7 +39,6 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
     private static Device mDevice;
     private Switch mSwitchMonitoringDevice;
     private ListView mListViewSensors;
-    private TextView textViewDeviceName;
     private SensorListAdapter adapterSensor;
 
     static final int valueOnActivityResultCodeTemperature = 1;
@@ -54,7 +53,6 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
 
         mSwitchMonitoringDevice = (Switch) findViewById(R.id.switchMonitoringDevice);
         mSwitchMonitoringDevice.setOnCheckedChangeListener(this);
-        textViewDeviceName = (TextView) findViewById(R.id.textViewNameDevice);
 
         mListViewSensors = (ListView) findViewById(R.id.listViewSensors);
 
@@ -62,7 +60,7 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
         String ID = bundle.getString(var_pass_id_sensor);
         Toast.makeText(this, "received id document " + ID, Toast.LENGTH_SHORT).show();
         mDevice = Device.getDeviceByID(ID);
-        textViewDeviceName.setText(mDevice.getName_device());
+        setTitle(mDevice.getName_device()+" "+getTitle());
 
         adapterSensor = new SensorListAdapter(mDevice.getArrayListSensors());
         mListViewSensors.setAdapter(adapterSensor);

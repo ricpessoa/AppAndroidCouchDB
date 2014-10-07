@@ -43,14 +43,14 @@ public class MS_Battery extends MonitorSensor {
 
     public Drawable getImage() {
         if (notification == null)
-            return Application.getmContext().getResources().getDrawable(R.drawable.bat_critical);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_battery_critical);
 
         if (notification.equals(NOTIFICATIONTYPE.RANGE.toString())) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.bat_range);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_battery_range);
         } else if (notification.equals(NOTIFICATIONTYPE.CRITICAL.toString())) {
-            return Application.getmContext().getResources().getDrawable(R.drawable.bat_critical);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_battery_critical);
         } else {
-            return Application.getmContext().getResources().getDrawable(R.drawable.bat_low);
+            return Application.getmContext().getResources().getDrawable(R.drawable.ic_battery_low);
         }
     }
 

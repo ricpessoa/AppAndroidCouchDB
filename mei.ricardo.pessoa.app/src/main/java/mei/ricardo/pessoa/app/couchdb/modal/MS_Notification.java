@@ -161,7 +161,7 @@ public class MS_Notification {
         mBuilder.setContentTitle("New Notification");
         mBuilder.setContentText("You've received new notification.");
         mBuilder.setTicker("New Notification Alert!");
-        mBuilder.setSmallIcon(R.drawable.panic_button);
+        mBuilder.setSmallIcon(R.drawable.ic_notification_danger);
 
       /* Increase notification number every time a new notification arrives */
         //mBuilder.setNumber(++numMessages);
@@ -179,6 +179,8 @@ public class MS_Notification {
 
         events = MSNotificationList.get(0).fillNotificationStringArray();
 
+        if (events.length==0)
+            return;
 
         // Sets a title for the Inbox style big view
         inboxStyle.setBigContentTitle("Monitoring Notification");
