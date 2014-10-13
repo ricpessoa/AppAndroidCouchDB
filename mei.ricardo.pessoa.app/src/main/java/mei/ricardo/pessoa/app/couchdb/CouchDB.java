@@ -42,10 +42,10 @@ import mei.ricardo.pessoa.app.couchdb.modal.Safezone;
 import mei.ricardo.pessoa.app.couchdb.modal.Settings;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDashboard;
 import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
-import mei.ricardo.pessoa.app.ui.Fragments.FragmentNotification;
 import mei.ricardo.pessoa.app.ui.MainActivity;
 import mei.ricardo.pessoa.app.ui.Sensor.Safezone.ActivityListSafezones;
 import mei.ricardo.pessoa.app.ui.SettingsActivity;
+import mei.ricardo.pessoa.app.utils.service.AppService;
 
 /**
  * Created by rpessoa on 12/05/14.
@@ -392,9 +392,9 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                 } else if (objectSubType.equals(MonitorSensor.SUBTYPE.battery.toString())) {
                     try {
                         MS_Battery ms_battery = new MS_Battery(document);
-                        if (ms_battery.isNecessaryNotify()) {
+                        //if (ms_battery.isNecessaryNotify()) {
                             MSNotification.setBatteryNotification(ms_battery);
-                        }
+                        //}
                         sensorCount++;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -402,9 +402,9 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                 } else if (objectSubType.equals(MonitorSensor.SUBTYPE.temperature.toString())) {
                     try {
                         MS_Temperature ms_temperature = new MS_Temperature(document);
-                        if (ms_temperature.isNecessaryNotify()) {
+                        //if (ms_temperature.isNecessaryNotify()) {
                             MSNotification.setTemperatureNotification(ms_temperature);
-                        }
+                        //}
                         sensorCount++;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -427,12 +427,15 @@ public class CouchDB extends Service implements Replication.ChangeListener {
         }
 
         if (MSNotificationList.size() > 0) {
-            MS_Notification.sendNotificationToUser(Application.getmContext(), MSNotificationList); //send to class Notification
+            Application.addNotificationToShowToUser(MSNotificationList);
+
             Intent intent = new Intent();
             intent.setAction(MainActivity.notifyMonitorSensor);
             intent.putExtra(FragmentMyDashboard.passVariableMacAddress, monitorSensorMacAddress);
             Application.getmContext().sendBroadcast(intent);
-            Application.addNotificationToShowToUser(MSNotificationList);
+
+            MS_Notification.sendNotificationToUser(Application.getmContext(), MSNotificationList); //send to class Notification
+
         }
 
     }
@@ -443,16 +446,12 @@ public class CouchDB extends Service implements Replication.ChangeListener {
 
         boolean notifyDevices = false;
         boolean notifySafezones = false;
-        boolean notifyMonitorSensors = false;
         boolean notifySettings = false;
 
         for (Iterator<QueryRow> it = queryEnumerator; it.hasNext(); ) {
             QueryRow row = it.next();
 
-            if (row.getKey().toString().equals(MonitorSensor.type)) {
-                notifyMonitorSensors = true;
-                break;
-            } else if (row.getKey().toString().equals(Device.type)) {
+            if (row.getKey().toString().equals(Device.type)) {
                 notifyDevices = true;
                 break;
             } else if (row.getKey().toString().equals(Safezone.type)) {
@@ -472,11 +471,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
             Log.d(TAG, "_Notify -> " + ActivityListSafezones.class.getCanonicalName());
             intent.setAction(ActivityListSafezones.notify);
             Application.getmContext().sendBroadcast(intent);
-        } else if (notifyMonitorSensors) {
-            Log.d(TAG, "_Notify -> Monitoring ");
-            //intent.setAction(FragmentNotification.notify);
-            Application.getmContext().sendBroadcast(intent);
-        } else if (notifySettings) {
+        }else if (notifySettings) {
             Log.d(TAG, "_Notify -> Settings ");
             intent.setAction(SettingsActivity.notify);
             Application.getmContext().sendBroadcast(intent);

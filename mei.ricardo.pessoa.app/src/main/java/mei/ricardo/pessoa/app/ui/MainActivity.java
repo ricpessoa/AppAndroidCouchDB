@@ -51,7 +51,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public static final String notifyMonitorSensor = "mei.ricardo.pessoa.app.notifyDevice.mydashboard";
     private MonitorSensorBroadcastReceiver monitorSensorBroadcastReceiver = null;
 
-    /**  */
     static final int valueOnActivityResultCodeLogout = 1;
 
     public void logoutTheUser(boolean logout) {
@@ -82,10 +81,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             logoutTheUser(false); // need authentication
         }
 
-        CouchDB.getmCouchDBinstance();
-        Settings.getmSettingsinstance();
-        startService(new Intent(this, AppService.class));
-
+        if (Application.getmCouchDBinstance() != null) {
+            CouchDB.getmCouchDBinstance();
+            Settings.getmSettingsinstance();
+            if (Settings.getSettingsOfApp() != null && Settings.getmSettingsinstance().isMonitoring()) {
+                startService(new Intent(this, AppService.class));
+            }
+        }
         Log.d(TAG, "read db from " + Application.getDbname());
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -98,6 +100,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
     }
+
 
     /*THIS METHOD WHERE ADD THE FRAGMENTS OR ACTIVITIES TO NAVIGATE WHEN SELECTED*/
     @Override
@@ -161,9 +164,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             case 2:
                 mTitle = getString(R.string.str_title_my_profile);
                 break;
-            /*case 3:
-                mTitle = getString(R.string.str_title_logout);
-                break;*/
             default:
                 mTitle = getString(R.string.str_title_my_dashboard);
                 break;

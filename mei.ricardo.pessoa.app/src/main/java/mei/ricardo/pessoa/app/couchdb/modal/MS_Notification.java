@@ -1,5 +1,6 @@
 package mei.ricardo.pessoa.app.couchdb.modal;
 
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -13,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import java.util.ArrayList;
 import java.util.List;
 
+import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
@@ -21,6 +23,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Shoe;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
 import mei.ricardo.pessoa.app.ui.MainActivity;
+import mei.ricardo.pessoa.app.utils.service.AppService;
 
 /**
  * Created by rpessoa on 27/07/14.
@@ -112,35 +115,44 @@ public class MS_Notification {
         return show;
     }
 
-    private String[] fillNotificationStringArray() {
+    public String[] fillNotificationStringArray() {
         ArrayList<String> notificationString = new ArrayList<String>();
-        if (panicButtonPressed) {
+        if (panicButtonPressed || shoeRemoved) { // when some button panic or show removed MUST NOTIFY THE USER
             if (getPanicButtonNotification() != null)
                 notificationString.add("Button Panic Button was pressed");
-            if (getGpsNotification() != null)
-                notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
-            if (getTemperatureNotification() != null)
-                notificationString.add("Temperature: " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue());
-            if (getBatteryNotification() != null)
-                notificationString.add("Battery: " + batteryNotification.getNotification() + " - " + batteryNotification.getValue());
-        } else if (shoeRemoved) {
             if (getShoeNotification() != null)
                 notificationString.add("The Shoe was removed");
-            if (getGpsNotification() != null)
+            if (getGpsNotification() != null) {
+                Application.setCurrentGPSStatus(getGpsNotification().getNotification());
                 notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
+            }
             if (getTemperatureNotification() != null)
                 notificationString.add("Temperature: " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue());
-            if (getBatteryNotification() != null)
+            if (getBatteryNotification() != null) {
+                Application.setCurrentBatteryStatus(getBatteryNotification().getNotification());
                 notificationString.add("Battery: " + batteryNotification.getNotification() + " - " + batteryNotification.getValue());
-        } else {
-            if (getGpsNotification() != null)
+            }
+            notifyServiceToShowDialog(notificationString.toString());
+        } else { // individual notification test
+            if (getGpsNotification() != null && (Application.getCurrentGPSStatus() == null || !Application.getCurrentGPSStatus().equals(gpsNotification.getNotification()))) {
+                Application.setCurrentGPSStatus(gpsNotification.getNotification());
                 notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
-            if (getTemperatureNotification() != null && !getTemperatureNotification().getNotification().equals(MS_Temperature.NOTIFICATIONTYPE.RANGE.toString()))
+            }
+            if (getTemperatureNotification() != null && getTemperatureNotification().isNecessaryNotify())
                 notificationString.add("Temperature: " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue());
-            if (getBatteryNotification() != null && !getBatteryNotification().getNotification().equals(MS_Battery.NOTIFICATIONTYPE.RANGE.toString()))
+            if (getBatteryNotification() != null && (Application.getCurrentBatteryStatus() == null || getBatteryNotification().isNecessaryNotify())) {
+                Application.setCurrentBatteryStatus(batteryNotification.getNotification());
                 notificationString.add("Battery: " + batteryNotification.getNotification() + " - " + batteryNotification.getValue());
+            }
         }
         return notificationString.toArray(new String[notificationString.size()]);
+    }
+
+    private void notifyServiceToShowDialog(String msg) {
+        Intent intentService = new Intent();
+        intentService.setAction(AppService.notifyService);
+        intentService.putExtra(AppService.varStringMsgToPassToService, msg);
+        Application.getmContext().sendBroadcast(intentService);
     }
 
     public static void sendNotificationToUser(Context mContext, List<MS_Notification> MSNotificationList) {
@@ -169,17 +181,11 @@ public class MS_Notification {
 //Define sound URI
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
       /* Add Big View Specific Configuration */
-        NotificationCompat.InboxStyle inboxStyle =
-                new NotificationCompat.InboxStyle();
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
-        String[] events = new String[6];
-        //for (int i = 0; i < MSNotificationList.size(); i++) {
-        //    events = MSNotificationList.get(i).fillNotificationStringArray();
-        // }
+        String[] events = MSNotificationList.get(0).fillNotificationStringArray();
 
-        events = MSNotificationList.get(0).fillNotificationStringArray();
-
-        if (events.length==0)
+        if (events.length == 0)
             return;
 
         // Sets a title for the Inbox style big view
@@ -243,4 +249,5 @@ public class MS_Notification {
 //// mId allows you to update the notification later on.
 //        mNotificationManager.notifyDevice(notificationID, mBuilder.build());
 //    }
+
 }

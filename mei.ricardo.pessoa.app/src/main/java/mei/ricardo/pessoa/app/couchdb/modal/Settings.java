@@ -94,17 +94,15 @@ public class Settings {
     public void setMonitoring(boolean monitoring) {
         this.monitoring = monitoring;
         if (monitoring == false) {
-            Log.d(TAG,"monitoring false");
+            Log.d(TAG, "monitoring false");
             if (AppService.appService != null) {
-                Log.d(TAG,"stopping service");
+                Log.d(TAG, "stopping service");
                 AppService.appService.stopSelf();
             }
         } else {
-            Log.d(TAG,"monitoring true");
-            if (AppService.appService != null) {
-                Log.d(TAG,"start service");
-                Application.getmContext().startService(new Intent(Application.getmContext(), AppService.class));
-            }
+            Log.d(TAG, "monitoring true = start service");
+            Application.getmContext().startService(new Intent(Application.getmContext(), AppService.class)); //TODO: RP verify if service already running
+            getmSettingsinstance().saveInDB();
         }
     }
 
@@ -114,6 +112,7 @@ public class Settings {
 
     public void setSounds(boolean sounds) {
         this.sounds = sounds;
+        getmSettingsinstance().saveInDB();
     }
 
     @Override

@@ -25,6 +25,9 @@ public class Application extends CouchbaseLiteApplication {
     public static final String filenameSharePreference = "preferenceFileCouchDB";
     private static final String varSharePreference = "usernameDB";
     private static String dbname;
+    private static String currentGPSStatus; //public enum Status {CHECK_IN, CHECK_OUT}
+    private static String currentBatteryStatus;
+
     public static boolean isLogged = false;
 
     public static String hostUrl = "http://195.23.102.92:8080"; //Centi server url
@@ -109,4 +112,19 @@ public class Application extends CouchbaseLiteApplication {
         return ms_notificationArrayList;
     }
 
+    public static String getCurrentGPSStatus() {
+        return currentGPSStatus;
+    }
+
+    public static String getCurrentBatteryStatus() {
+        return currentBatteryStatus;
+    }
+
+    public static void setCurrentGPSStatus(String currentGPSStatus) {
+        Application.currentGPSStatus = currentGPSStatus;
+    }
+
+    public static void setCurrentBatteryStatus(String currentBatteryStatus) {
+        Application.currentBatteryStatus = currentBatteryStatus;
+    }
 }

@@ -70,6 +70,7 @@ public class MS_Battery extends MonitorSensor {
         }
         return ms_batteryArrayList;
     }
+
     public boolean isNecessaryNotify() {
         if(this.notification.equals(NOTIFICATIONTYPE.RANGE.toString()))
             return false;

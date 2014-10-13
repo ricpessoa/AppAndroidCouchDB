@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="mei.ricardo.pessoa.app">
+    package="mei.ricardo.pessoa.app" >
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -23,7 +25,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+  />
     <!-- Required OpenGL ES 2.0. for Maps V2 -->
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -32,9 +34,9 @@
     <application
         android:name=".Application"
         android:allowBackup="true"
-        android:icon="@drawable/ic_laucher"
+        android:icon="@drawable/ic_laucher_white"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
 
         <!-- Goolge API Key -->
         <meta-data
@@ -46,7 +48,7 @@
 
         <activity
             android:name=".ui.user.LoginActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,7 +67,7 @@
             android:label="@string/title_activity_fragment_my_profile" />
         <activity
             android:name=".ui.SettingsActivity"
-            android:label="@string/title_activity_fragment_settings">
+            android:label="@string/title_activity_fragment_settings" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -75,10 +77,9 @@
         <activity
             android:name=".ui.user.RegisterActivity"
             android:label="@string/title_activity_register" />
-
         <activity
             android:name=".ui.MonitoringSensor.ActivityMonitorSensorGPS"
-            android:label="@string/title_activity_monitor_sensor_safezones">
+            android:label="@string/title_activity_monitor_sensor_safezones" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -87,7 +88,7 @@
         </activity>
         <activity
             android:name=".ui.MonitoringSensor.ActivityMonitorSensorDetail"
-            android:label="@string/title_activity_monitor_sensor_panic_button">
+            android:label="@string/title_activity_monitor_sensor_panic_button" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -96,7 +97,8 @@
         </activity>
         <activity
             android:name=".ui.Device.AddDevice"
-            android:label="@string/title_activity_add_device">
+            android:label="@string/title_activity_add_device" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -104,7 +106,8 @@
         </activity>
         <activity
             android:name=".ui.Sensor.ActivityListSensors"
-            android:label="@string/title_activity_sensors">
+            android:label="@string/title_activity_sensors" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -112,16 +115,17 @@
         </activity>
         <activity
             android:name=".ui.Sensor.Safezone.ActivityListSafezones"
-            android:label="@string/title_activity_list_safezones">
+            android:label="@string/title_activity_list_safezones" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.Fragments.FragmentMyDevices" />
         </activity>
-
         <activity
             android:name=".ui.Sensor.Safezone.ActivitySafezoneOptions"
-            android:label="@string/title_activity_safezone">
+            android:label="@string/title_activity_safezone" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -129,7 +133,8 @@
         </activity>
         <activity
             android:name=".ui.Sensor.Safezone.ActivityEditNameSafezone"
-            android:label="@string/title_activity_activity_edit_name_safezone">
+            android:label="@string/title_activity_activity_edit_name_safezone" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -138,19 +143,22 @@
         <activity
             android:name=".ui.Sensor.Safezone.ActivitySafezoneEditMap"
             android:label="@string/title_activity_activity_safezone_edit_map"
-            android:launchMode="singleTop"> <!-- singleTop to not open a new activity -->
+            android:launchMode="singleTop" > <!-- singleTop to not open a new activity -->
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".ui.Sensor.Temperature.ActivityTemperature"
-            android:label="@string/title_activity_activity_temperature">
+            android:label="@string/title_activity_activity_temperature" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -158,7 +166,8 @@
         </activity>
         <activity
             android:name=".ui.Sensor.Battery.ActivityBattery"
-            android:label="@string/title_activity_activity_battery">
+            android:label="@string/title_activity_activity_battery" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -166,20 +175,26 @@
         </activity>
         <activity
             android:name=".ui.MonitoringSensor.ActivityListMonitorSensorPBTempBatt"
-            android:label="@string/title_activity_activity_monitor_sensor_pbtemp_batt">
+            android:label="@string/title_activity_activity_monitor_sensor_pbtemp_batt" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.Fragments.FragmentMyDashboard" />
         </activity>
 
-        <receiver android:name=".utils.service.BootCompletedReceiver">
+        <receiver android:name=".utils.service.BootCompletedReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service android:name=".utils.service.AppService" />
+
+        <activity
+            android:name=".ui.ActivityDialogNotification"
+            android:label="@string/title_activity_activity_dialog_notification" >
+        </activity>
     </application>
 
 </manifest>
