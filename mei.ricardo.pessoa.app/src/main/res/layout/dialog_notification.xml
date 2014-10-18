@@ -11,8 +11,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/ic_laucher_white" />
+        android:src="@drawable/ic_laucher_white"
+        android:layout_margin="10dp" />
 
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/TextViewNotification"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp">
 
         <Button
             android:id="@+id/buttonOpen"

@@ -277,11 +277,13 @@ public class Device {
             }
             String type = value.get("type").toString();
             if (type.equals(DEVICESTYPE.temperature.toString())) {
-                value.put("min_temperature", ((SensorTemperature) arrayListSensors.get(2)).getMin_temperature());
-                value.put("max_temperature", ((SensorTemperature) arrayListSensors.get(2)).getMax_temperature());
+                Integer index = this.getIndexOfSensorBasedInType(DEVICESTYPE.temperature.toString());
+                value.put("min_temperature", ((SensorTemperature) arrayListSensors.get(index)).getMin_temperature());
+                value.put("max_temperature", ((SensorTemperature) arrayListSensors.get(index)).getMax_temperature());
             } else if (type.equals(DEVICESTYPE.battery.toString())) {
-                value.put("low_battery", ((SensorBattery) arrayListSensors.get(3)).getLow_battery());
-                value.put("critical_battery", ((SensorBattery) arrayListSensors.get(3)).getCritical_battery());
+                Integer index = this.getIndexOfSensorBasedInType(DEVICESTYPE.battery.toString());
+                value.put("low_battery", ((SensorBattery) arrayListSensors.get(index)).getLow_battery());
+                value.put("critical_battery", ((SensorBattery) arrayListSensors.get(index)).getCritical_battery());
             }
         }
         return sensors;
@@ -335,6 +337,16 @@ public class Device {
 
     public ArrayList<Sensor> getArrayListSensors() {
         return arrayListSensors;
+    }
+
+    public Integer getIndexOfSensorBasedInType(String type) {
+        int index = 0;
+        for (Sensor sensor : this.getArrayListSensors()) {
+            if (sensor.getType().equals(type))
+                return index;
+            index++;
+        }
+        return null;
     }
 
     public String getMac_address() {

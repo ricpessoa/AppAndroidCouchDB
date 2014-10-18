@@ -1,38 +1,13 @@
-<RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mei.ricardo.pessoa.app.ui.Fragments.FragmentMonitor.FragmentGPS">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/str_title_temperature"
-        android:id="@+id/textViewTemperature" />
-
-    <EditText
-        android:id="@+id/min_temperature"
+        android:id="@+id/temperature_fragment_textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/prompt_min_temperature"
-        android:imeOptions="actionUnspecified"
-        android:inputType="text"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:layout_below="@+id/textViewTemperature" />
+        android:layout_height="match_parent"
+        android:text="FragmentTemerature" />
 
-    <EditText
-        android:id="@+id/max_temperature"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/prompt_max_temperature"
-        android:imeOptions="actionUnspecified"
-        android:inputType="text"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:layout_below="@+id/min_temperature"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-
-</RelativeLayout>
+</FrameLayout>

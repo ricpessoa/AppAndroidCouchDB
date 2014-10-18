@@ -102,8 +102,8 @@ public class Settings {
         } else {
             Log.d(TAG, "monitoring true = start service");
             Application.getmContext().startService(new Intent(Application.getmContext(), AppService.class)); //TODO: RP verify if service already running
-            getmSettingsinstance().saveInDB();
         }
+        getmSettingsinstance().saveInDB();
     }
 
     public boolean isSounds() {

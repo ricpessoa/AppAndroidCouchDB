@@ -51,7 +51,6 @@ public class FragmentMyDevices extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         deviceList = Device.getAllDevicesNotDeleted();
-
     }
 
     @Override
@@ -78,7 +77,6 @@ public class FragmentMyDevices extends Fragment {
                 Intent intent = new Intent(getActivity(), ActivityListSensors.class);
                 intent.putExtra(ActivityListSensors.var_pass_id_sensor, deviceRow.deviceID);
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
 

@@ -80,4 +80,9 @@ public class MS_Temperature extends MonitorSensor {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Temperature: " + notification + " - " + value;
+    }
 }

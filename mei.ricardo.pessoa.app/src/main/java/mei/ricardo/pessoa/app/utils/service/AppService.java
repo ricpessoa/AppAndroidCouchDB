@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
@@ -13,6 +14,7 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,7 +38,8 @@ public class AppService extends Service {
     public static final String varStringMsgToPassToService = "varStringMsgToPassToService";
     private ServiceBroadcastReceiver serviceBroadcastReceiver;
     public static AppService appService;
-    static MediaPlayer mMediaPlayer;
+    private static MediaPlayer mMediaPlayer;
+    private static Dialog dialog;
 
     /**
      * Class for clients to access.  Because we know this service always
@@ -96,7 +99,10 @@ public class AppService extends Service {
 
 
     public static void createDialog(final Context mContext, String strMsg) {
-        final Dialog dialog = new Dialog(mContext);
+        if (dialog != null && dialog.isShowing())
+            return;
+
+        dialog = new Dialog(mContext);
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT); //http://jhshi.me/2013/11/03/pop-up-alertdialog-in-system-service/
         //set up dialog
         dialog.setContentView(R.layout.dialog_notification);
@@ -106,7 +112,7 @@ public class AppService extends Service {
 
         //set up text
         TextView text = (TextView) dialog.findViewById(R.id.TextViewNotification);
-        text.setText("Teste Exist on notification you must see" + strMsg);
+        text.setText(strMsg);
 
         //set up image view
         ImageView img = (ImageView) dialog.findViewById(R.id.ImageViewNotification);
@@ -118,10 +124,6 @@ public class AppService extends Service {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-                    mMediaPlayer.stop();
-                    mMediaPlayer.release();
-                }
             }
 
         });
@@ -135,20 +137,29 @@ public class AppService extends Service {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(intent);
                     dialog.dismiss();
-                    if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-                        mMediaPlayer.stop();
-                        mMediaPlayer.release();
-                    }
                 }
             });
         } else {
             buttonOpenApp.setVisibility(View.GONE);
         }
 
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.stop();
+                    mMediaPlayer.release();
+                }
+            }
+        });
         //now that the dialog is set up, it's time to show it
         dialog.show();
         if (Settings.getmSettingsinstance().isSounds())
             playSound(mContext);
+
+        PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+        wakeLock.acquire();
     }
 
     private static void playSound(Context mContext) {

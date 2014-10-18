@@ -77,4 +77,8 @@ public class MS_Battery extends MonitorSensor {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Battery Level  " +value+"%";
+    }
 }

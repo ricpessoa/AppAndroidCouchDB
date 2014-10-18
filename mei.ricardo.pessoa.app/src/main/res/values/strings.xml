@@ -79,7 +79,7 @@
     <!-- strings Detail Device -->
     <string name="monitoring_device">Monitoring Device</string>
 
-    <!-- strings fragment_temperature -->
+    <!-- strings fragment_temperature_settings -->
     <string name="str_title_temperature">Temperature Settings</string>
     <string name="prompt_min_temperature">Minimum temperature</string>
     <string name="prompt_max_temperature">Maximum temperature</string>
@@ -169,5 +169,6 @@
     <string name="str_preferences_category_logout">Logout</string>
     <string name="title_activity_activity_dialog_notification">ActivityDialogNotification</string>
     <string name="hello_world">Hello world!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

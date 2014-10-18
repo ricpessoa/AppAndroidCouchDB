@@ -62,6 +62,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             try {
                 Application.getmCouchDBinstance().getDatabase().delete(); //delete local database
                 Application.getmCouchDBinstance().setCouchDBToNull(); // pass null the instance of CouchDB
+
+                if (AppService.appService != null) {
+                    AppService.appService.stopSelf();
+                }
+
             } catch (CouchbaseLiteException e) {
                 e.printStackTrace();
             }

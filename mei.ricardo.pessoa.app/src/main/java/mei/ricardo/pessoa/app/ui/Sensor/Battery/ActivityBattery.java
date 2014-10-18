@@ -26,7 +26,7 @@ public class ActivityBattery extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_battery);
+        setContentView(R.layout.activity_battery_settings);
         Bundle bundle = getIntent().getExtras();
         if (bundle == null)
             return;

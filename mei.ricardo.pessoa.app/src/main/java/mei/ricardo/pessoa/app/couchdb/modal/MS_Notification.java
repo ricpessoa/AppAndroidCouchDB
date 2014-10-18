@@ -118,31 +118,40 @@ public class MS_Notification {
     public String[] fillNotificationStringArray() {
         ArrayList<String> notificationString = new ArrayList<String>();
         if (panicButtonPressed || shoeRemoved) { // when some button panic or show removed MUST NOTIFY THE USER
-            if (getPanicButtonNotification() != null)
-                notificationString.add("Button Panic Button was pressed");
-            if (getShoeNotification() != null)
-                notificationString.add("The Shoe was removed");
+            String dialogMSG = "";
+            if (getPanicButtonNotification() != null) {
+                notificationString.add(getPanicButtonNotification().toString());
+                dialogMSG+=getPanicButtonNotification().toString()+"\n";
+            }
+            if (getShoeNotification() != null) {
+                notificationString.add(getShoeNotification().toString());
+                dialogMSG+=getShoeNotification().toString()+"\n";
+            }
             if (getGpsNotification() != null) {
                 Application.setCurrentGPSStatus(getGpsNotification().getNotification());
-                notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
+                notificationString.add(getGpsNotification().toString());
+                dialogMSG+=getGpsNotification().toString()+"\n";
             }
-            if (getTemperatureNotification() != null)
-                notificationString.add("Temperature: " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue());
+            if (getTemperatureNotification() != null) {
+                notificationString.add(getTemperatureNotification().toString());
+                dialogMSG+=getTemperatureNotification().toString()+"\n";
+            }
             if (getBatteryNotification() != null) {
                 Application.setCurrentBatteryStatus(getBatteryNotification().getNotification());
-                notificationString.add("Battery: " + batteryNotification.getNotification() + " - " + batteryNotification.getValue());
+                notificationString.add(getBatteryNotification().toString());
+                dialogMSG+=getBatteryNotification().toString()+"\n";
             }
-            notifyServiceToShowDialog(notificationString.toString());
+            notifyServiceToShowDialog(dialogMSG);
         } else { // individual notification test
             if (getGpsNotification() != null && (Application.getCurrentGPSStatus() == null || !Application.getCurrentGPSStatus().equals(gpsNotification.getNotification()))) {
                 Application.setCurrentGPSStatus(gpsNotification.getNotification());
-                notificationString.add("GPS: " + gpsNotification.getNotification() + " - " + gpsNotification.getAddress());
+                notificationString.add(getGpsNotification().toString());
             }
             if (getTemperatureNotification() != null && getTemperatureNotification().isNecessaryNotify())
-                notificationString.add("Temperature: " + temperatureNotification.getNotification() + " - " + temperatureNotification.getValue());
+                notificationString.add(getTemperatureNotification().toString());
             if (getBatteryNotification() != null && (Application.getCurrentBatteryStatus() == null || getBatteryNotification().isNecessaryNotify())) {
                 Application.setCurrentBatteryStatus(batteryNotification.getNotification());
-                notificationString.add("Battery: " + batteryNotification.getNotification() + " - " + batteryNotification.getValue());
+                notificationString.add(getBatteryNotification().toString());
             }
         }
         return notificationString.toArray(new String[notificationString.size()]);

@@ -1,5 +1,6 @@
 package mei.ricardo.pessoa.app.ui.MonitoringSensor;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -25,6 +26,7 @@ import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
+import mei.ricardo.pessoa.app.ui.Fragments.FragmentMonitor.FragmentGPS;
 import mei.ricardo.pessoa.app.utils.Utils;
 
 public class ActivityMonitorSensorDetail extends ActionBarActivity {
@@ -66,6 +68,11 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
         timestamp = bundle.getString(passVariableTimestamp);
         subtype = bundle.getString(passVariableSubtypeSensor);
 
+        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+        textViewTitle.setText(textViewTitle.getText() + " " + Device.getDeviceByID(macaddress).getNameOrMacAdress());
+        textViewTimestamp = (TextView) findViewById(R.id.textViewTimestamp);
+        textViewTimestamp.setText(Utils.ConvertTimestampToDateFormat(timestamp));
+
         if (subtype != null && subtype.equals(MonitorSensor.SUBTYPE.panic_button.toString())) {
             //show all information
             ms_panicButton = true;
@@ -82,7 +89,6 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
             //Battery
             ms_battery = MS_Battery.getSensorBatteryByMacAddressTimestamp(macaddress, timestamp, 1).get(0);
         }
-        initView();
     }
 
     private void getAllTypeOfMonitoringToShow() {
@@ -103,92 +109,86 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
         }
     }
 
-    private void initView() {
-        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
-        imageView_ms_monitor_sensor = (ImageView) findViewById(R.id.imageView_ms_monitor_sensor);
-        if (ms_panicButton) {
-            textViewTitle.setText(Device.devicesTypesString[0] + " Details");
-            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.ic_notification_danger));
-        } else if (ms_shoe) {
-            textViewTitle.setText(Device.devicesTypesString[4] + " Details");
-            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.ic_notification_danger));
-        } else if (ms_gps != null) {
-            textViewTitle.setText(Device.devicesTypesString[1] + " Details");
-            imageView_ms_monitor_sensor.setImageDrawable(ms_gps.getImage());
-        } else if (ms_temperature != null) {
-            textViewTitle.setText(Device.devicesTypesString[2] + " Details");
-            imageView_ms_monitor_sensor.setImageDrawable(ms_temperature.getImage());
-        } else if (ms_battery != null) {
-            textViewTitle.setText(Device.devicesTypesString[3] + " Details");
-            imageView_ms_monitor_sensor.setImageDrawable(ms_battery.getImage());
-        }
-        textViewTimestamp = (TextView) findViewById(R.id.textViewTimestamp);
-        textViewTimestamp.setText("on " + Utils.ConvertTimestampToDateFormat(timestamp));
+//    private void initView() {
+//        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+//        imageView_ms_monitor_sensor = (ImageView) findViewById(R.id.imageView_ms_monitor_sensor);
+//        if (ms_panicButton) {
+//            textViewTitle.setText(Device.devicesTypesString[0] + " Details");
+//            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.ic_notification_danger));
+//        } else if (ms_shoe) {
+//            textViewTitle.setText(Device.devicesTypesString[4] + " Details");
+//            imageView_ms_monitor_sensor.setImageDrawable(Application.getmContext().getResources().getDrawable(R.drawable.ic_notification_danger));
+//        } else if (ms_gps != null) {
+//            textViewTitle.setText(Device.devicesTypesString[1] + " Details");
+//            imageView_ms_monitor_sensor.setImageDrawable(ms_gps.getImage());
+//        } else if (ms_temperature != null) {
+//            textViewTitle.setText(Device.devicesTypesString[2] + " Details");
+//            imageView_ms_monitor_sensor.setImageDrawable(ms_temperature.getImage());
+//        } else if (ms_battery != null) {
+//            textViewTitle.setText(Device.devicesTypesString[3] + " Details");
+//            imageView_ms_monitor_sensor.setImageDrawable(ms_battery.getImage());
+//        }
+//        textViewTimestamp = (TextView) findViewById(R.id.textViewTimestamp);
+//        textViewTimestamp.setText("on " + Utils.ConvertTimestampToDateFormat(timestamp));
+//
+//        //GPS
+//        textViewLocationAddress = (TextView) findViewById(R.id.textViewLocationAddress);
+//        textViewLocationCoordinators = (TextView) findViewById(R.id.textViewLocationCoordinators);
+//        Button buttonGoToDirection = (Button) findViewById(R.id.buttonGoToDirection);
+//        //mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment));
+//        RelativeLayout relativeLayoutMap = (RelativeLayout) findViewById(R.id.relativeLayoutMap);
+//        if (ms_gps == null) {
+//            textViewLocationAddress.setVisibility(View.GONE);
+//            textViewLocationCoordinators.setVisibility(View.GONE);
+//            relativeLayoutMap.setVisibility(View.GONE);
+//            buttonGoToDirection.setVisibility(View.GONE);
+//        } else {
+//            initilizeMap(ms_gps);
+//            textViewLocationAddress.setText("Location Address: " + ms_gps.getAddress());
+//            textViewLocationCoordinators.setText("Location Coordinators: (" + ms_gps.getLatitude() + "," + ms_gps.getLongitude() + ")");
+//            buttonGoToDirection.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+//                            Uri.parse("http://maps.google.com/maps?f=d&daddr=" + ms_gps.getLatitude() + "," + ms_gps.getLongitude()));
+//                    startActivity(intent);
+//                }
+//            });
+//        }
+//        //temperature
+//        textViewTemperatureValue = (TextView) findViewById(R.id.textViewTemperatureValue);
+//        if (ms_temperature == null) {
+//            textViewTemperatureValue.setVisibility(View.GONE);
+//        } else {
+//            textViewTemperatureValue.setText("Temperature value: " + ms_temperature.getValue() + "ºC");
+//        }
+//        //battery
+//        textViewBatteryValue = (TextView) findViewById(R.id.textViewBatteryValue);
+//        if (ms_battery == null) {
+//            textViewBatteryValue.setVisibility(View.GONE);
+//        } else {
+//            textViewBatteryValue.setText("Battery level: " + ms_battery.getValue() + "%");
+//        }
+//    }
 
-        //GPS
-        textViewLocationAddress = (TextView) findViewById(R.id.textViewLocationAddress);
-        textViewLocationCoordinators = (TextView) findViewById(R.id.textViewLocationCoordinators);
-        Button buttonGoToDirection = (Button) findViewById(R.id.buttonGoToDirection);
-        //mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment));
-        RelativeLayout relativeLayoutMap = (RelativeLayout) findViewById(R.id.relativeLayoutMap);
-        if (ms_gps == null) {
-            textViewLocationAddress.setVisibility(View.GONE);
-            textViewLocationCoordinators.setVisibility(View.GONE);
-            relativeLayoutMap.setVisibility(View.GONE);
-            buttonGoToDirection.setVisibility(View.GONE);
-        } else {
-            initilizeMap(ms_gps);
-            textViewLocationAddress.setText("Location Address: " + ms_gps.getAddress());
-            textViewLocationCoordinators.setText("Location Coordinators: (" + ms_gps.getLatitude() + "," + ms_gps.getLongitude() + ")");
-            buttonGoToDirection.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                            Uri.parse("http://maps.google.com/maps?f=d&daddr=" + ms_gps.getLatitude() + "," + ms_gps.getLongitude()));
-                    startActivity(intent);
-                }
-            });
-        }
-        //temperature
-        textViewTemperatureValue = (TextView) findViewById(R.id.textViewTemperatureValue);
-        if (ms_temperature == null) {
-            textViewTemperatureValue.setVisibility(View.GONE);
-        } else {
-            textViewTemperatureValue.setText("Temperature value: " + ms_temperature.getValue() + "ºC");
-        }
-        //battery
-        textViewBatteryValue = (TextView) findViewById(R.id.textViewBatteryValue);
-        if (ms_battery == null) {
-            textViewBatteryValue.setVisibility(View.GONE);
-        } else {
-            textViewBatteryValue.setText("Battery level: " + ms_battery.getValue() + "%");
-        }
+
+    public MS_GPS getMs_gps() {
+        return ms_gps;
     }
 
+    public boolean isMs_panicButton() {
+        return ms_panicButton;
+    }
 
-    /**
-     * function to load map. If map is not created it will create it for you
-     */
-    private void initilizeMap(MS_GPS ms_gps) {
-        GoogleMap googleMap = ((MapFragment) getFragmentManager().findFragmentById(
-                R.id.mapFragment)).getMap();
-        googleMap.getUiSettings().setAllGesturesEnabled(false);
-        googleMap.getUiSettings().setZoomControlsEnabled(false);
+    public MS_Temperature getMs_temperature() {
+        return ms_temperature;
+    }
 
-        LatLng latLng = new LatLng(ms_gps.getLatitude(), ms_gps.getLongitude());
-        //MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(ms_gps.getAddress());
-        //Marker marker = googleMap.addMarker(markerOptions);
-        // Move the camera instantly to hamburg with a zoom of 15.
-        googleMap.addMarker(new MarkerOptions()
-                .position(latLng));
+    public MS_Battery getMs_battery() {
+        return ms_battery;
+    }
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-        // check if map is created successfully or not
-        if (googleMap == null) {
-            Toast.makeText(getApplicationContext(),
-                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                    .show();
-
-        }
+    public boolean isMs_shoe() {
+        return ms_shoe;
     }
 }

@@ -35,4 +35,12 @@ public class MS_PanicButton extends MonitorSensor {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "Panic Button was pressed";
+    }
+
+    public static String toStringStatic() {
+        return "Panic Button was pressed";
+    }
 }

@@ -131,7 +131,9 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
 
             if (requestCode == valueOnActivityResultCodeTemperature) {
                 if (bundle != null) {
-                    int index = 2;
+                    Integer index = mDevice.getIndexOfSensorBasedInType(Device.DEVICESTYPE.temperature.toString());
+                    if(index==null)
+                        return; // WTF now exist???
                     int minTemperature = bundle.getInt(ActivityTemperature.varPassMinimumTemperature);
                     int maxTemperature = bundle.getInt(ActivityTemperature.varPassMaximumTemperature);
                     SensorTemperature sensorTemperature = (SensorTemperature) mDevice.getArrayListSensors().get(index);
@@ -141,7 +143,9 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
                 }
             } else if (requestCode == valueOnActivityResultCodeBattery) {
                 if (bundle != null) {
-                    int index = 3;
+                    Integer index = mDevice.getIndexOfSensorBasedInType(Device.DEVICESTYPE.battery.toString());
+                    if(index==null)
+                        return; // WTF now exist???
                     int lowBattery = bundle.getInt(ActivityBattery.varPassLowBattery);
                     int criticalBattery = bundle.getInt(ActivityBattery.varPassCriticalBattery);
                     SensorBattery sensorBattery = (SensorBattery) mDevice.getArrayListSensors().get(index);

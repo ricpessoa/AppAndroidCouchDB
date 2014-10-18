@@ -128,4 +128,8 @@ public class MS_GPS extends MonitorSensor {
         return arrayList;
     }
 
+    @Override
+    public String toString() {
+        return "GPS: "+ notification+" - "+ address ;
+    }
 }

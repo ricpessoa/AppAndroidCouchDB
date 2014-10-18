@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mei.ricardo.pessoa.app.ui.Fragments.FragmentMonitor.FragmentGPS"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="left|top"
+        android:src="@drawable/ic_notification_danger"
+        android:layout_marginRight="5dp" />
+
+    <TextView
+        android:id="@+id/shoe_fragment_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FragmentShoe"
+        android:layout_gravity="right|top"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+</RelativeLayout>

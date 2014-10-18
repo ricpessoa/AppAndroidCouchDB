@@ -40,4 +40,13 @@ public class MS_Shoe extends MonitorSensor {
     public static ArrayList<MS_Shoe> getShoeByMacAddressSubtypeTimestamp(String macaddress, String timestamp, int i) {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "The Shoe was removed";
+    }
+
+    public static String toStringStatic() {
+        return "The Shoe was removed";
+    }
 }
