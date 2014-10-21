@@ -102,8 +102,7 @@ public class FragmentMyDevices extends Fragment {
         builder.setMessage(getString(R.string.str_delete_device))
                 .setPositiveButton(getString(R.string.fire_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getActivity(), "delete device " + deletePosition, Toast.LENGTH_SHORT).show();
-
+                        //Toast.makeText(getActivity(), "delete device " + deletePosition, Toast.LENGTH_SHORT).show();
                         Device.deleteDevice(deviceList.get(deletePosition).deviceID);
                     }
                 })
@@ -114,6 +113,8 @@ public class FragmentMyDevices extends Fragment {
         // Create the AlertDialog object and return it
         builder.show();
     }
+
+
 
     @Override
     public void onResume() {
@@ -156,7 +157,7 @@ public class FragmentMyDevices extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
             deviceListAdapter.updateDeviceList(Device.getAllDevicesNotDeleted());
         }
     }

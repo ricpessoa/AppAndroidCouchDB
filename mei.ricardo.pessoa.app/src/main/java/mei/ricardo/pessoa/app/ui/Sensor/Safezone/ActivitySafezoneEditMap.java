@@ -9,7 +9,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -149,9 +148,7 @@ public class ActivitySafezoneEditMap extends Activity {
 
             // check if map is created successfully or not
             if (googleMap == null) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(getApplicationContext(),"Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -184,12 +184,10 @@ public class RegisterActivity extends Activity {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 5;
     }
 
@@ -198,8 +196,7 @@ public class RegisterActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);

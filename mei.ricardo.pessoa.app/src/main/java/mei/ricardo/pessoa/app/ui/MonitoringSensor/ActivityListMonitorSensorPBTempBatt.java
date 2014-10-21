@@ -2,7 +2,6 @@ package mei.ricardo.pessoa.app.ui.MonitoringSensor;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -34,7 +31,6 @@ public class ActivityListMonitorSensorPBTempBatt extends ActionBarActivity imple
 
     private String typeDevice;
     private String macAddressDevice;
-    private ListView listViewOfMonitoringSensors;
     private ArrayList<InterfaceItem> arrayListMonitorSensor;
 
     @Override
@@ -59,7 +55,7 @@ public class ActivityListMonitorSensorPBTempBatt extends ActionBarActivity imple
         }else if(typeDevice.equals(Device.DEVICESTYPE.shoe.toString())){
             getActionBar().setTitle("List of "+Device.devicesTypesString[4]);
         }
-        listViewOfMonitoringSensors = (ListView) findViewById(R.id.listOfMonitorSensor);
+        ListView listViewOfMonitoringSensors = (ListView) findViewById(R.id.listOfMonitorSensor);
 
         arrayListMonitorSensor = MonitorSensor.getMonitoringSensorByMacAddressAndSubtype(macAddressDevice, typeDevice, 30);
         Log.d(TAG, "Received " + macAddressDevice + " " + typeDevice + " " + arrayListMonitorSensor);

@@ -106,9 +106,7 @@ public class FragmentGPS extends Fragment {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         // check if map is created successfully or not
         if (googleMap == null) {
-            Toast.makeText(getActivity(),
-                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(getActivity(),"Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
 
         }
     }

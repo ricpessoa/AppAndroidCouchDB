@@ -1,11 +1,6 @@
 package mei.ricardo.pessoa.app.couchdb;
 
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
-import android.os.IBinder;
-import android.widget.Toast;
 
 import com.couchbase.lite.Database;
 import com.couchbase.lite.Document;
@@ -29,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import mei.ricardo.pessoa.app.Application;
-import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.MS_Notification;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
@@ -45,12 +39,11 @@ import mei.ricardo.pessoa.app.ui.Fragments.FragmentMyDevices;
 import mei.ricardo.pessoa.app.ui.MainActivity;
 import mei.ricardo.pessoa.app.ui.Sensor.Safezone.ActivityListSafezones;
 import mei.ricardo.pessoa.app.ui.SettingsActivity;
-import mei.ricardo.pessoa.app.utils.service.AppService;
 
 /**
  * Created by rpessoa on 12/05/14.
  */
-public class CouchDB extends Service implements Replication.ChangeListener {
+public class CouchDB implements Replication.ChangeListener {
     private static String TAG = CouchDB.class.getName();
     private static final int NOTIFICATION_ID = 12743;
 
@@ -76,34 +69,10 @@ public class CouchDB extends Service implements Replication.ChangeListener {
         try {
             startCBLite();
         } catch (Exception e) {
-            Toast.makeText(Application.getmContext(), "Error Initializing CBLIte, see logs for details", Toast.LENGTH_LONG).show();
+            //Toast.makeText(Application.getmContext(), "Error Initializing CBLIte, see logs for details", Toast.LENGTH_LONG).show();
             Log.e(TAG, "Error initializing CBLite", e);
         }
 
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Notification notification = new Notification(R.drawable.ic_launcher, "Service GPS status", System.currentTimeMillis());
-
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP), 0);
-
-        notification.setLatestEventInfo(this, getString(R.string.str_service_on_running_title), getString(R.string.str_service_on_running_description), contentIntent);
-
-        startForeground(NOTIFICATION_ID, notification);
-
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return Service.START_NOT_STICKY;
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
     }
 
     public static CouchDB getmCouchDBinstance() {
@@ -133,7 +102,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
         mCouchManager = new Manager(Application.getmContext().getFilesDir(), Manager.DEFAULT_OPTIONS);
 
         //install a view definition needed by the application
-         database = mCouchManager.getDatabase(Application.getDbname());
+        database = mCouchManager.getDatabase(Application.getDbname());
 
         startViewsQueryLives(); //add views necessaries to queries and live queries
 
@@ -381,7 +350,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else if (objectSubType.equals(MonitorSensor.SUBTYPE.shoe.toString())) {
+                } else if (objectSubType.equals(MonitorSensor.SUBTYPE.shoe.toString())) {
                     try {
                         MS_Shoe ms_shoe = new MS_Shoe(document);
                         MSNotification.setShoeNotification(ms_shoe);
@@ -393,7 +362,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                     try {
                         MS_Battery ms_battery = new MS_Battery(document);
                         //if (ms_battery.isNecessaryNotify()) {
-                            MSNotification.setBatteryNotification(ms_battery);
+                        MSNotification.setBatteryNotification(ms_battery);
                         //}
                         sensorCount++;
                     } catch (Exception e) {
@@ -403,7 +372,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
                     try {
                         MS_Temperature ms_temperature = new MS_Temperature(document);
                         //if (ms_temperature.isNecessaryNotify()) {
-                            MSNotification.setTemperatureNotification(ms_temperature);
+                        MSNotification.setTemperatureNotification(ms_temperature);
                         //}
                         sensorCount++;
                     } catch (Exception e) {
@@ -471,7 +440,7 @@ public class CouchDB extends Service implements Replication.ChangeListener {
             Log.d(TAG, "_Notify -> " + ActivityListSafezones.class.getCanonicalName());
             intent.setAction(ActivityListSafezones.notify);
             Application.getmContext().sendBroadcast(intent);
-        }else if (notifySettings) {
+        } else if (notifySettings) {
             Log.d(TAG, "_Notify -> Settings ");
             intent.setAction(SettingsActivity.notify);
             Application.getmContext().sendBroadcast(intent);

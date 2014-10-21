@@ -9,10 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import mei.ricardo.pessoa.app.R;
 
@@ -37,23 +35,6 @@ public class ActivityEditNameSafezone extends ActionBarActivity {
         initNameOfSafezone();
         initNotification();
 
-//        Button buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
-//        buttonUpdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent();
-//
-//                if (previousName != null && !previousName.equals(textViewName.getText().toString())) {
-//                    intent.putExtra(ActivitySafezoneOptions.returnVariableNewName, textViewName.getText().toString());
-//                    setResult(RESULT_OK, intent);
-//                } else if (previousNotification != spinnerNotifications.getSelectedItemPosition()) {
-//                    Toast.makeText(getApplicationContext(), "Change spiner", Toast.LENGTH_SHORT).show();
-//                    intent.putExtra(ActivitySafezoneOptions.returnVariableNewNotification, spinnerNotifications.getSelectedItemPosition());
-//                    setResult(RESULT_OK, intent);
-//                }
-//                finish();
-//            }
-//        });
     }
 
     private void initNotification() {
@@ -94,7 +75,7 @@ public class ActivityEditNameSafezone extends ActionBarActivity {
                     intent.putExtra(ActivitySafezoneOptions.returnVariableNewName, textViewName.getText().toString());
                     setResult(RESULT_OK, intent);
                 } else if (previousNotification != spinnerNotifications.getSelectedItemPosition()) {
-                    Toast.makeText(getApplicationContext(), "Change spiner", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Change spiner", Toast.LENGTH_SHORT).show();
                     intent.putExtra(ActivitySafezoneOptions.returnVariableNewNotification, spinnerNotifications.getSelectedItemPosition());
                     setResult(RESULT_OK, intent);
                 }

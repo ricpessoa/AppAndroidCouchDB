@@ -191,11 +191,6 @@
         </receiver>
 
         <service android:name=".utils.service.AppService" />
-
-        <activity
-            android:name=".ui.ActivityDialogNotification"
-            android:label="@string/title_activity_activity_dialog_notification" >
-        </activity>
     </application>
 
 </manifest>

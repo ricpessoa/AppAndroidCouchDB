@@ -1,32 +1,16 @@
 package mei.ricardo.pessoa.app.ui.MonitoringSensor;
 
-import android.app.Fragment;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.modal.Device;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Battery;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_GPS;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MS_Temperature;
 import mei.ricardo.pessoa.app.couchdb.modal.Monitoring.MonitorSensor;
-import mei.ricardo.pessoa.app.ui.Fragments.FragmentMonitor.FragmentGPS;
 import mei.ricardo.pessoa.app.utils.Utils;
 
 public class ActivityMonitorSensorDetail extends ActionBarActivity {
@@ -37,7 +21,6 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
 
     private String macaddress;
     private String timestamp;
-    private String subtype;
 
     boolean ms_panicButton;
     boolean ms_shoe;
@@ -46,8 +29,7 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
     MS_Temperature ms_temperature;
     MS_Battery ms_battery;
 
-    private TextView textViewTitle;
-    private TextView textViewTimestamp;
+
     private ImageView imageView_ms_monitor_sensor;
     private TextView textViewLocationAddress;
     private TextView textViewLocationCoordinators;
@@ -66,11 +48,11 @@ public class ActivityMonitorSensorDetail extends ActionBarActivity {
 
         macaddress = bundle.getString(passVariableMacAddress);
         timestamp = bundle.getString(passVariableTimestamp);
-        subtype = bundle.getString(passVariableSubtypeSensor);
+        String subtype = bundle.getString(passVariableSubtypeSensor);
 
-        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+        TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
         textViewTitle.setText(textViewTitle.getText() + " " + Device.getDeviceByID(macaddress).getNameOrMacAdress());
-        textViewTimestamp = (TextView) findViewById(R.id.textViewTimestamp);
+        TextView textViewTimestamp = (TextView) findViewById(R.id.textViewTimestamp);
         textViewTimestamp.setText(Utils.ConvertTimestampToDateFormat(timestamp));
 
         if (subtype != null && subtype.equals(MonitorSensor.SUBTYPE.panic_button.toString())) {

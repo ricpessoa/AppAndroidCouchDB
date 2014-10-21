@@ -19,8 +19,6 @@ import mei.ricardo.pessoa.app.couchdb.modal.Device;
 public class MS_Temperature extends MonitorSensor {
 
     public enum NOTIFICATIONTYPE {LOW, RANGE, HIGH}
-
-    ;
     private float value;
     private String notification;
 

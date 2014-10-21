@@ -37,9 +37,6 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
     public static String var_pass_id_sensor = "var_pass_id_sensor";
     public static String varMacAddressOfDevice = "varMacAddressOfDevice";
     private static Device mDevice;
-    private Switch mSwitchMonitoringDevice;
-    private ListView mListViewSensors;
-    private SensorListAdapter adapterSensor;
 
     static final int valueOnActivityResultCodeTemperature = 1;
     static final int valueOnActivityResultCodeBattery = 2;
@@ -51,18 +48,18 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
         setContentView(R.layout.activity_list_sensors);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mSwitchMonitoringDevice = (Switch) findViewById(R.id.switchMonitoringDevice);
+        Switch mSwitchMonitoringDevice = (Switch) findViewById(R.id.switchMonitoringDevice);
         mSwitchMonitoringDevice.setOnCheckedChangeListener(this);
 
-        mListViewSensors = (ListView) findViewById(R.id.listViewSensors);
+        ListView mListViewSensors = (ListView) findViewById(R.id.listViewSensors);
 
         Bundle bundle = getIntent().getExtras();
         String ID = bundle.getString(var_pass_id_sensor);
-        Toast.makeText(this, "received id document " + ID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "received id document " + ID, Toast.LENGTH_SHORT).show();
         mDevice = Device.getDeviceByID(ID);
-        setTitle(mDevice.getName_device()+" "+getTitle());
+        setTitle(mDevice.getName_device() + " " + getTitle());
 
-        adapterSensor = new SensorListAdapter(mDevice.getArrayListSensors());
+        SensorListAdapter adapterSensor = new SensorListAdapter(mDevice.getArrayListSensors());
         mListViewSensors.setAdapter(adapterSensor);
 
         mListViewSensors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,7 +86,8 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
                         intent.putExtra(ActivityBattery.varPassCriticalBattery, sensorBattery.getCritical_battery());
                         startActivityForResult(intent, valueOnActivityResultCodeBattery);
                     } else {
-                        Toast.makeText(getApplicationContext(), "Sensor :" + mDevice.getArrayListSensors().get(i).getType() + " dont have settings", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), mDevice.getArrayListSensors().get(i).getName_sensor() + " don't have settings", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "The sensor" + mDevice.getArrayListSensors().get(i).getType() + " don't have settings");
                     }
                 }
 
@@ -114,7 +112,7 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
         try {
             if (mDevice.isMonitoring() != isChecked)
                 mDevice.saveDevice(false);
-            Toast.makeText(this, "change Monitoring Device successful", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Successfully Monitoring Device changes", Toast.LENGTH_SHORT);
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
             Toast.makeText(this, "Some error trying change Monitoring Device", Toast.LENGTH_SHORT);
@@ -132,33 +130,35 @@ public class ActivityListSensors extends ActionBarActivity implements CompoundBu
             if (requestCode == valueOnActivityResultCodeTemperature) {
                 if (bundle != null) {
                     Integer index = mDevice.getIndexOfSensorBasedInType(Device.DEVICESTYPE.temperature.toString());
-                    if(index==null)
+                    if (index == null)
                         return; // WTF now exist???
                     int minTemperature = bundle.getInt(ActivityTemperature.varPassMinimumTemperature);
                     int maxTemperature = bundle.getInt(ActivityTemperature.varPassMaximumTemperature);
                     SensorTemperature sensorTemperature = (SensorTemperature) mDevice.getArrayListSensors().get(index);
                     sensorTemperature.setMin_temperature(minTemperature);
                     sensorTemperature.setMax_temperature(maxTemperature);
-                    Toast.makeText(this, "Receive something from temperature " + minTemperature + " " + maxTemperature, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Receive something from temperature " + minTemperature + " " + maxTemperature, Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == valueOnActivityResultCodeBattery) {
                 if (bundle != null) {
                     Integer index = mDevice.getIndexOfSensorBasedInType(Device.DEVICESTYPE.battery.toString());
-                    if(index==null)
+                    if (index == null)
                         return; // WTF now exist???
                     int lowBattery = bundle.getInt(ActivityBattery.varPassLowBattery);
                     int criticalBattery = bundle.getInt(ActivityBattery.varPassCriticalBattery);
                     SensorBattery sensorBattery = (SensorBattery) mDevice.getArrayListSensors().get(index);
                     sensorBattery.setLow_battery(lowBattery);
                     sensorBattery.setCritical_battery(criticalBattery);
-                    Toast.makeText(this, "Receive something from battery " + lowBattery + " " + criticalBattery, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Receive something from battery " + lowBattery + " " + criticalBattery, Toast.LENGTH_SHORT).show();
                 }
             }
             try {
                 //mDevice.setArrayListSensors(arrayList);
                 mDevice.saveDevice(true);
+                Toast.makeText(this, getString(R.string.str_list_sensor_successful), Toast.LENGTH_SHORT).show();
             } catch (CouchbaseLiteException e) {
                 Log.d(TAG, "device: " + mDevice.getMac_address() + " error trying save");
+                Toast.makeText(this, getString(R.string.str_list_sensor_error), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }

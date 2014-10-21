@@ -24,29 +24,6 @@
         <item>@drawable/ic_settings</item>
     </array>
 
-    <!-- <string-array name="notifications_drawer_items"> -->
-    <!-- <item>CHECK-IN</item> -->
-    <!-- <item>CHECK-OUT</item> -->
-    <!-- <item>LOW TEMPERATURE</item> -->
-    <!-- <item>REGULAR TEMPERATURE</item> -->
-    <!-- <item>HIGH TEMPERATURE</item> -->
-    <!-- <item>GOOD BATTERY</item> -->
-    <!-- <item>LOW BATTERY</item> -->
-    <!-- <item>CRITICAL BATTERY</item> -->
-    <!-- </string-array> -->
-
-
-    <!-- <array name="notifications_drawer_icons"> -->
-    <!-- <item>@drawable/ic_gps_check_in</item> -->
-    <!-- <item>@drawable/ic_gps_check_out</item> -->
-    <!-- <item>@drawable/ic_gps_location</item> -->
-    <!-- <item>@drawable/ic_temp_low</item> -->
-    <!-- <item>@drawable/ic_temp_range</item> -->
-    <!-- <item>@drawable/ic_temp_high</item> -->
-    <!-- <item>@drawable/ic_battery_range</item> -->
-    <!-- <item>@drawable/ic_battery_low</item> -->
-    <!-- <item>@drawable/ic_battery_critical</item> -->
-    <!-- </array> -->
 
     <string name="str_notifications_no_notification">No notifications to show</string>
 
@@ -76,8 +53,12 @@
     <string name="str_successful_device_inserted">The device was successfully inserted</string>
     <string name="str_error_device_already_yours">You already have this device in your list devices</string>
 
-    <!-- strings Detail Device -->
+    <!-- strings Detail Device/ List of Sensors -->
     <string name="monitoring_device">Monitoring Device</string>
+    <string name="str_list_sensor_successful">The settings have been successfully saved</string>
+    <string name="str_list_sensor_error">Some error when trying to save settings</string>
+    <string name="str_delete_safezone">Are you sure you want to permanently delete the Safezone?</string>
+
 
     <!-- strings fragment_temperature_settings -->
     <string name="str_title_temperature">Temperature Settings</string>
@@ -114,14 +95,14 @@
     <string name="str_button_deleteSafezone">Delete Safezone</string>
 
     <!-- strings edit DeviceRow Activity -->
-    <string name="title_activity_activity_edit_name_safezone">ActivityEditNameSafezone</string>
+    <string name="title_activity_activity_edit_name_safezone">Settings Safezone</string>
     <string name="str_editNameOfSafezone">Name Of Safezone:</string>
     <string name="str_editNotificationOfSafezone">Notification of Safezone</string>
     <string name="str_button_update">Update</string>
     <string name="str_button_save">Save</string>
 
     <!-- strings edit DeviceRow EDIT MAP Activity -->
-    <string name="title_activity_activity_safezone_edit_map">ActivitySafezoneEditMap</string>
+    <string name="title_activity_activity_safezone_edit_map">Settings Safezone</string>
     <string name="str_search_adress">Search Address</string>
     <string name="str_radius">Radius:</string>
     <!-- strings Activity Monitor Sensor Detail -->

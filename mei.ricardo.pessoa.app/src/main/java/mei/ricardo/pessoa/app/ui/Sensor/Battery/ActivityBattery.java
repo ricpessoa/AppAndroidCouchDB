@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.utils.DialogFragmentYesNoOk;
@@ -17,8 +19,6 @@ public class ActivityBattery extends ActionBarActivity {
     private static String TAG = ActivityBattery.class.getCanonicalName();
     public static String varPassCriticalBattery = "varPassCriticalBattery";
     public static String varPassLowBattery = "varPassLowBattery";
-
-    private String mac_address;
     private float lowBattery, criticalBattery;
 
     EditText editTextNumberCritical, editTextNumberLow;
@@ -31,27 +31,34 @@ public class ActivityBattery extends ActionBarActivity {
         if (bundle == null)
             return;
 
-        mac_address = bundle.getString(ActivityListSensors.varMacAddressOfDevice);
         lowBattery = bundle.getFloat(varPassLowBattery, 0);
         criticalBattery = bundle.getFloat(varPassCriticalBattery, 0);
-        //Device device = Device.getDeviceByID(mac_address);
-        // Toast.makeText(this, "Device " + device.getArrayListSensors().size(), Toast.LENGTH_SHORT).show();
+
         editTextNumberLow = (EditText) findViewById(R.id.editTextNumberLow);
         editTextNumberCritical = (EditText) findViewById(R.id.editTextNumberCritical);
 
         editTextNumberLow.setText((int) lowBattery + "");
         editTextNumberCritical.setText((int) criticalBattery + "");
+    }
 
-        ((Button) findViewById(R.id.buttonSaveBattery)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_edit_safezone, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.saveSafezone:
                 int batLow, batCritical;
                 try {
                     batLow = Integer.parseInt(editTextNumberLow.getText().toString());
                     batCritical = Integer.parseInt(editTextNumberCritical.getText().toString());
                     if (batLow < batCritical) {
                         showDialogFragment();
-                        Log.d(TAG, "error in low or critical");
+                        Log.e(TAG, "Battery error in low or critical");
                     } else {
                         if (batCritical != (int) criticalBattery || batLow != (int) lowBattery) {
                             //Toast.makeText(getApplicationContext(), "Some change in battery", Toast.LENGTH_SHORT).show();
@@ -61,18 +68,17 @@ public class ActivityBattery extends ActionBarActivity {
                             setResult(RESULT_OK, intent);
                             finish();
                         } else {
-                            Toast.makeText(getApplicationContext(), "NONE", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "NONE", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Battery error in NONE");
                         }
                     }
                 } catch (NumberFormatException ex) {
                     showDialogFragment();
                     Log.e(TAG, "Error in number parser");
                 }
-
-
-            }
-        });
-
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showDialogFragment() {

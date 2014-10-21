@@ -201,8 +201,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -240,7 +239,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private class DeviceBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "I Receive a broadcast of devices ", Toast.LENGTH_SHORT).show();
             if (showTheDashboard) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment fragment = new FragmentMyDashboard();
@@ -255,7 +254,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         public void onReceive(Context context, Intent intent) {
             if (showTheDashboard) {
                 String mac_address = intent.getExtras().getString(FragmentMyDashboard.passVariableMacAddress);
-                Toast.makeText(context, "I Receive a broadcast of monitor sensor to update " + mac_address, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "I Receive a broadcast of monitor sensor to update " + mac_address, Toast.LENGTH_SHORT).show();
                 //showTabHostofMonitorSensorReceived(mac_address);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment fragment = new FragmentMyDashboard();

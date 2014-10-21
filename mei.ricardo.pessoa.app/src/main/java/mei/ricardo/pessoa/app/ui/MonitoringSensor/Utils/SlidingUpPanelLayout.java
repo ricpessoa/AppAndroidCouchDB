@@ -1124,7 +1124,6 @@ public class SlidingUpPanelLayout extends ViewGroup {
             if (mIsUnableToDrag) {
                 return false;
             }
-
             return ((LayoutParams) child.getLayoutParams()).slideable;
         }
 

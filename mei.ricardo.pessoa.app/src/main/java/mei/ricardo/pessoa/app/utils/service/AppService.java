@@ -1,6 +1,5 @@
 package mei.ricardo.pessoa.app.utils.service;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.app.Service;
@@ -21,9 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import mei.ricardo.pessoa.app.Application;
 import mei.ricardo.pessoa.app.R;
 import mei.ricardo.pessoa.app.couchdb.CouchDB;
 import mei.ricardo.pessoa.app.couchdb.modal.Settings;
@@ -88,7 +85,7 @@ public class AppService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast to service ", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "I Receive a broadcast to service ", Toast.LENGTH_SHORT).show();
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 String msg = bundle.getString(varStringMsgToPassToService);

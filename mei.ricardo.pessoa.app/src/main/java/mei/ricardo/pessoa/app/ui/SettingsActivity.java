@@ -99,7 +99,7 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference.getKey().equalsIgnoreCase("preference_logout")) {
-            Toast.makeText(getApplicationContext(), "logout clicked", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "logout clicked", Toast.LENGTH_SHORT).show();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.str_title_attention_dialog));
@@ -123,7 +123,7 @@ public class SettingsActivity extends PreferenceActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast of Settings ", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "I Receive a broadcast of Settings ", Toast.LENGTH_SHORT).show();
             setupPreferences();
         }
     }

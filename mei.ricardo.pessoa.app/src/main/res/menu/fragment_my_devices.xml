@@ -2,7 +2,6 @@
     xmlns:myapp="http://schemas.android.com/apk/res-auto" >
     <item
         android:id="@+id/action_add_device"
-        android:icon="@android:drawable/ic_input_add"
         android:title="@string/str_menu_item_add_device"
         myapp:showAsAction="withText|ifRoom" />
 </menu>

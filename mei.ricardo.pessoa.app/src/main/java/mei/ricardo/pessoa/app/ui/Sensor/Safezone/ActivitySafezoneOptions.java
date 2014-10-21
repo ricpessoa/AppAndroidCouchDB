@@ -1,7 +1,9 @@
 package mei.ricardo.pessoa.app.ui.Sensor.Safezone;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
@@ -114,12 +116,32 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
                 startActivityForResult(intentEditNotification, valueOnActivityResultCodeChangeNotifications);
                 break;
             case R.id.buttonDeleteSafezone:
-                boolean deleted = Safezone.delete(safezone.get_id());
-                if (deleted)
-                    finish();
+                removeItemFromList(safezone.get_id());
                 break;
 
         }
+    }
+
+    // method to remove list item
+    protected void removeItemFromList(final String safezoneID) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.str_title_delete_dialog));
+        builder.setMessage(getString(R.string.str_delete_safezone))
+                .setPositiveButton(getString(R.string.fire_yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Toast.makeText(getActivity(), "delete device " + deletePosition, Toast.LENGTH_SHORT).show();
+                        //Device.deleteDevice(deviceList.get(deletePosition).deviceID);
+                        boolean deleted = Safezone.delete(safezoneID);
+                        if (deleted)
+                            finish();
+                    }
+                })
+                .setNegativeButton(getString(R.string.fire_no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.show();
     }
 
     @Override
@@ -132,7 +154,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
                 safezone.saveSafezone(false);
             } catch (CouchbaseLiteException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Some error happened when try save safezone", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "An error occurred while storing the safezone", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == valueOnActivityResultCodeChangeNotifications && resultCode == RESULT_OK) {
             int newNotification = data.getExtras().getInt(returnVariableNewNotification);
@@ -141,7 +163,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
                 safezone.saveSafezone(false);
             } catch (CouchbaseLiteException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Some error happened when try save safezone", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "An error occurred while storing the safezone", Toast.LENGTH_SHORT).show();
             }
         }
         refreshActivity();
@@ -152,7 +174,7 @@ public class ActivitySafezoneOptions extends ActionBarActivity implements View.O
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "I Receive a broadcast of DeviceRow ", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "I Receive a broadcast of DeviceRow ", Toast.LENGTH_SHORT).show();
             refreshActivity();
         }
     }

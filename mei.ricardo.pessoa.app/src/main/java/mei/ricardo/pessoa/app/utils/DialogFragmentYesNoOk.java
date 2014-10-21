@@ -81,7 +81,7 @@ public class DialogFragmentYesNoOk extends DialogFragment {
             builder.setMessage(this.msg)
                     .setPositiveButton(this.positive, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Toast.makeText(mContext, "Press positive", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext, "Press positive", Toast.LENGTH_SHORT).show();
                             if (back) {
                                 getActivity().finish(); // finish actual activity
                             }
@@ -89,14 +89,14 @@ public class DialogFragmentYesNoOk extends DialogFragment {
                     })
                     .setNegativeButton(this.negative, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Toast.makeText(mContext, "Press negative", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext, "Press negative", Toast.LENGTH_SHORT).show();
                         }
                     });
         } else {
             builder.setMessage(this.msg)
                     .setPositiveButton(this.positive, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Toast.makeText(mContext, "Press positive", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext, "Press positive", Toast.LENGTH_SHORT).show();
                         }
                     });
         }

@@ -2,7 +2,6 @@
     xmlns:myapp="http://schemas.android.com/apk/res-auto" >
     <!-- Search, should appear as action button -->
     <item android:id="@+id/action_addSafezone"
-        android:icon="@android:drawable/ic_input_add"
         android:title="@string/str_addSafezone"
         myapp:showAsAction="withText|ifRoom"/>
 </menu>
